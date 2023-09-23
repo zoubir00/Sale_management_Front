@@ -1,0 +1,23 @@
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th> 
+        <th scope="col">Description</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of articles">
+        <td scope="col">1</td>
+        <td>{{article.libelle}}</td>
+        <td>{{article.description}}</td>
+        <td><img [src]="article.image" width="65" height="50"></td>
+        <td>{{article.price}} DH</td>
+        <td>{{article.quantityinStock}}</td>
+      </tr>
+    </tbody>
+  </table>
