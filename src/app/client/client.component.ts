@@ -63,7 +63,6 @@ export class ClientComponent implements OnInit {
   // add buildForm method
    buildForm() {
     this.form = this.fb.group({
-      id:[null],
       fName: ['', Validators.required],
       lName: [null, Validators.required],
       email: [null, Validators.required],
@@ -76,14 +75,11 @@ export class ClientComponent implements OnInit {
     if(this.form.invalid){
       return ;
     }
-    const request=this.selectClient.id ? this.clientservice.updateClientByIdAndClient(this.selectClient.id,this.form.value)
-    : this.clientservice.createClientByClient(this.form.value);
-
-    request.subscribe(()=>{
-      this.isModalOpen= false;
+    this.clientservice.createClientByClient(this.form.value).subscribe(() => {
+      this.isModalOpen = false;
       this.form.reset();
-      this.ngOnInit();
-    })
+      this.list.get();
+    });
   }
 
   // Add a delete method
@@ -95,3 +91,4 @@ delete(id: number) {
   });
 }
 }
+

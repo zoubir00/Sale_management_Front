@@ -2,14 +2,7 @@
 <div class="justify-content-end"><button class="btn btn-primary" (click)="createClient()">
   <span>{{'::NewClient' | abpLocalization}}</span>
 </button></div>
-<!-- <div>
-  <ngx-datatable [rows]="client.items"  [list]="list" default>
-    <ngx-datatable-column name="First Name" prop="fName"></ngx-datatable-column>
-    <ngx-datatable-column name="Last Name" prop="lName"></ngx-datatable-column>
-    <ngx-datatable-column name="Email" prop="email"></ngx-datatable-column>
-    <ngx-datatable-column name="Phone Number" prop="phoneNumber"></ngx-datatable-column>
-  </ngx-datatable>
-</div> -->
+
  <table class="table table-striped">
     <thead>
       <tr>
@@ -48,20 +41,19 @@
 
   <ng-template #abpBody>
      <form [formGroup]="form" (ngSubmit)="save()">
-      <input type="hidden" name="id" formControlName="id" [value]="selectedId" >
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatingfName" formControlName="fName" placeholder="Ex:Hamza,..." autofocus="" [value]="selectClient.fName">
+      <input type="text" class="form-control" id="floatingfName" formControlName="fName" placeholder="Ex:Hamza,..." autofocus="" >
       <label for="floatingName">First name</label><span>*</span>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatinglName" formControlName="lName" placeholder="Ex:Ben,..."[value]="selectClient.lName">
+      <input type="text" class="form-control" id="floatinglName" formControlName="lName" placeholder="Ex:Ben,...">
       <label for="floatingName">Last name</label><span>*</span>
     </div><div class="form-floating mb-3">
-      <input type="email" class="form-control" id="floatingEmail" formControlName="email" placeholder="Ex:xxxx@gmail.com" [value]="selectClient.email">
+      <input type="email" class="form-control" id="floatingEmail" formControlName="email" placeholder="Ex:xxxx@gmail.com" >
       <label for="floatingEmail">Email</label><span>*</span>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatingPhone" formControlName="phoneNumber" placeholder="Ex;06/7XXXXXXXX" maxlength="10" [value]="selectClient.phoneNumber" >
+      <input type="text" class="form-control" id="floatingPhone" formControlName="phoneNumber" placeholder="Ex;06/7XXXXXXXX" maxlength="10"  >
       <label for="floatingPhone">Phone number</label><span>*</span>
     </div>
 

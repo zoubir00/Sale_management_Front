@@ -13,16 +13,16 @@ export class ArticlesService {
   createArticleByArticle = (article: ArticleDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
-      url: '/api/Articles',
+      url: '/api/Articles/CreateArticle',
       body: article,
     },
     { apiName: this.apiName,...config });
   
 
-  deleteClientById = (id: number, config?: Partial<Rest.Config>) =>
+  deleteArticleById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'DELETE',
-      url: `/api/Articles/delete/${id}`,
+      url: `/api/Articles/deleteArticle/${id}`,
     },
     { apiName: this.apiName,...config });
   
@@ -30,15 +30,15 @@ export class ArticlesService {
   getAllArticle = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult>({
       method: 'GET',
-      url: '/api/Articles',
+      url: '/api/Articles/GetArticles',
     },
     { apiName: this.apiName,...config });
   
 
-  getAllArticleById = (id: number, config?: Partial<Rest.Config>) =>
+  getArticleByIdById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult>({
       method: 'GET',
-      url: `/api/Articles/Client/${id}`,
+      url: `/api/Articles/article/${id}`,
     },
     { apiName: this.apiName,...config });
   
@@ -46,7 +46,7 @@ export class ArticlesService {
   updateArticleByIdAndArticle = (id: number, article: ArticleDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
-      url: `/api/Articles/edit/${id}`,
+      url: `/api/Articles/editArticle/${id}`,
       body: article,
     },
     { apiName: this.apiName,...config });

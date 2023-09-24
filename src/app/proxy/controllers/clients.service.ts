@@ -13,7 +13,7 @@ export class ClientsService {
   createClientByClient = (client: ClientDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
-      url: '/api/Clients',
+      url: '/api/Clients/Create',
       body: client,
     },
     { apiName: this.apiName,...config });
@@ -30,7 +30,7 @@ export class ClientsService {
   getAllClients = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult>({
       method: 'GET',
-      url: '/api/Clients',
+      url: '/api/Clients/GetClients',
     },
     { apiName: this.apiName,...config });
   
@@ -43,11 +43,11 @@ export class ClientsService {
     { apiName: this.apiName,...config });
   
 
-  updateClientByIdAndClient = (id: number, client: ClientDto, config?: Partial<Rest.Config>) =>
+  updateClientByIdAndNewClient = (id: number, newClient: ClientDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: `/api/Clients/edit/${id}`,
-      body: client,
+      body: newClient,
     },
     { apiName: this.apiName,...config });
 
