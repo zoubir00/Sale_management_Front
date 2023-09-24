@@ -35,7 +35,7 @@ export class ClientsService {
     { apiName: this.apiName,...config });
   
 
-  getAllClientsById = (id: number, config?: Partial<Rest.Config>) =>
+  getClientByIdById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ActionResult>({
       method: 'GET',
       url: `/api/Clients/Client/${id}`,

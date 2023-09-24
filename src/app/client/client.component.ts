@@ -1,73 +1,97 @@
-import { PagedResultDto } from '@abp/ng.core';
-import { ConfirmationService } from '@abp/ng.theme.shared';
+import { PagedResultDto, ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientDto } from '@proxy/clients';
 import { ClientsService } from '@proxy/controllers';
-
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // for form
+import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
-  styleUrls: ['./client.component.scss']
+  styleUrls: ['./client.component.scss'],
+  providers:[ListService]
 })
 
 export class ClientComponent implements OnInit {
 
-  clients = { items: [], totalCount: 0 } as PagedResultDto<ClientDto>;
+  client ={ items: [], totalCount: 0 } as PagedResultDto<ClientDto>;
 
-  selectedclient = {} as ClientDto; // declare selectedClient
-
-  public form: FormGroup;
+  selectClient={} as ClientDto;
+  selectedId=0;
+  form:FormGroup;
   isModalOpen=false;
  
-  constructor(private clientservice:ClientsService,
-     private fb: FormBuilder,
-     private confirmation: ConfirmationService ) 
-     {}
+  constructor(
+    public readonly list:ListService,
+    private clientservice:ClientsService, 
+    private fb:FormBuilder,
+    private confirmation:ConfirmationService
+  ){}
 
-     createAuthor() {
-      this.selectedclient = {} as ClientDto;
-      this.buildForm();
-      this.isModalOpen = true;
-    }    
-    //form validation
-  buildForm() {
-    this.form=this.fb.group({
-      fName: [this.selectedclient.fName || '', Validators.required],
-      lName: [this.selectedclient.lName || '', Validators.required],
-      email: [this.selectedclient.email || '', Validators.required,Validators.email],
-      phoneNumber: [this.selectedclient.phoneNumber || '', Validators.required,Validators.maxLength(10),Validators.pattern('[0-9]*')],
-    })
-  }
- // save data
- save() {
-  if (this.form.invalid) {
-  return;  
-  }
-  if (this.selectedclient.id) {
-  this.clientservice.updateClientByIdAndClient(this.selectedclient.id, this.form.value).subscribe(() => {
-    this.isModalOpen = false;
-    this.form.reset();});
-  }
-  else
-  { 
-   this.clientservice.createClientByClient(this.form.value).subscribe(()=>{
-     this.isModalOpen = false;
-      this.form.reset();
-     this.ngOnInit();
+  
+
+  ngOnInit(): void {
+    const clientStreamCreator = (query) => this.clientservice.getAllClients(query);
+
+    this.list.hookToQuery(clientStreamCreator).subscribe((response) => {
+      console.log('Raw Data from Service:', response);
+      this.client = response;
+      // Debugging: Log the data to the console
+    console.log('Client Data:', this.client);
+   
     });
   }
+
+
+  // add new method
+  createClient() {
+    this.selectClient={} as ClientDto;
+    this.buildForm(); 
+    this.isModalOpen = true;
+  }
+  // Add editBook method
+  editClient(id:number){
+    this.clientservice.getClientByIdById(id).subscribe((client)=>{ 
+      this.selectClient=client;
+       this.buildForm();
+      this.isModalOpen = true;
+       this.selectedId=this.selectClient.id;
+      console.log('Selected client',this.selectClient);
+    });
+  }
+
+  // add buildForm method
+   buildForm() {
+    this.form = this.fb.group({
+      id:[null],
+      fName: ['', Validators.required],
+      lName: [null, Validators.required],
+      email: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+    });
+  }
+
+  // Add Client
+  save(){
+    if(this.form.invalid){
+      return ;
+    }
+    const request=this.selectClient.id ? this.clientservice.updateClientByIdAndClient(this.selectClient.id,this.form.value)
+    : this.clientservice.createClientByClient(this.form.value);
+
+    request.subscribe(()=>{
+      this.isModalOpen= false;
+      this.form.reset();
+      this.ngOnInit();
+    })
+  }
+
+  // Add a delete method
+delete(id: number) {
+  this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {
+    if (status === Confirmation.Status.confirm) {
+      this.clientservice.deleteClientById(id).subscribe(() => this.ngOnInit());
+    }
+  });
 }
-  ngOnInit(): void {
-    this.clientservice.getAllClients().subscribe(
-      (data)=>{
-        this.clients=data;
-      },
-      (error) => {
-        console.error('Error fetching items:', error);
-      }
-      );}
-   
 }

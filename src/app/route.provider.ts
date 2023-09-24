@@ -25,7 +25,13 @@ function configureRoutes(routesService: RoutesService) {
     name: '::Menu:Articles',
     layout: eLayoutType.application,
     order:3
-  }
+    },
+    {
+      path:'/ventes',
+      name:'::Menu:Ventes',
+      layout:eLayoutType.application,
+      order:4
+    }
     
     ]);
   };

@@ -1,65 +1,79 @@
-<!-- <p>Open modal</p> -->
-<div class="justify-content-end"><button class="btn btn-primary" (click)="isModalOpen = true">Ajouter Client</button></div>
-<table class="table table-striped">
+<!-- Add the "new client" button here -->
+<div class="justify-content-end"><button class="btn btn-primary" (click)="createClient()">
+  <span>{{'::NewClient' | abpLocalization}}</span>
+</button></div>
+<!-- <div>
+  <ngx-datatable [rows]="client.items"  [list]="list" default>
+    <ngx-datatable-column name="First Name" prop="fName"></ngx-datatable-column>
+    <ngx-datatable-column name="Last Name" prop="lName"></ngx-datatable-column>
+    <ngx-datatable-column name="Email" prop="email"></ngx-datatable-column>
+    <ngx-datatable-column name="Phone Number" prop="phoneNumber"></ngx-datatable-column>
+  </ngx-datatable>
+</div> -->
+ <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">#</th>
+        <th scope="col"></th>
         <th scope="col">First name</th>
         <th scope="col">Last Name</th>
         <th scope="col">Email</th>
         <th scope="col">Phone number</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of clients">
-        <td scope="col">1</td>
+      <tr *ngFor="let client of client; let i=index">
+        <td>{{i+1}}</td>
         <td>{{client.fName}}</td>
         <td>{{client.lName}}</td>
         <td>{{client.email}}</td>
         <td>{{client.phoneNumber}}</td>
+        <td><button class="btn btn-primary" (click)=" editClient(client.id)">Edit client</button></td>
+        <td><button class="btn btn-warning" (click)="delete(client.id)">Delete Client</button>
+        </td>
       </tr>
       
      
     </tbody>
-  </table>
+  </table> 
   <!--  -->
   
 <!-- <button class="btn btn-primary" (click)="isModalOpen = true">Ajouter client</button> -->
 
-<!-- <abp-modal [(visible)]="isModalOpen">
+<abp-modal [(visible)]="isModalOpen">
   <ng-template #abpHeader>
     <h3>{{ '::NewClient' | abpLocalization }}</h3>
   </ng-template>
  
 
   <ng-template #abpBody>
-    <form [formGroup]="form" (ngSubmit)="save()" >
+     <form [formGroup]="form" (ngSubmit)="save()">
+      <input type="hidden" name="id" formControlName="id" [value]="selectedId" >
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatingfName" formControlName="fName" placeholder="Ex:Hamza,...">
-      <label for="floatingName">First name</label>
+      <input type="text" class="form-control" id="floatingfName" formControlName="fName" placeholder="Ex:Hamza,..." autofocus="" [value]="selectClient.fName">
+      <label for="floatingName">First name</label><span>*</span>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatinglName" formControlName="lName" placeholder="Ex:Ben,...">
-      <label for="floatingName">Last name</label>
+      <input type="text" class="form-control" id="floatinglName" formControlName="lName" placeholder="Ex:Ben,..."[value]="selectClient.lName">
+      <label for="floatingName">Last name</label><span>*</span>
     </div><div class="form-floating mb-3">
-      <input type="email" class="form-control" id="floatingEmail" formControlName="email" placeholder="Ex:xxxx@gmail.com">
-      <label for="floatingEmail">Email</label>
+      <input type="email" class="form-control" id="floatingEmail" formControlName="email" placeholder="Ex:xxxx@gmail.com" [value]="selectClient.email">
+      <label for="floatingEmail">Email</label><span>*</span>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatingPhone" formControlName="phoneNumber" placeholder="Ex;06/7XXXXXXXX" maxlength="10">
-      <label for="floatingPhone">Phone number</label>
+      <input type="text" class="form-control" id="floatingPhone" formControlName="phoneNumber" placeholder="Ex;06/7XXXXXXXX" maxlength="10" [value]="selectClient.phoneNumber" >
+      <label for="floatingPhone">Phone number</label><span>*</span>
     </div>
-    <!--added save button-->
-    <!-- <button class="btn btn-success" (click)="save()" >
-      <i class="fa fa-check mr-1"></i> Ajouter     
-    </button> -->
-  </form> 
+
+  </form>  
   </ng-template>
 
   <ng-template #abpFooter>
     <button type="button" class="btn btn-secondary" abpClose>Close</button>
-    <button class="btn btn-success" (click)="save()">
-      <i class="fa fa-check mr-1"></i> Ajouter     
-    </button>
+     <!--added save button-->
+  <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+    <i class="fa fa-check mr-1"></i>
+    Ajouter
+</button>
   </ng-template>
-</abp-modal> -->
+</abp-modal>
