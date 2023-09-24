@@ -1,1 +1,30 @@
 <p>vente works!</p>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Date Vente</th>
+        <th scope="col">Client first name</th>
+        <th scope="col">Client last name</th>
+        <th scope="col">Articles</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total Amount</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vente of ventes; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{vente.dateVente | date: 'dd/MM/yyyy'}}</td>
+        <td>{{vente.clientFName}}</td>
+        <td>{{vente.clientLName}}</td>
+        <td>{{vente.articleVendue}}</td>
+        <td>{{vente.quantityVendue}}</td>
+        <td>{{vente.prixTotal}} DH</td>
+        <td><button class="btn btn-warning" (click)="delete(client.id)">Delete Client</button> 
+        </td>
+      </tr>
+      
+     
+    </tbody>
+  </table> 
