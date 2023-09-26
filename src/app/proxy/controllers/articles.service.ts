@@ -43,6 +43,15 @@ export class ArticlesService {
     { apiName: this.apiName,...config });
   
 
+  searchBySlibelle = (Slibelle: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'GET',
+      url: '/api/Articles/articleLibelli',
+      params: { slibelle: Slibelle },
+    },
+    { apiName: this.apiName,...config });
+  
+
   updateArticleByIdAndArticle = (id: number, article: ArticleDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',

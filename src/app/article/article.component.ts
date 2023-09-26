@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ArticleDto } from '@proxy/articles';
 import { PagedResultDto } from '@abp/ng.core';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 
 @Component({
@@ -15,8 +16,11 @@ import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 export class ArticleComponent implements OnInit {
   // the article
   articles = { items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
+  // search word
+  searchString : string ='';
 //selected article
   selectedArticle = {} as ArticleDto; // declare selectedBook
+
 // article image : 
   //  selectedImage:string | null=null;
   form: FormGroup;
@@ -25,7 +29,8 @@ export class ArticleComponent implements OnInit {
   constructor(
   private articleservice:ArticlesService,
   private fb: FormBuilder,
-  private confirmation: ConfirmationService ) {}
+  private confirmation: ConfirmationService,
+  private toastr:ToasterService) {}
      
   ngOnInit(): void {
   this.articleservice.getAllArticle().subscribe(
@@ -37,6 +42,19 @@ export class ArticleComponent implements OnInit {
     }
     );
   }
+
+  // search lethod
+  // searcharticle(){
+  //   if(this.searchString.trim()===''){
+  //     this.ngOnInit();
+  //   }else{
+  //     this.articleservice.searchBySlibelle(this.searchString).subscribe((data)=>{
+  //       this.searchResults=data;
+  //     },(error)=>{
+  //       console.error('Error searching articles:', error);
+  //     });
+  //   }
+  // }
   // upload image
   //  onFileSelected(event: any) {
   //  const file = event.target.files[0];
@@ -83,6 +101,11 @@ export class ArticleComponent implements OnInit {
       this.isModalOpen = false;
       this.form.reset();
       this.ngOnInit();
+      this.toastr.success(' Operation successed.', 'Success');
+    },(error) => {
+      // Handle error, e.g., display an error message
+      this.toastr.error(' Create Failed.', 'Error');
+      console.error('Error creating vente:', error);
     });
     
   }
@@ -91,7 +114,13 @@ delete(id: number) {
   this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.articleservice.deleteArticleById(id).subscribe(() => this.ngOnInit());
+      this.toastr.success(' Article Deleted successefully.', 'Success');
     }
+    },(error) => {
+      // Handle error, e.g., display an error message
+      this.toastr.error(' we can not delete this articlee.', 'Error');
+      console.error('Error creating vente:', error);
     });
+    
   }
 }

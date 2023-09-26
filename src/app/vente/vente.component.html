@@ -1,9 +1,12 @@
 
 <!-- OPEN MODAL button -->
-<div class="justify-content-end mb-3"><button class="btn btn-primary" (click)="OpenModal();">
+<div class="justify-content-end mb-3"><button class="btn btn-outline-success" (click)="OpenModal();">
   <span>{{'::NewVente' | abpLocalization}}</span>
 </button></div>
-<table class="table table-striped">
+<div class="row">
+  <h2 class="text-center bg-warning">List Of all sales passed</h2>
+</div>
+<table class="table table-warning">
     <thead>
       <tr>
         <th scope="col"></th>
@@ -11,9 +14,9 @@
         <th scope="col">Client first name</th>
         <th scope="col">Client last name</th>
         <th scope="col">Articles</th>
-        <th scope="col">Quantity</th>
+        <!-- <th scope="col">Quantity</th> -->
         <th scope="col">Total Amount</th>
-        <th scope="col">Actions</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -23,10 +26,10 @@
         <td>{{vente.clientFName}}</td>
         <td>{{vente.clientLName}}</td>
         <td>{{vente.articleVendue}}</td>
-        <td>{{vente.quantityVendue}}</td>
+        <!-- <td>{{vente.quantityVendue}}</td> -->
         <td>{{vente.prixTotal}} DH</td>
-        <td><button class="btn btn-warning" (click)="delete(client.id)">Delete Vente</button> 
-        </td>
+       
+        
       </tr>
 
     </tbody>
@@ -40,7 +43,62 @@
    
   
     <ng-template #abpBody>
-       <form [formGroup]="venteForm" (ngSubmit)="CreateVente();">
+      <form [formGroup]="saleForm" (ngSubmit)="CreateVente()">
+        <div class="form-group">
+          <label for="clientId">Client ID:</label>
+          <select id="clientId" class="form-control" formControlName="clientId" (change)="selectClient($event.target.value)">
+            <option value="0" selected>Select a Client</option>
+            <option *ngFor="let client of clients" [value]="client.id">{{ client.lName }}</option>
+          </select>
+        </div>
+      
+        <div *ngIf="selectedClientId !== null">
+          Selected Client ID: {{ selectedClientId }}
+        </div>
+      
+        <!-- Use formGroup for article inputs -->
+        <div [formGroup]="articleForm">
+          <div class="form-group">
+            <label for="articleId">Article ID:</label>
+            <select id="articleId" class="form-control" formControlName="articleId">
+              <option value="0" selected>Select an article</option>
+              <option *ngFor="let article of articles" [value]="article.id">{{ article.libelle }}</option>
+            </select>
+            <!-- <input type="number" id="articleId" formControlName="articleId" /> -->
+          </div>
+      
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" class="form-control" formControlName="quantity">
+
+            <!-- <input type="number" id="quantity" formControlName="quantity" /> -->
+          </div>
+      
+          <button class="btn btn-success" type="button" (click)="addArticle()">Add Article</button>
+        </div>
+      
+        <div *ngFor="let article of selectedArticles; let i = index">
+          Article {{ i + 1 }}: Id {{ article.id }}, Quantity {{ article.quantity }}
+          <button class="btn btn-warning" type="button" (click)="removeArticle(i)">Remove</button>
+        </div>
+      
+        <!-- <button type="submit" [disabled]="selectedClientId === null || selectedArticles.length === 0">Submit</button> -->
+      </form>
+      
+      
+    </ng-template>
+  
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" abpClose>Close</button>
+       <!--added save button-->
+    <button class="btn btn-primary" (click)="CreateVente()" [disabled]="selectedClientId === null || selectedArticles.length === 0">
+      <i class="fa fa-check mr-1"></i>
+      Valid
+  </button>
+    </ng-template>
+  </abp-modal>
+
+<!-- <form [formGroup]="venteForm" (ngSubmit)="CreateVente();">
         <div class="form-group">
           <label for="clientId">Clients</label>
           <select id="clientId" class="form-control" formControlName="clientId">
@@ -59,16 +117,4 @@
           <label for="quantity">Quantity wanted</label>
           <input type="number" id="quantity" class="form-control" formControlName="quantity">
         </div>
-       </form>
-    </ng-template>
-  
-    <ng-template #abpFooter>
-      <button type="button" class="btn btn-secondary" abpClose>Close</button>
-       <!--added save button-->
-    <button class="btn btn-primary" (click)="CreateVente()" [disabled]="form.invalid">
-      <i class="fa fa-check mr-1"></i>
-      Valid
-  </button>
-    </ng-template>
-  </abp-modal>
-
+       </form> -->

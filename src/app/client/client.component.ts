@@ -4,6 +4,7 @@ import { ClientDto } from '@proxy/clients';
 import { ClientsService } from '@proxy/controllers';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // for form
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-client',
@@ -25,7 +26,8 @@ export class ClientComponent implements OnInit {
     public readonly list:ListService,
     private clientservice:ClientsService, 
     private fb:FormBuilder,
-    private confirmation:ConfirmationService
+    private confirmation:ConfirmationService,
+    private toastr:ToasterService
   ){}
 
   
@@ -80,6 +82,7 @@ export class ClientComponent implements OnInit {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();
+      this.toastr.success(' Operation successed.', 'Success');
     });
   }
 
@@ -88,7 +91,12 @@ delete(id: number) {
   this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.clientservice.deleteClientById(id).subscribe(() => this.ngOnInit());
+      this.toastr.success(' Client Deleted successefully.', 'Success');
     }
+  },(error) => {
+    // Handle error, e.g., display an error message
+    this.toastr.error(' we can not delete this Client.', 'Error');
+    console.error('Error creating vente:', error);
   });
 }
 }

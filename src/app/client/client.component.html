@@ -1,7 +1,11 @@
 <!-- Add the "new client" button here -->
-<div class="justify-content-end mb-3"><button class="btn btn-outline-success" (click)="createClient()">
+<div class="row">
+  <div class="text-start b-3 col-6"><button class="btn btn-outline-success" (click)="createClient()">
   <span>{{'::NewClient' | abpLocalization}}</span>
 </button></div>
+<div class="row">
+  <h2 class="text-center bg-warning mb-4 mt-4">List Of all Clients</h2>
+</div>
 
  <table class="table table-warning">
     <thead>
@@ -13,6 +17,7 @@
         <th scope="col">Phone number</th>
         <th scope="col text-end">Actions</th>
         <th scope="col"></th>
+        
       </tr>
     </thead>
     <tbody>

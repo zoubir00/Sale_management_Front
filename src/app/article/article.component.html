@@ -1,28 +1,38 @@
+
 <!-- Add the "new article" button here -->
-<div class="justify-content-end mb-3"><button class="btn btn-primary" (click)="createarticle()">
+<div class="row">
+  <div class="justify-content-end mb-3 col-6"><button class="btn btn-outline-success" (click)="createarticle()">
   <span>{{'::Newarticle' | abpLocalization}}</span>
 </button></div>
-<table class="table table-striped">
+</div>
+<div class="row">
+  <h2 class="text-center bg-warning">List Of all articles</h2>
+</div>
+
+<table class="table table-warning">
     <thead>
-      <tr class="table-active">
+      <tr>
         <th scope="col"></th>
         <th scope="col">Title</th> 
         <th scope="col">Description</th>
         <th scope="col">Image</th>
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let article of articles;let i=index">
-        <td scope="col">{{i+1}}</td>
+        <td scope="col"><i class="fa fa-star-o" aria-hidden="true"></i></td>
         <td>{{article.libelle}}</td>
         <td>{{article.description}}</td>
-        <td><img [src]="article.image" width="65" height="50"></td>
+        <td><img class="rounded img-rounded" [src]="article.image" width="75" height="55"></td>
         <td>{{article.price}} DH</td>
         <td>{{article.quantityinStock}}</td>
         <td><button class="btn btn-primary" (click)=" editArticle(article.id)">Edit article</button></td>
         <td><button class="btn btn-warning" (click)="delete(article.id)">Delete Article</button></td>
+        <td></td>
       </tr>
     </tbody>
   </table>

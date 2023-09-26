@@ -6016,6 +6016,11 @@ ng-zorro-antd@^16.0.0:
     date-fns "^2.16.1"
     tslib "^2.3.0"
 
+ng2-toastr@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npmjs.org/ng2-toastr/-/ng2-toastr-4.1.2.tgz"
+  integrity sha512-EfcmX4ObMAPeg2Knhgsq9fieFm3dP2/OVLRrE+lcKrfoz6v5MOKUm+oYALC4bEDOqrbVQHpw28oqwoR8/llS4A==
+
 node-addon-api@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmjs.org/node-addon-api/-/node-addon-api-3.2.1.tgz"
