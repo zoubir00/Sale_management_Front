@@ -17,7 +17,7 @@ export class ClientComponent implements OnInit {
   client ={ items: [], totalCount: 0 } as PagedResultDto<ClientDto>;
 
   selectClient={} as ClientDto;
-  selectedId=0;
+
   form:FormGroup;
   isModalOpen=false;
  
@@ -53,9 +53,8 @@ export class ClientComponent implements OnInit {
   editClient(id:number){
     this.clientservice.getClientByIdById(id).subscribe((client)=>{ 
       this.selectClient=client;
-       this.buildForm();
+      this.buildForm();
       this.isModalOpen = true;
-       this.selectedId=this.selectClient.id;
       console.log('Selected client',this.selectClient);
     });
   }
@@ -63,10 +62,10 @@ export class ClientComponent implements OnInit {
   // add buildForm method
    buildForm() {
     this.form = this.fb.group({
-      fName: ['', Validators.required],
-      lName: [null, Validators.required],
-      email: [null, Validators.required],
-      phoneNumber: [null, Validators.required],
+      fName: [this.selectClient.fName || '', Validators.required],
+      lName: [this.selectClient.lName || null, Validators.required],
+      email: [this.selectClient.email || null, Validators.required],
+      phoneNumber: [this.selectClient.phoneNumber || null, Validators.required],
     });
   }
 
@@ -75,7 +74,9 @@ export class ClientComponent implements OnInit {
     if(this.form.invalid){
       return ;
     }
-    this.clientservice.createClientByClient(this.form.value).subscribe(() => {
+    const request=this.selectClient.id ? this.clientservice.updateClientByIdAndNewClient(this.selectClient.id,this.form.value) 
+    : this.clientservice.createClientByClient(this.form.value);
+   request.subscribe(() => {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();

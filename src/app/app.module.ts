@@ -17,6 +17,10 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
 import { FeatureManagementModule } from '@abp/ng.feature-management';
 import { AbpOAuthModule } from '@abp/ng.oauth';
 import { FormsModule } from '@angular/forms';
+import { LogoComponent } from './logo/logo.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
+
 
 
 @NgModule({
@@ -38,10 +42,11 @@ import { FormsModule } from '@angular/forms';
     ThemeLeptonXModule.forRoot(),
     SideMenuLayoutModule.forRoot(),
     FeatureManagementModule.forRoot(),
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   declarations: [		
-    	AppComponent
+    	AppComponent, LogoComponent, CustomLayoutComponent
    ],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],

@@ -1,10 +1,10 @@
 <!-- Add the "new article" button here -->
-<div class="justify-content-end"><button class="btn btn-primary" (click)="createarticle()">
+<div class="justify-content-end mb-3"><button class="btn btn-primary" (click)="createarticle()">
   <span>{{'::Newarticle' | abpLocalization}}</span>
 </button></div>
 <table class="table table-striped">
     <thead>
-      <tr>
+      <tr class="table-active">
         <th scope="col"></th>
         <th scope="col">Title</th> 
         <th scope="col">Description</th>
@@ -21,13 +21,14 @@
         <td><img [src]="article.image" width="65" height="50"></td>
         <td>{{article.price}} DH</td>
         <td>{{article.quantityinStock}}</td>
-        <td><button class="btn btn-warning" (click)="delete(article.id)">Delete Article</button>
+        <td><button class="btn btn-primary" (click)=" editArticle(article.id)">Edit article</button></td>
+        <td><button class="btn btn-warning" (click)="delete(article.id)">Delete Article</button></td>
       </tr>
     </tbody>
   </table>
   <abp-modal [(visible)]="isModalOpen">
     <ng-template #abpHeader>
-      <h3>{{ '::Newarticle' | abpLocalization }}</h3>
+      <h3>{{ (selectedArticle.id ? '::Edit' : '::Newarticle' ) | abpLocalization }}</h3>
     </ng-template>
    
   
@@ -38,7 +39,7 @@
         <label for="floatingLibelle">Title</label>
       </div>
        <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="floatingImage" formControlName="image" placeholder="Ex:image"  >
+        <input type="text" class="form-control" id="floatingImage"  formControlName="image" placeholder="Ex:image" accept="image/*"  >
         <label for="floatingImage">Image</label>
       </div>
       <div class="form-floating mb-3">
@@ -63,7 +64,7 @@
        <!--added save button-->
     <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
       <i class="fa fa-check mr-1"></i>
-      Ajouter
+      Submit
   </button>
     </ng-template>
   </abp-modal>

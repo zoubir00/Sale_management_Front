@@ -13,10 +13,12 @@ import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
   styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit {
+  // the article
   articles = { items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
-
+//selected article
   selectedArticle = {} as ArticleDto; // declare selectedBook
-
+// article image : 
+  //  selectedImage:string | null=null;
   form: FormGroup;
   isModalOpen=false;
  
@@ -35,28 +37,49 @@ export class ArticleComponent implements OnInit {
     }
     );
   }
-
+  // upload image
+  //  onFileSelected(event: any) {
+  //  const file = event.target.files[0];
+  //    if (file) {
+  //      const reader = new FileReader();
+  //   reader.onload = (e) => {
+  //        this.selectedImage = e.target.result as string;
+  //      };
+  //     reader.readAsDataURL(file);
+  //   }
+  //  }
   // Create article
   createarticle(){
     this.selectedArticle={} as ArticleDto;
     this.buildForm();
     this.isModalOpen=true;
   }
+  editArticle(id:number){
+    this.articleservice.getArticleByIdById(id).subscribe((articles)=>{
+      this.selectedArticle=articles;
+      this.buildForm();
+      this.isModalOpen=true;
+      console.log('Article selected',this.selectedArticle);
+    })
+  }
   buildForm() {
     this.form = this.fb.group({
       
-      libelle: ['', Validators.required],
-      description: [null, Validators.required],
-      image: [null, Validators.required],
-      price: [null, Validators.required],
-      quantityinStock:[null,Validators.required]
+      libelle: [ this.selectedArticle.libelle ||'', Validators.required],
+      description: [this.selectedArticle.description || null, Validators.required],
+      image: [this.selectedArticle.image || null, Validators.required],
+      price: [this.selectedArticle.price || null, Validators.required],
+      quantityinStock:[this.selectedArticle.quantityinStock || null,Validators.required]
     });
   }
 
   // Save Method
   save(){
     if(this.form.invalid){return ;}
-    this.articleservice.createArticleByArticle(this.form.value).subscribe(() => {
+    
+    const request=this.selectedArticle.id ? this.articleservice.updateArticleByIdAndArticle(this.selectedArticle.id, this.form.value)
+    : this.articleservice.createArticleByArticle(this.form.value);
+    request.subscribe(() => {
       this.isModalOpen = false;
       this.form.reset();
       this.ngOnInit();

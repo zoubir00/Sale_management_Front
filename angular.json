@@ -106,7 +106,8 @@
                 "bundleName": "ngx-datatable-material"
               },
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/themes/my-custom-theme/css/bootswatch.min.css"
             ],
             "scripts": []
           },

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { SharedModule } from '../shared/shared.module';
 import { VenteRoutingModule } from './vente-routing.module';
 import { VenteComponent } from './vente.component';
 
@@ -10,8 +9,8 @@ import { VenteComponent } from './vente.component';
     VenteComponent
   ],
   imports: [
-    CommonModule,
-    VenteRoutingModule
+    
+    VenteRoutingModule,SharedModule
   ]
 })
 export class VenteModule { }

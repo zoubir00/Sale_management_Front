@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <abp-loader-bar></abp-loader-bar>
-    <abp-dynamic-layout></abp-dynamic-layout>
+    <app-custom-layout></app-custom-layout>
+    
   `,
 })
 export class AppComponent {}
