@@ -107,9 +107,10 @@
               },
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss",
-              "src/assets/themes/my-custom-theme/css/bootswatch.min.css"
+              "src/assets/themes/my-custom-theme/css/bootswatch.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"]
           },
           "configurations": {
             "production": {

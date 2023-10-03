@@ -20,11 +20,13 @@ import { FormsModule } from '@angular/forms';
 import { LogoComponent } from './logo/logo.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { VenteComponent } from './vente/vente.component';
 
 
 @NgModule({
-  imports: [
+  imports: [ 
     BrowserModule,
     BrowserAnimationsModule,
     
@@ -43,7 +45,11 @@ import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
     SideMenuLayoutModule.forRoot(),
     FeatureManagementModule.forRoot(),
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule,
+    MatPaginatorModule,
+   
+   
   ],
   declarations: [		
     	AppComponent, LogoComponent, CustomLayoutComponent

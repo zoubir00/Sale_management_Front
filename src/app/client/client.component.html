@@ -1,13 +1,13 @@
 <!-- Add the "new client" button here -->
 <div class="row">
-  <div class="text-start b-3 col-6"><button class="btn btn-outline-success" (click)="createClient()">
-  <span>{{'::NewClient' | abpLocalization}}</span>
+  <div class="text-end b-3"><button class="btn btn-outline-success" (click)="createClient()">
+    <i class="bi bi-person-plus"></i> <span>  {{'::NewClient' | abpLocalization}}</span>
 </button></div>
 <div class="row">
-  <h2 class="text-center bg-warning mb-4 mt-4">List Of all Clients</h2>
+  <h2 class="text-start mb-4 mt-4">Clients list</h2>
 </div>
 
- <table class="table table-warning">
+ <table class="table table-striped table-hover">
     <thead>
       <tr>
         <th scope="col"></th>
@@ -22,24 +22,21 @@
     </thead>
     <tbody>
       <tr *ngFor="let client of client; let i=index">
-        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+        <td><i class="bi bi-person"></i></td>
         <td>{{client.fName}}</td>
         <td>{{client.lName}}</td>
         <td>{{client.email}}</td>
         <td>{{client.phoneNumber}}</td>
-        <td><button class="btn btn btn-outline-info" (click)=" editClient(client.id)">Edit client</button></td>
-        <td><button class="btn btn-outline-danger" (click)="delete(client.id)">Delete Client</button>
+        <td><button class="btn btn btn-outline-primary" (click)=" editClient(client.id)"><i class="bi bi-pencil-square"></i> Edit client</button></td>
+        <td><button class="btn btn-outline-danger" (click)="delete(client.id)"><i class="bi bi-person-x-fill"></i> Delete Client</button>
         </td>
       </tr>
       
      
     </tbody>
   </table> 
-  <!--  -->
   
-<!-- <button class="btn btn-primary" (click)="isModalOpen = true">Ajouter client</button> -->
-
-<abp-modal [(visible)]="isModalOpen">
+<abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
   <ng-template #abpHeader>
     <h3>{{ (selectClient.id ? '::Edit' : '::NewClient' ) | abpLocalization }}</h3>
   </ng-template>
@@ -69,7 +66,7 @@
   <ng-template #abpFooter>
     <button type="button" class="btn btn-secondary" abpClose>Close</button>
      <!--added save button-->
-  <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+  <button class="btn btn-outline-success" (click)="save()" [disabled]="form.invalid">
     <i class="fa fa-check mr-1"></i>
     Ajouter
 </button>

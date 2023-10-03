@@ -1,42 +1,51 @@
 
 <!-- OPEN MODAL button -->
-<div class="justify-content-end mb-3"><button class="btn btn-outline-success" (click)="OpenModal();">
-  <span>{{'::NewVente' | abpLocalization}}</span>
+<div class="text-end mb-3"><button class="btn btn-outline-success" (click)="OpenModal();">
+  <i class="bi bi-plus-square-dotted"></i> <span> {{'::NewVente' | abpLocalization}}</span>
 </button></div>
+ <div *ngIf="loading" class="loading-spinner">
+  <mat-progress-spinner mode="indeterminate" color="warn"></mat-progress-spinner>
+</div> 
 <div class="row">
-  <h2 class="text-center bg-warning">List Of all sales passed</h2>
+  <h2 class=" col text-start">List Of all sales passed</h2>
+  <div class="col"> <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="onPageChange($event)">
+  </mat-paginator></div>
 </div>
-<table class="table table-warning">
+<table class="table table-striped table-hover"  *ngIf="!loading">
     <thead>
       <tr>
         <th scope="col"></th>
         <th scope="col">Date Vente</th>
-        <th scope="col">Client first name</th>
-        <th scope="col">Client last name</th>
-        <th scope="col">Articles</th>
-        <!-- <th scope="col">Quantity</th> -->
-        <th scope="col">Total Amount</th>
-        
+        <th scope="col">Client name</th>     
+        <th scope="col">Article sold</th>
+        <th scope="col">Quantity sold</th>
+        <th scope="col">Total Amount</th> 
+        <th></th> 
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let vente of ventes; let i=index">
-        <td>{{i+1}}</td>
-        <td>{{vente.dateVente | date: 'dd/MM/yyyy'}}</td>
-        <td>{{vente.clientFName}}</td>
-        <td>{{vente.clientLName}}</td>
-        <td>{{vente.articleVendue}}</td>
-        <!-- <td>{{vente.quantityVendue}}</td> -->
-        <td>{{vente.prixTotal}} DH</td>
-       
-        
-      </tr>
-
+      <ng-container *ngFor="let vente of ventes.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);let i=index">  
+        <tr *ngFor="let sale of vente.individualSales">
+          <td>{{i+1}}</td>
+          <td>{{ sale.dateVente | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ sale.clientFName }} {{ sale.clientLName }}</td>
+          <td>{{ sale.articleVendue}} </td>
+          <td>{{ sale.quantityVendue}} article(s)</td>
+          <td>{{ vente.totalAmount }}.00 DH</td>   
+        </tr>
+      </ng-container>
     </tbody>
   </table>
-  
+  <br>
+  <!--  -->
   <!-- Create vente modal -->
-  <abp-modal [(visible)]="isModalOpen">
+  <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
     <ng-template #abpHeader>
       <h3>{{ '::NewVente'  | abpLocalization }}</h3>
     </ng-template>
@@ -45,76 +54,50 @@
     <ng-template #abpBody>
       <form [formGroup]="saleForm" (ngSubmit)="CreateVente()">
         <div class="form-group">
-          <label for="clientId">Client ID:</label>
+          <label for="clientId">Client Last Name:</label>
           <select id="clientId" class="form-control" formControlName="clientId" (change)="selectClient($event.target.value)">
-            <option value="0" selected>Select a Client</option>
+            <option value="" selected>Select a Client</option>
             <option *ngFor="let client of clients" [value]="client.id">{{ client.lName }}</option>
           </select>
         </div>
       
-        <div *ngIf="selectedClientId !== null">
+        <div class="d-none" *ngIf="selectedClientId !== null">
           Selected Client ID: {{ selectedClientId }}
         </div>
-      
+        <br>
+        <div>-----------------------------------------------------------------------------</div>
         <!-- Use formGroup for article inputs -->
         <div [formGroup]="articleForm">
           <div class="form-group">
-            <label for="articleId">Article ID:</label>
+            <label for="articleId">Article Title:</label>
             <select id="articleId" class="form-control" formControlName="articleId">
               <option value="0" selected>Select an article</option>
               <option *ngFor="let article of articles" [value]="article.id">{{ article.libelle }}</option>
             </select>
-            <!-- <input type="number" id="articleId" formControlName="articleId" /> -->
           </div>
-      
+          <br>
           <div class="form-group">
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" class="form-control" formControlName="quantity">
-
-            <!-- <input type="number" id="quantity" formControlName="quantity" /> -->
           </div>
-      
-          <button class="btn btn-success" type="button" (click)="addArticle()">Add Article</button>
+          <br>
+          <!-- Add article button -->
+          <button class="btn btn-info mt-2 text-center" type="button" (click)="addArticle()"><i class="bi bi-plus-circle"></i></button>
         </div>
-      
+        <!-- display the selected article Id and quantity -->
         <div *ngFor="let article of selectedArticles; let i = index">
-          Article {{ i + 1 }}: Id {{ article.id }}, Quantity {{ article.quantity }}
-          <button class="btn btn-warning" type="button" (click)="removeArticle(i)">Remove</button>
+          Article Id: {{ article.articleId }}, Quantity: {{ article.quantity }}
+          <button class="btn btn-warning" type="button" (click)="removeArticle(i)"><i class="bi bi-x-circle"></i> Remove</button>
         </div>
-      
-        <!-- <button type="submit" [disabled]="selectedClientId === null || selectedArticles.length === 0">Submit</button> -->
       </form>
-      
-      
     </ng-template>
   
     <ng-template #abpFooter>
       <button type="button" class="btn btn-secondary" abpClose>Close</button>
        <!--added save button-->
-    <button class="btn btn-primary" (click)="CreateVente()" [disabled]="selectedClientId === null || selectedArticles.length === 0">
+    <button class="btn btn-outline-success" (click)="CreateVente()" [disabled]="selectedClientId === null || selectedArticles.length === 0">
       <i class="fa fa-check mr-1"></i>
       Valid
   </button>
     </ng-template>
   </abp-modal>
-
-<!-- <form [formGroup]="venteForm" (ngSubmit)="CreateVente();">
-        <div class="form-group">
-          <label for="clientId">Clients</label>
-          <select id="clientId" class="form-control" formControlName="clientId">
-            <option value="0" selected>Select a Client</option>
-            <option *ngFor="let client of clients" [value]="client.id">{{ client.lName }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="articleId">Select an Article:</label>
-          <select id="articleId" class="form-control" formControlName="articleId">
-            <option value="0" selected>Select an article</option>
-            <option *ngFor="let article of articles" [value]="article.id">{{ article.libelle }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="quantity">Quantity wanted</label>
-          <input type="number" id="quantity" class="form-control" formControlName="quantity">
-        </div>
-       </form> -->

@@ -1,10 +1,10 @@
 <div class="container">
   <div class="p-5 text-center">
     
-    <h1><i class="fas fa-rocket" aria-hidden="true"></i> {{ '::Welcome' | abpLocalization }}</h1>
+    <h1 class="text-primary"><i class="fas fa-rocket" aria-hidden="true"></i> {{ '::Welcome' | abpLocalization }}</h1>
 
-    <h5 class="m-1">
-      Your, <strong><i>E</i>Products </strong>sale management is
+    <h5 class="m-1 text-primary">
+      Your, <strong><i class="text-warning">E</i>Products </strong>sale management is
       ready!
     </h5>
   </div>
@@ -12,35 +12,27 @@
 <!--  -->
 <div class="row">
   <div class="text-center">
-  <a routerLink="/ventes" class="btn btn-primary btn-lg">Start Sale in sale side</a> 
+  <a routerLink="/ventes" class="btn btn-warning btn-lg text-white"><i class="bi bi-box-arrow-right"></i> Start Sale in sale side</a> 
   </div>
 </div>
 <br>
 <!-- articles -->
 <div class="row mt-5 mb-5">
-  <h2 class="text-start text-info text-danger">Your articles</h2>
+  <!-- <h2 class="text-center text-warning">Articles list</h2> -->
 <div *ngFor="let article of articles; let i=index;" class="col-md-4">
-<div  class="card mb-3 bg-dark">
-  <h3 class="card-header text-white">Article {{i+1}}</h3>
-  <div class="card-body">
-    <h5 class="card-title text-white text-center">{{article.libelle}}</h5>
+  <div class="card hover-card" [routerLink]="['/articleDetail/', article.id]">
+    <img [src]="article.image" id="imgeHover" alt="">
+    <div class="text">
+      <h2 class="text-center">{{article.libelle}}</h2>
+      <p class="text-center">{{article.description}}</p>
+      <p class="text-center"><b>price:</b> {{article.price}}.00 DH</p>
+      <p class="text-center"><b>Quantity:</b> {{article.quantityinStock}} {{article.libelle}}</p>
+    </div>
   </div>
-  <img [src]="article.image" class="d-block user-select-none" width="100%" height="200"  focusable="false"  preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-    
-  
-  <div class="card-body text-center">
-    <p class="card-text text-white">{{article.description}}</p>
-    <p class="card-text text-white">Price : {{article.price}} DH</p>
-    <p class="card-text text-white">Quantity in stock : {{article.quantityinStock}} {{article.libelle}}</p>
-  </div>
-  <div class="card-footer text-muted text-center">
-    <a routerLink="/ventes" class="btn btn-primary mt-2">Sale article</a>
-  </div>
-</div>
 </div>
 </div>
 
-<!--  -->
+
 
 
 

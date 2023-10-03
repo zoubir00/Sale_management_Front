@@ -28,6 +28,9 @@ const routes: Routes = [
   { path: 'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },
   { path: 'articles', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) },
   { path: 'ventes', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },
+  { path: 'articleDetail/:id', loadChildren: () => import('./article-details/article-details.module').then(m => m.ArticleDetailsModule) },
+ 
+  
 ];
 
 @NgModule({

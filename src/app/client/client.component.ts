@@ -2,7 +2,7 @@ import { PagedResultDto, ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { ClientDto } from '@proxy/clients';
 import { ClientsService } from '@proxy/controllers';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // for form
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { ToasterService } from '@abp/ng.theme.shared';
 
@@ -30,21 +30,15 @@ export class ClientComponent implements OnInit {
     private toastr:ToasterService
   ){}
 
-  
-
   ngOnInit(): void {
     const clientStreamCreator = (query) => this.clientservice.getAllClients(query);
-
     this.list.hookToQuery(clientStreamCreator).subscribe((response) => {
       console.log('Raw Data from Service:', response);
       this.client = response;
-      // Debugging: Log the data to the console
     console.log('Client Data:', this.client);
    
     });
   }
-
-
   // add new method
   createClient() {
     this.selectClient={} as ClientDto;
@@ -62,7 +56,7 @@ export class ClientComponent implements OnInit {
   }
 
   // add buildForm method
-   buildForm() {
+  buildForm() {
     this.form = this.fb.group({
       fName: [this.selectClient.fName || '', Validators.required],
       lName: [this.selectClient.lName || null, Validators.required],
@@ -88,13 +82,13 @@ export class ClientComponent implements OnInit {
 
   // Add a delete method
 delete(id: number) {
-  this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {
+  this.confirmation.warn('::ClientDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.clientservice.deleteClientById(id).subscribe(() => this.ngOnInit());
       this.toastr.success(' Client Deleted successefully.', 'Success');
     }
   },(error) => {
-    // Handle error, e.g., display an error message
+    // display an error message
     this.toastr.error(' we can not delete this Client.', 'Error');
     console.error('Error creating vente:', error);
   });

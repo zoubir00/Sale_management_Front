@@ -16,8 +16,6 @@ import { ToasterService } from '@abp/ng.theme.shared';
 export class ArticleComponent implements OnInit {
   // the article
   articles = { items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
-  // search word
-  searchString : string ='';
 //selected article
   selectedArticle = {} as ArticleDto; // declare selectedBook
 
@@ -43,18 +41,6 @@ export class ArticleComponent implements OnInit {
     );
   }
 
-  // search lethod
-  // searcharticle(){
-  //   if(this.searchString.trim()===''){
-  //     this.ngOnInit();
-  //   }else{
-  //     this.articleservice.searchBySlibelle(this.searchString).subscribe((data)=>{
-  //       this.searchResults=data;
-  //     },(error)=>{
-  //       console.error('Error searching articles:', error);
-  //     });
-  //   }
-  // }
   // upload image
   //  onFileSelected(event: any) {
   //  const file = event.target.files[0];
@@ -66,6 +52,8 @@ export class ArticleComponent implements OnInit {
   //     reader.readAsDataURL(file);
   //   }
   //  }
+
+
   // Create article
   createarticle(){
     this.selectedArticle={} as ArticleDto;
@@ -94,7 +82,6 @@ export class ArticleComponent implements OnInit {
   // Save Method
   save(){
     if(this.form.invalid){return ;}
-    
     const request=this.selectedArticle.id ? this.articleservice.updateArticleByIdAndArticle(this.selectedArticle.id, this.form.value)
     : this.articleservice.createArticleByArticle(this.form.value);
     request.subscribe(() => {
@@ -111,13 +98,13 @@ export class ArticleComponent implements OnInit {
   }
   // Add a delete method
 delete(id: number) {
-  this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {
+  this.confirmation.warn('::ArticleDeletionConfirmationMessage', '::Are You Sure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.articleservice.deleteArticleById(id).subscribe(() => this.ngOnInit());
       this.toastr.success(' Article Deleted successefully.', 'Success');
     }
     },(error) => {
-      // Handle error, e.g., display an error message
+      // display an error message
       this.toastr.error(' we can not delete this articlee.', 'Error');
       console.error('Error creating vente:', error);
     });

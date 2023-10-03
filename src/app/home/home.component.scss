@@ -2,3 +2,25 @@
 body{
     background-color: #ffe6b3; /* A soft pastel yellow */
   }
+  .card{
+    margin: 50px;
+    width: 300px;;
+    box-shadow: 5px 5px 20px black;
+    overflow: hidden;
+    position: relative;
+  }
+  .hover-card {
+    transition: transform 0.4s; /* Add a smooth transition effect */
+  }
+  
+  .hover-card:hover {
+    transform: translateY(-5px); 
+    cursor: pointer;
+  }
+ 
+  
+  
+  
+  
+  
+  
