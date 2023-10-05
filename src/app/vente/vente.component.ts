@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { VenteService } from '@proxy/controllers';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
@@ -10,6 +10,7 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { PageEvent } from '@angular/material/paginator'; 
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { switchMap, timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vente',
@@ -24,6 +25,9 @@ export class VenteComponent implements OnInit {
    pageSize = 10; // set your desired page size
    pageIndex = 0;
    totalItems = 0;
+   // search
+   searchForm:FormGroup;
+   @Output() searchQuery: EventEmitter<string> = new EventEmitter<string>();
    // load spinner
    loading = true;
   saleForm: FormGroup; 
@@ -46,42 +50,47 @@ constructor(
   private confirmation:ConfirmationService,
   private clientService:ClientsService,
   private articleService:ArticlesService,
-  private toastr:ToasterService
-  ) {}
+  private toastr:ToasterService,
+  private router: Router
+  ) {
+    this.searchForm=this.fb.group({
+      lname:[null, Validators.required]
+    })
+  }
 
   ngOnInit(): void {
     this.loading=true;
-    // get vente history table
-    timer(0) 
-    .pipe(
-      switchMap(()=>this.venteService.getVentes())
-    )
-    .subscribe((response) => {
-       this.ventes = response; 
-       this.totalItems=this.ventes.length;
-       this.loading=false;
-      console.log('Ventes:', this.ventes);
-    });
-    // call clients
-    this.clientService.getAllClients().subscribe((data)=>{
-      this.clients=data;
-      console.log('Clients',this.clients);
-    });
-    // call articles
-    this.articleService.getAllArticle().subscribe((data)=>{
-      this.articles=data;
-      console.log('articles :',this.articles);
-    });
-    //vente FormGroup declaration
-    this.saleForm = this.fb.group({
-      clientId: [null, Validators.required],
-    });
+    // // get vente history table
+    // timer(0) 
+    // .pipe(
+    //   switchMap(()=>this.venteService.getVentes())
+    // )
+    // .subscribe((response) => {
+    //    this.ventes = response; 
+    //    this.totalItems=this.ventes.length;
+    //    this.loading=false;
+    //   console.log('Ventes:', this.ventes);
+    // });
+    // // call clients
+    // this.clientService.getAllClients().subscribe((data)=>{
+    //   this.clients=data;
+    //   console.log('Clients',this.clients);
+    // });
+    // // call articles
+    // this.articleService.getAllArticle().subscribe((data)=>{
+    //   this.articles=data;
+    //   console.log('articles :',this.articles);
+    // });
+    // //vente FormGroup declaration
+    // this.saleForm = this.fb.group({
+    //   clientId: [null, Validators.required],
+    // });
 
-    // Create the articleForm with articleId and quantity fields
-    this.articleForm = this.fb.group({
-      articleId: [null, Validators.required],
-      quantity: [null, Validators.required],
-    });
+    // // Create the articleForm with articleId and quantity fields
+    // this.articleForm = this.fb.group({
+    //   articleId: [null, Validators.required],
+    //   quantity: [null, Validators.required],
+    // });
   }
   // add new method
   OpenModal() {
@@ -121,21 +130,30 @@ addArticle() {
       const articleIds = this.selectedArticles.map(article => article.articleId);
       const quantities = this.selectedArticles.map(article => article.quantity);
     
-    this.venteService.addVenteByInput({ clientId, articleIds, quantities }).subscribe((response)=>{
-      this.isModalOpen=false;
-      this.ngOnInit();
-      this.toastr.success(' Vente passed successfully. ', 'Success');
-      console.log('Sales added:', response);
-    },(error)=>{
-      this.toastr.error('Cannot pass this sale','Error');
-      console.error('Error adding sales:', error);
-    });
+    // this.venteService.addVenteByInput({ clientId, articleIds, quantities }).subscribe((response)=>{
+    //   this.isModalOpen=false;
+    //   this.ngOnInit();
+    //   this.toastr.success(' Vente passed successfully. ', ' Success ');
+    //   console.log('Sales added:', response);
+    // },(error)=>{
+    //   this.toastr.error('One or all of These articles has expired from the stock',' Error ');
+    //   console.error('Error adding sales:', error);
+    // });
     }
   }
 // pagination
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
+  }
+  onSubmit() {
+    const lname = this.searchForm.value.lname;
+    // Emit the search query to the parent component
+    this.searchQuery.emit(lname);
+    this.router.navigate(['/search', lname]);
+  }
+  onCreate(){
+    this.router.navigate(['/createventes']);
   }
 }
 

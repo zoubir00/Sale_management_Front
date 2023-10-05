@@ -29,6 +29,8 @@ const routes: Routes = [
   { path: 'articles', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) },
   { path: 'ventes', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },
   { path: 'articleDetail/:id', loadChildren: () => import('./article-details/article-details.module').then(m => m.ArticleDetailsModule) },
+  { path: 'search/:lname', loadChildren: () => import('./search-vente/search-vente.module').then(m => m.SearchVenteModule) },
+  { path: 'createventes', loadChildren: () => import('./create-vente/create-vente.module').then(m => m.CreateVenteModule) },
  
   
 ];

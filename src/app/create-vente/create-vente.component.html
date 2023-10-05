@@ -1,0 +1,42 @@
+<div class="container">
+    <h2>Add Vente</h2>
+    <form [formGroup]="venteForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="venteCode">Vente Code:</label>
+        <input type="text" id="venteCode" formControlName="venteCode" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label for="clientId">Client:</label>
+        <select id="clientId" formControlName="clientId" class="form-control" required>
+          <option *ngFor="let client of clients" [value]="client.id">{{ client.lName }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="dateVente">Date Vente:</label>
+        <input type="date" id="dateVente" formControlName="dateVente" class="form-control" required />
+      </div>
+  
+      <!-- Vente Lines Input Fields -->
+      <div formArrayName="venteLines">
+        <div *ngFor="let line of venteLinesControls; let i = index" class="vente-line">
+          <h4>Vente Line {{ i + 1 }}</h4>
+          <div class="form-group">
+            <label for="articleId">Article:</label>
+            <select id="articleId" formControlName="articleId" class="form-control" required>
+                <option value="0" selected>Select an article</option>
+                <option *ngFor="let article of articles" [value]="article.id">{{ article.libelle }}</option>            </select>
+          </div>
+          <div class="form-group">
+            <label for="qtySold">Quantity Sold:</label>
+            <input type="number" id="qtySold" [formControl]="line.get('qtySold')" class="form-control" required />
+          </div>
+          <!-- Add more input fields for other properties of VenteLinesDto if needed -->
+          <button type="button" class="btn btn-danger" (click)="removeVenteLine(i)">Remove</button>
+        </div>
+      </div>
+  
+      <button type="button" class="btn btn-primary" (click)="addVenteLine()">Add Vente Line</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+  

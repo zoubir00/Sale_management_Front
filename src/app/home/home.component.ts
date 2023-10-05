@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     private articleService:ArticlesService
     ) {}
   ngOnInit(): void {
-    this.articleService.getAllArticle().subscribe(
+    this.articleService.articlesSold().subscribe(
       (data)=>{
         this.articles=data;
       },

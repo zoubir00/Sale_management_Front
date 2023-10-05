@@ -1,2 +1,3 @@
+import * as Http from './http';
 import * as Mvc from './mvc';
-export { Mvc };
+export { Http, Mvc };

@@ -1,0 +1,31 @@
+<!-- <div *ngIf="searchResults && searchResults.length > 0">
+  <div class="row mb-4">
+    <span class="col-6">Sales effected by client:</span> <h2 class="col-6 text-warning">"{{ searchName }}"</h2>
+  </div>
+  <table class="table table-striped table-hover"  *ngIf="!loading">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Date Vente</th>
+            <th scope="col">Client name</th>     
+            <th scope="col">Article sold</th>
+            <th scope="col">Quantity sold</th>
+            <th scope="col">Total Amount</th> 
+            <th></th> 
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let vente of searchResults;let i=index">  
+            <tr *ngFor="let sale of vente.individualSales">
+              <td>{{i+1}}</td>
+              <td>{{ sale.dateVente | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ sale.clientFName }} {{ sale.clientLName }}</td>
+              <td>{{ sale.articleVendue}} </td>
+              <td>{{ sale.quantityVendue}} article(s)</td>
+              <td>{{ vente.totalAmount }}.00 DH</td>   
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+  </div> -->

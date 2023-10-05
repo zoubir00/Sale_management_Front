@@ -10,11 +10,19 @@ export class ArticlesService {
   apiName = 'Default';
   
 
+  articlesSold = (config?: Partial<Rest.Config>) =>
+    this.restService.request<any, IActionResult>({
+      method: 'GET',
+      url: '/api/Articles/mostSold',
+    },
+    { apiName: this.apiName,...config });
+  
+
   createArticleByArticle = (article: ArticleDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Articles/CreateArticle',
-      body: article,
+      body: article.image,
     },
     { apiName: this.apiName,...config });
   
@@ -56,7 +64,7 @@ export class ArticlesService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: `/api/Articles/editArticle/${id}`,
-      body: article,
+      body: article.image,
     },
     { apiName: this.apiName,...config });
 
