@@ -22,7 +22,7 @@ export class ArticleDetailsComponent implements OnInit  {
     this.articleService.getArticleByIdById(articleId).subscribe(
       (article: ArticleDto) => {
         this.article = article;
-        console.error(' article details:', this.article);
+        console.log(' article details:', this.article);
       },
       (error) => {
         console.error('Error fetching article details:', error);

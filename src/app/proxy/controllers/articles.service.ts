@@ -22,7 +22,7 @@ export class ArticlesService {
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Articles/CreateArticle',
-      body: article.image,
+      body: article,
     },
     { apiName: this.apiName,...config });
   
@@ -64,7 +64,7 @@ export class ArticlesService {
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: `/api/Articles/editArticle/${id}`,
-      body: article.image,
+      body: article,
     },
     { apiName: this.apiName,...config });
 

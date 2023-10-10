@@ -6,6 +6,8 @@ import { VenteLinesDto } from '@proxy/vente-lines';
 import { ClientDto } from '@proxy/clients';
 import { ArticleDto } from '@proxy/articles';
 import { ClientsService , ArticlesService ,VenteService} from '@proxy/controllers'; 
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-create-vente',
@@ -18,9 +20,12 @@ export class CreateVenteComponent implements OnInit {
   venteForm: FormGroup;
   clients={} as ClientDto;
   articles={} as ArticleDto;
-  constructor(private formBuilder: FormBuilder, private service: VenteService,
-    private clientService:ClientsService,
-    private articleService:ArticlesService,) {
+  constructor(
+    private formBuilder: FormBuilder,
+     private service: VenteService,
+    private clientService: ClientsService,
+    private articleService: ArticlesService,
+    private router: Router) {
     
   }
   ngOnInit(): void {
@@ -37,15 +42,14 @@ export class CreateVenteComponent implements OnInit {
     this.venteForm = this.formBuilder.group({
       venteCode: ['', Validators.required],
       clientId: ['', Validators.required],
-      articleId: ['', Validators.required],
-      dateVente: ['', Validators.required],
+      dateVente: [''],
       venteLines: this.formBuilder.array([]) // You can initialize it as an empty array or with predefined values
     });
   }
   onSubmit() {
     if (this.venteForm.valid) {
       const formData = this.venteForm.value;
-      
+      console.log('Form Data:', formData);
       if (formData.venteLines.length === 0) {
         console.log("Please add at least one vente line.");
         return;
@@ -62,6 +66,8 @@ export class CreateVenteComponent implements OnInit {
           console.log("Vente added successfully:", response);
           // Optionally, reset the form after successful submission
           this.venteForm.reset();
+          // navigate to ventes page
+          this.router.navigate(['/ventes']);
         },
         (error) => {
           // Handle error response here
@@ -70,7 +76,9 @@ export class CreateVenteComponent implements OnInit {
       );
     } else {
       // Handle the case where the form is invalid
-      console.log("Please fill out the form correctly.");
+      console.log('Form Valid:', this.venteForm.valid);
+      console.log('Form Errors:', this.venteForm.errors);
+      console.log('Form Controls:', this.venteForm.controls);
     }
   }
   get venteLinesControls() {
@@ -82,7 +90,6 @@ export class CreateVenteComponent implements OnInit {
       this.formBuilder.group({
         articleId: ['', Validators.required],
         qtySold: ['', Validators.required]
-        // ... other properties
       })
     );
   }

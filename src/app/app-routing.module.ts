@@ -31,6 +31,8 @@ const routes: Routes = [
   { path: 'articleDetail/:id', loadChildren: () => import('./article-details/article-details.module').then(m => m.ArticleDetailsModule) },
   { path: 'search/:lname', loadChildren: () => import('./search-vente/search-vente.module').then(m => m.SearchVenteModule) },
   { path: 'createventes', loadChildren: () => import('./create-vente/create-vente.module').then(m => m.CreateVenteModule) },
+  { path: 'saledetails/:codeVente', loadChildren: () => import('./vente-detail/vente-detail.module').then(m => m.VenteDetailModule) },
+  { path: 'editVente/:codeVente', loadChildren: () => import('./edit-vente/edit-vente.module').then(m => m.EditVenteModule) },
  
   
 ];

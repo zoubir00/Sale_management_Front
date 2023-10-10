@@ -16,61 +16,37 @@ import { ToasterService } from '@abp/ng.theme.shared';
 export class ArticleComponent implements OnInit {
   // the article
   articles = { items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
-//selected article
-  selectedArticle = {} as ArticleDto; // declare selectedBook
-
-// article image : 
-  //  selectedImage:string | null=null;
-  form: FormGroup;
-  isModalOpen=false;
- 
+  selectedImage: string;
+  
   constructor(
   private articleservice:ArticlesService,
   private fb: FormBuilder,
   private confirmation: ConfirmationService,
-  private toastr:ToasterService) {}
-     
+  private toastr:ToasterService) {
+
+  }
+  selectedArticle: ArticleDto = {} as ArticleDto;
+  form: FormGroup;
+  isModalOpen = false;
+  selectedFile:File;
+ 
   ngOnInit(): void {
-  this.articleservice.getAllArticle().subscribe(
-    (data)=>{
-      this.articles=data;
-    },
-    (error) => {
-      console.error('Error fetching items:', error);
-    }
+    this.loadArticles();
+  }
+
+  loadArticles(): void {
+    this.articleservice.getAllArticle().subscribe(
+      (data) => {
+        this.articles = data;
+      },
+      (error) => {
+        console.error('Error fetching items:', error);
+      }
     );
   }
 
-  // upload image
-  //  onFileSelected(event: any) {
-  //  const file = event.target.files[0];
-  //    if (file) {
-  //      const reader = new FileReader();
-  //   reader.onload = (e) => {
-  //        this.selectedImage = e.target.result as string;
-  //      };
-  //     reader.readAsDataURL(file);
-  //   }
-  //  }
-
-
-  // Create article
-  createarticle(){
-    this.selectedArticle={} as ArticleDto;
-    this.buildForm();
-    this.isModalOpen=true;
-  }
-  editArticle(id:number){
-    this.articleservice.getArticleByIdById(id).subscribe((articles)=>{
-      this.selectedArticle=articles;
-      this.buildForm();
-      this.isModalOpen=true;
-      console.log('Article selected',this.selectedArticle);
-    })
-  }
-  buildForm() {
-    this.form = this.fb.group({
-      
+  buildForm(): void {
+    this.form = this.fb.group({  
       libelle: [ this.selectedArticle.libelle ||'', Validators.required],
       description: [this.selectedArticle.description || null, Validators.required],
       image: [this.selectedArticle.image || null, Validators.required],
@@ -79,9 +55,24 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-  // Save Method
-  save(){
+  createarticle(){
+    this.selectedArticle={} as ArticleDto;
+    this.buildForm();
+    this.isModalOpen=true;
+  }
+ 
+   // Add editBook method
+   editArticle(id:number){
+    this.articleservice.getArticleByIdById(id).subscribe((article)=>{ 
+      this.selectedArticle=article;
+      this.buildForm();
+      this.isModalOpen = true;
+      console.log('Selected client',this.selectedArticle);
+    });
+  }
+  save(): void {
     if(this.form.invalid){return ;}
+    
     const request=this.selectedArticle.id ? this.articleservice.updateArticleByIdAndArticle(this.selectedArticle.id, this.form.value)
     : this.articleservice.createArticleByArticle(this.form.value);
     request.subscribe(() => {
@@ -94,18 +85,27 @@ export class ArticleComponent implements OnInit {
       this.toastr.error(' Create Failed.', 'Error');
       console.error('Error creating vente:', error);
     });
-    
   }
+
+  // onFileSelected(event: Event): void {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   if (inputElement?.files && inputElement.files[0]) {
+  //     const file = inputElement.files[0];
+  //     this.form.patchValue({
+  //       image: file
+  //     });
+  //   }
+  // }
   // Add a delete method
 delete(id: number) {
   this.confirmation.warn('::ArticleDeletionConfirmationMessage', '::Are You Sure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.articleservice.deleteArticleById(id).subscribe(() => this.ngOnInit());
-      this.toastr.success(' Article Deleted successefully.', 'Success');
+      this.toastr.success(' : Article Deleted successefully.', 'Success');
     }
     },(error) => {
       // display an error message
-      this.toastr.error(' we can not delete this articlee.', 'Error');
+      this.toastr.error(' : we can not delete this articlee.', 'Error');
       console.error('Error creating vente:', error);
     });
     

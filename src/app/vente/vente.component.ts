@@ -60,17 +60,17 @@ constructor(
 
   ngOnInit(): void {
     this.loading=true;
-    // // get vente history table
-    // timer(0) 
-    // .pipe(
-    //   switchMap(()=>this.venteService.getVentes())
-    // )
-    // .subscribe((response) => {
-    //    this.ventes = response; 
-    //    this.totalItems=this.ventes.length;
-    //    this.loading=false;
-    //   console.log('Ventes:', this.ventes);
-    // });
+     // get vente history table
+     timer(0) 
+     .pipe(
+       switchMap(()=>this.venteService.getVentes())
+     )
+     .subscribe((response) => {
+        this.ventes = response; 
+        this.totalItems=this.ventes.length;
+        this.loading=false;
+       console.log('Ventes:', this.ventes);
+     });
     // // call clients
     // this.clientService.getAllClients().subscribe((data)=>{
     //   this.clients=data;
@@ -155,6 +155,21 @@ addArticle() {
   onCreate(){
     this.router.navigate(['/createventes']);
   }
+
+  // delete vente
+  deleteVente(codeVente: string) {
+    this.confirmation.warn('Are you sure you want to delete this sale', '::Are You Sure').subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        this.venteService.deleteByCodeVente(codeVente).subscribe(() => this.ngOnInit());
+        this.toastr.success(' :  Sale Deleted successefully.', 'Success ');
+      }
+      },(error) => {
+        // display an error message
+        this.toastr.error(' :  we can not delete this articlee.', 'Error ');
+        console.error('Error creating vente:', error);
+    });
+  } 
+  
 }
 
 

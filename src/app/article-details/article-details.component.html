@@ -1,13 +1,18 @@
 <div *ngIf="article" class="mb-4">
-    <h1 class="">{{ article.libelle }}</h1>
+    
     <div class="row">
         <div class="col-4 image-column">
          <img [src]="article.image" [alt]="article.libelle" width="500">
         </div>
         <div class="col-1 vertical-line"></div>
         <div class="col-7 ">
+            <h1 class="text-warning">{{ article.libelle }}</h1>
+            <br>
+            <hr>
             <p class="mt-4"><b>Description:</b> {{ article.description }}</p>
+            <hr> 
             <p><b>Price:</b> {{ article.price }} DH</p>
+            <hr>
             <p><b>Quantity in stock:</b> {{ article.quantityinStock }} {{article.libelle}}</p>
      </div>
     </div>

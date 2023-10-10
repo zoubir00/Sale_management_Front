@@ -1,0 +1,158 @@
+
+<h1 class="text-warning text-center">Edit Vente</h1>
+<!-- Vente Details Form -->
+<!-- Vente Details Table -->
+<form [formGroup]="venteForm" (ngSubmit)="editevente()">
+<table class="table">
+    <thead>
+      <tr>
+        <th>Sale code</th>
+        <th>Client Name</th>
+        <th>Date Vente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" formControlName="venteCode" [value]="vente?.id" class="form-control" disabled></td>
+        <td>
+          <select id="clientId" formControlName="newcClientId"  class="form-control" required>
+            <option [value]="null">Select client</option>
+            <option [value]="vente.client.id" *ngFor="let client of clients">{{client.fName}} {{client.lName}}</option>
+          </select>
+        </td>
+        <!-- <input type="text"  [value]="vente?.client.fName + ' ' + vente?.client.lName" class="form-control" disabled > -->
+        <td><input type="date" formControlName="newDateVente" [value]="vente?.dateVente | date: 'yyyy/MM/dd'" class="form-control" ></td>
+      </tr>
+    </tbody>
+</table>
+<div class="text-end mb-3 "><button class="btn btn-outline-success" (click)="createArticle()">
+  Add article
+</button></div>
+<!-- Vente Lines Table -->
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Line number</th>
+        <th>Article Sold</th>
+        <th>Quantity Sold</th>
+        <th>Total Price</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody formArrayName="venteLines">
+      <tr *ngFor="let venteLine of venteLinesControls; let i = index;"  >
+        <td><input type="number" [value]="venteLine?.id" class="form-control" disabled></td>
+        <td>
+          <select id="articleId" [formControl]="venteLinesControls[i].get('articleId')"  class="form-control" required>
+            <option [value]="null">Select article</option>
+            <option [value]="venteLine.articleId" *ngFor="let article of articles">{{article.libelle}}</option>
+          </select>
+        </td>
+        <td><input type="text" [value]="venteLine?.qtySold" [formControl]="venteLinesControls[i].get('qtySold')"  class="form-control" ></td>
+        <td><input type="text" [value]="venteLine?.totalPrice" class="form-control" disabled></td>
+        <td><button class="btn rounded btn-outline-danger" (click)="deleteVenteLine(vente?.id,venteLine?.id)"><i class="bi bi-trash3"></i>Delete</button></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total Quantity Sold = <input type="text" [value]="vente?.qtyTotal" class="form-control" disabled></td>
+        <td>Total amount = <input type="text" [value]="vente?.totalAmount " class="form-control" disabled></td>
+      </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-success mb-3" type="submit">
+  Valid
+</button>
+</form>
+<!-- Vente Details Table -->
+<!-- <table class="table">
+    <thead>
+      <tr>
+        <th>Sale code</th>
+        <th>Client Name</th>
+        <th>Date Vente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ vente.id }}</td>
+        <td>{{ vente.client.fName }} {{ vente.client.lName }}</td>
+        <td>{{ vente.dateVente | date: 'dd/MM/yyyy' }}</td>
+      </tr>
+    </tbody>
+  </table> -->
+  
+  <!-- Vente Lines Table -->
+  <!-- <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Line nubmer</th>
+        <th>Article Sold</th>
+        <th>Quantity Sold</th>
+        <th>Total Price</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venteLine of vente.venteLines">
+        <td >{{ venteLine.id }}</td>
+        <td>{{ venteLine.articlelebelle }}</td>
+        <td>{{ venteLine.qtySold }}</td>
+        <td>{{ venteLine.totalPrice }}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total Quantity Sold = {{vente.qtyTotal}}</td>
+        <td> Total amount = {{ vente.totalAmount }} DH</td>
+      </tr>
+    </tbody>
+  </table>
+   -->
+   <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+      <h3>New sale line</h3>
+    </ng-template>
+   
+  
+    <ng-template #abpBody>
+      <form [formGroup]="venteLineForm">
+        <table class="table">
+          <thead>
+            <th>Article</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+          </thead>
+          <tbody>
+            <td>
+              <select formControlName="articleId" class="form-control">
+                <option [ngValue]="null">Select Article</option>
+                <option *ngFor="let article of articles" [ngValue]="article.id">{{ article.libelle }}</option>
+              </select>
+            </td>
+            <td><input formControlName="qtySold" class="form-control" /></td>
+            <td class="d-hidden"><input formControlName="totalPrice" class="form-control" type="number" disabled/> </td>
+          </tbody>
+        </table>
+      </form>
+    </ng-template>
+  
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" abpClose>Close</button>
+       <!--added save button-->
+    <button class="btn btn-outline-success " (click)="addVenteline()" [disabled]="this.venteLineForm.invalid" >
+      <i class="fa fa-check mr-1"></i>
+      Submit
+  </button>
+    </ng-template>
+  </abp-modal>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
+import { CommonModule } from '@angular/common';
 
 import { ArticleRoutingModule } from './article-routing.module';
 import { ArticleComponent } from './article.component';
@@ -10,7 +11,7 @@ import { ArticleComponent } from './article.component';
     ArticleComponent
   ],
   imports: [
-    ArticleRoutingModule,SharedModule
+    ArticleRoutingModule,SharedModule,CommonModule
   ]
 })
 export class ArticleModule { }
