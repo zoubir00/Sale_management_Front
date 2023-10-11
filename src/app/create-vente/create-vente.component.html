@@ -1,5 +1,5 @@
 <div class="container">
-    <h2 class="text-center text-warning">Add Sale</h2>
+    <h2 class="text-center text-secondary">Add Sale</h2>
     
     <form [formGroup]="venteForm" (ngSubmit)="onSubmit()">
       <table class="table table-striped table-hover">
@@ -18,12 +18,12 @@
             </select>
           </td>
           <td>
-            <input type="date" id="dateVente" formControlName="dateVente" class="form-control" required />
+            <input type="datetime-local" id="dateVente" formControlName="dateVente" class="form-control" required />
           </td>
         </tbody>
       </table>
       
-      <button type="button" class="btn btn-primary me-3" (click)="addVenteLine()">Add Sale Line</button>
+      <button type="button" class="btn btn-success me-3" (click)="addVenteLine()">Add article</button>
 
       <!-- Vente Lines Input Fields -->
       <table class="table table-striped table-hover">
@@ -52,10 +52,10 @@
       
       <div class="row mb-4 mt-4" >
         <div class="col-6">
-          <button type="submit" class="btn btn-success mt-3 text-start">Valid</button>
+          <button type="submit" class="btn btn-outline-primary mt-3 text-start">Valid</button>
         </div>
         <div class="col-6 text-end">
-          <button type="button" class="btn btn-secondary mt-3 " routerLink="/ventes">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary mt-3 " routerLink="/ventes">Cancel</button>
         </div>
       </div>
     </form>

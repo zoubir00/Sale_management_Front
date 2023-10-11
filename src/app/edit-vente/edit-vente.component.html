@@ -1,5 +1,5 @@
 
-<h1 class="text-warning text-center">Edit Vente</h1>
+<h1 class="text-secondary text-center mb-4">Edit Sale</h1>
 <!-- Vente Details Form -->
 <!-- Vente Details Table -->
 <form [formGroup]="venteForm" (ngSubmit)="editevente()">
@@ -17,16 +17,15 @@
         <td>
           <select id="clientId" formControlName="newcClientId"  class="form-control" required>
             <option [value]="null">Select client</option>
-            <option [value]="vente.client.id" *ngFor="let client of clients">{{client.fName}} {{client.lName}}</option>
+            <option [ngValue]="vente.client.id" >{{vente.client.fName}} {{vente.client.lName}}</option>
           </select>
         </td>
-        <!-- <input type="text"  [value]="vente?.client.fName + ' ' + vente?.client.lName" class="form-control" disabled > -->
-        <td><input type="date" formControlName="newDateVente" [value]="vente?.dateVente | date: 'yyyy/MM/dd'" class="form-control" ></td>
+        <td><input type="datetime-local" formControlName="newDateVente" [value]="vente?.dateVente" class="form-control"></td>
       </tr>
     </tbody>
 </table>
-<div class="text-end mb-3 "><button class="btn btn-outline-success" (click)="createArticle()">
-  Add article
+<div class="text-end mb-3 "><button class="btn btn-primary rounded-circle" (click)="createArticle()">
+  <i class="bi bi-plus-circle"></i>
 </button></div>
 <!-- Vente Lines Table -->
 <table class="table table-hover">
@@ -42,16 +41,21 @@
     </thead>
     <tbody formArrayName="venteLines">
       <tr *ngFor="let venteLine of venteLinesControls; let i = index;"  >
-        <td><input type="number" [value]="venteLine?.id" class="form-control" disabled></td>
+        <td><input type="number" [formControl]="venteLinesControls[i].get('id')" class="form-control" disabled></td>
         <td>
           <select id="articleId" [formControl]="venteLinesControls[i].get('articleId')"  class="form-control" required>
             <option [value]="null">Select article</option>
-            <option [value]="venteLine.articleId" *ngFor="let article of articles">{{article.libelle}}</option>
+            <option [value]="article.id" *ngFor="let article of articles">{{article.libelle}}</option>
           </select>
         </td>
-        <td><input type="text" [value]="venteLine?.qtySold" [formControl]="venteLinesControls[i].get('qtySold')"  class="form-control" ></td>
-        <td><input type="text" [value]="venteLine?.totalPrice" class="form-control" disabled></td>
-        <td><button class="btn rounded btn-outline-danger" (click)="deleteVenteLine(vente?.id,venteLine?.id)"><i class="bi bi-trash3"></i>Delete</button></td>
+        <td><input type="text" [formControl]="venteLinesControls[i].get('qtySold')" class="form-control"></td>
+        <td><input
+          type="text"
+          [value]="(venteLinesControls[i].get('totalPrice').value | number:'1.2-2')+ ' MAD'"
+          class="form-control"
+          disabled
+        ></td>
+        <td><button class="btn rounded btn-outline-danger rounded-circle" (click)="deleteVenteLine(vente?.id,venteLinesControls[i].get('id').value)"><i class="bi bi-trash3"></i></button></td>
         <td></td>
       </tr>
       <tr>
@@ -59,15 +63,19 @@
         <td></td>
         <td></td>
         <td></td>
-        <td>Total Quantity Sold = <input type="text" [value]="vente?.qtyTotal" class="form-control" disabled></td>
-        <td>Total amount = <input type="text" [value]="vente?.totalAmount " class="form-control" disabled></td>
+        <td>Total Quantity Sold  <input type="text" [value]="vente?.qtyTotal" class="form-control" disabled></td>
+        <td>Total amount  <input type="text" [value]=" (vente?.totalAmount | number:'1.2-2')+' MAD'" class="form-control" disabled></td>
       </tr>
     </tbody>
 </table>
-
-<button class="btn btn-success mb-3" type="submit">
-  Valid
-</button>
+<div class="row mb-4 mt-4">
+  <div class="col-6 text-start">
+    <button class="btn btn-outline-primary mb-3" type="submit">Valid</button>
+  </div>
+  <div class="col-6 text-end">
+    <button type="button" class="btn btn-outline-secondary mt-3 " [routerLink]="['/saledetails/',vente.id]">Cancel</button>
+  </div>
+</div>
 </form>
 <!-- Vente Details Table -->
 <!-- <table class="table">
@@ -131,7 +139,7 @@
           <thead>
             <th>Article</th>
             <th>Quantity</th>
-            <th>Total Price</th>
+            <th></th>
           </thead>
           <tbody>
             <td>
@@ -141,18 +149,18 @@
               </select>
             </td>
             <td><input formControlName="qtySold" class="form-control" /></td>
-            <td class="d-hidden"><input formControlName="totalPrice" class="form-control" type="number" disabled/> </td>
+            <td ><input formControlName="totalPrice" class="form-control" type="hidden" disabled/> </td>
           </tbody>
         </table>
       </form>
     </ng-template>
   
     <ng-template #abpFooter>
-      <button type="button" class="btn btn-secondary" abpClose>Close</button>
+      <button type="button" class="btn btn-outline-secondary" abpClose>Close</button>
        <!--added save button-->
-    <button class="btn btn-outline-success " (click)="addVenteline()" [disabled]="this.venteLineForm.invalid" >
+    <button class="btn btn-outline-primary " (click)="addVenteline()" [disabled]="this.venteLineForm.invalid" >
       <i class="fa fa-check mr-1"></i>
-      Submit
+      Valid
   </button>
     </ng-template>
   </abp-modal>

@@ -60,7 +60,7 @@ export class ClientComponent implements OnInit {
     this.form = this.fb.group({
       fName: [this.selectClient.fName || '', Validators.required],
       lName: [this.selectClient.lName || null, Validators.required],
-      email: [this.selectClient.email || null, Validators.required],
+      email: [this.selectClient.email || null,  [Validators.required, Validators.email]],
       phoneNumber: [this.selectClient.phoneNumber || null, Validators.required],
     });
   }
@@ -76,7 +76,7 @@ export class ClientComponent implements OnInit {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();
-      this.toastr.success(' Operation successed.', 'Success');
+      this.toastr.success(' : Operation successed', 'Success');
     });
   }
 
@@ -85,11 +85,11 @@ delete(id: number) {
   this.confirmation.warn('::ClientDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.clientservice.deleteClientById(id).subscribe(() => this.ngOnInit());
-      this.toastr.success(' Client Deleted successefully.', 'Success');
+      this.toastr.warn(' : Client Deleted successefully.', 'Warning');
     }
   },(error) => {
     // display an error message
-    this.toastr.error(' we can not delete this Client.', 'Error');
+    this.toastr.error(' : we can not delete this Client.', 'Error');
     console.error('Error creating vente:', error);
   });
 }

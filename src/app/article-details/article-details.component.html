@@ -6,12 +6,13 @@
         </div>
         <div class="col-1 vertical-line"></div>
         <div class="col-7 ">
-            <h1 class="text-warning">{{ article.libelle }}</h1>
+            <h1 class="text-secondary">{{ article.libelle }}</h1>
             <br>
             <hr>
-            <p class="mt-4"><b>Description:</b> {{ article.description }}</p>
-            <hr> 
-            <p><b>Price:</b> {{ article.price }} DH</p>
+            <p><b class="text-black">Price:</b> {{ (article.price | number:'1.2-2')+' MAD' }} </p>
+            <hr>
+            <p class="mt-4"><b>Description:</b> {{ article.description }}</p>           
+            
             <hr>
             <p><b>Quantity in stock:</b> {{ article.quantityinStock }} {{article.libelle}}</p>
      </div>

@@ -79,10 +79,10 @@ export class ArticleComponent implements OnInit {
       this.isModalOpen = false;
       this.form.reset();
       this.ngOnInit();
-      this.toastr.success(' Operation successed.', 'Success');
+      this.toastr.success(' : Operation successed.', 'Success');
     },(error) => {
       // Handle error, e.g., display an error message
-      this.toastr.error(' Create Failed.', 'Error');
+      this.toastr.error(' : Create Failed.', 'Error');
       console.error('Error creating vente:', error);
     });
   }
@@ -101,7 +101,7 @@ delete(id: number) {
   this.confirmation.warn('::ArticleDeletionConfirmationMessage', '::Are You Sure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.articleservice.deleteArticleById(id).subscribe(() => this.ngOnInit());
-      this.toastr.success(' : Article Deleted successefully.', 'Success');
+      this.toastr.warn(' : Article Deleted successefully.', 'Warning');
     }
     },(error) => {
       // display an error message

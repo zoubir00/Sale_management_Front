@@ -8,6 +8,7 @@ import { ArticleDto } from '@proxy/articles';
 import { ClientsService , ArticlesService ,VenteService} from '@proxy/controllers'; 
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -32,7 +33,9 @@ export class EditVenteComponent implements OnInit {
     private clientService: ClientsService,
     private articleService: ArticlesService,
     private router: Router,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private datePipe: DatePipe,
+    private toastr:ToasterService
   ) {
     this.loadForm();
     
@@ -40,41 +43,63 @@ export class EditVenteComponent implements OnInit {
 
   loadForm(){
     this.venteForm = this.fb.group({
-        venteCode: ['', Validators.required],
+        venteCode: [{ value: '', disabled: true }, Validators.required],
         newDateVente: ['', Validators.required],
         newcClientId: ['', Validators.required],
         venteLines: this.fb.array([]) 
     }); 
   }
-  setVenteLinesControls(venteLines: VenteLinesDto[]) {
-    const controls = venteLines.map(line => this.fb.group({
-      id: [line.id],
-      articleId: [line.articleId, Validators.required],
-      qtySold: [line.qtySold, Validators.required],
-      totalPrice: [line.totalPrice] // Assuming you want to display total price but not edit it
-    }));
+ 
 
-    const formArray = this.fb.array(controls);
-    this.venteForm.setControl('venteLines', formArray);
-  }
 
    // get vente
-   LoadVente(){
-    const codeVente=this.route.snapshot.paramMap.get('codeVente');
-    this.service.venteDetailsByCodeVente(codeVente).subscribe((vente:any)=>{
-      this.vente=vente;
+   LoadVente() {
+    const codeVente = this.route.snapshot.paramMap.get('codeVente');
+    this.service.venteDetailsByCodeVente(codeVente).subscribe((vente: any) => {
+      this.vente = vente;
       this.venteForm.patchValue({
-        venteCode:this.vente.id,
-        newDateVente:this.vente.dateVente,
-        newcClientId:this.vente.client.id,
-        venteLines:this.vente.venteLines
+        venteCode: this.vente.id,
+        newDateVente: this.vente.dateVente,
+        newcClientId: this.vente.client.id
       });
-      console.log('vente details',this.vente);
-    },
-    (error)=>{
-      console.error('error fetching vente details',error)
+  
+      // Clear existing venteLines form array
+      const venteLinesArray = this.venteForm.get('venteLines') as FormArray;
+      venteLinesArray.clear();
+  
+      // Populate venteLines form array with values from vente.venteLines
+      this.vente.venteLines.forEach(venteLine => {
+        venteLinesArray.push(this.fb.group({
+          id: [venteLine.id],
+          articleId: [venteLine.articleId, Validators.required],
+          qtySold: [venteLine.qtySold, Validators.required],
+          totalPrice: [venteLine.totalPrice]
+        }));
+      });
+  
+      console.log('vente details', this.vente);
+    }, (error) => {
+      console.error('error fetching vente details', error);
     });
   }
+  
+  //  LoadVente(){
+  //   const codeVente=this.route.snapshot.paramMap.get('codeVente');
+  //   this.service.venteDetailsByCodeVente(codeVente).subscribe((vente:any)=>{
+  //     this.vente=vente;
+  //     this.venteForm.patchValue({
+  //       venteCode:this.vente.id,
+  //       newDateVente:this.vente.dateVente,
+  //       newcClientId:this.vente.client.id,
+  //       venteLines:this.vente.venteLines
+  //     });
+
+  //     console.log('vente details',this.vente);
+  //   },
+  //   (error)=>{
+  //     console.error('error fetching vente details',error)
+  //   });
+  // }
 
   initializeForm() {
     this.venteLineForm = this.fb.group({
@@ -128,6 +153,8 @@ export class EditVenteComponent implements OnInit {
           venteLines
         ).subscribe(
           (response) => {
+            this.ngOnInit();
+            this.toastr.info(' : Successed update', 'Info');
             console.log('Vente updated successfully!', response);
             // Handle success, maybe redirect the user or show a success message
           },
@@ -150,6 +177,7 @@ export class EditVenteComponent implements OnInit {
           // Reset the form after successful submission
           this.venteLineForm.reset();
           this.LoadVente();
+          this.toastr.success(' : Added successfully', 'Success');
         }, error => {
           // Handle errors here, if needed
           console.error('Error adding vente line:', error);

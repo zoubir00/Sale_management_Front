@@ -11,6 +11,7 @@
 </div>
 <!--  -->
 <br>
+
 <!--  -->
 <div id="carouselExampleCaptions" class="carousel slide">
   <div class="carousel-inner">
@@ -18,7 +19,7 @@
       <img [src]="article.image" class="d-block w-100" height="600px;" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h3>{{article.libelle}}</h3>
-        <p>{{article.price}}.00 DH</p>
+        <p>{{article.price}}.00 MAD</p>
       </div>
     </div>
   </div>
@@ -35,7 +36,7 @@
 <hr>
 <!-- articles -->
 <div class="row mt-5 mb-5">
-  <h2 class="text-warning">Most sold articles >></h2>
+  <h2 class="text-secondary">Articles >></h2>
   <!-- <h2 class="text-center text-warning">Articles list</h2> -->
 <div *ngFor="let article of articles; let i=index;" class="col-md-4">
   <div class="card hover-card" [routerLink]="['/articleDetail/', article.id]" >

@@ -1,0 +1,14 @@
+.custom-dropdown .btn-secondary {
+    background-color: #ffffff; /* Button background color */
+    border-color: #f7fafd; /* Button border color */
+    color: #6c757d; /* Button text color */
+    opacity: 0.5;
+}
+
+.custom-dropdown .btn-secondary:hover {
+    background-color: #f8f9fa; /* Button background color on hover */
+}
+
+.custom-dropdown .btn-secondary span {
+    margin-right: 5px; /* Adjust spacing between the ellipsis and text */
+}

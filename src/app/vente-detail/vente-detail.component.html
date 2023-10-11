@@ -1,15 +1,32 @@
 
-  <h1 class="text-center text-warning">Sale details</h1>
   <div class="row">
-    <div class="col text-end mb-3">
-          <button class="btn btn-outline-primary "  [routerLink]="['/editVente/',vente.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-            Edit</button>
+    <div class="col-6 text-start">
+      <button type="button" class="btn btn-outline-secondary" routerLink="/ventes" ><i class="bi bi-arrow-return-left"></i> sales</button>
 
     </div>
-
+    <div class="col-6 text-end mb-3">
+      <div class="btn-group custom-dropdown dropend">
+        <button type="button" class="btn btn-secondary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+          :
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <button type="button" class="dropdown-item"  (click)="captureScreen()"><i class="bi bi-download"></i> Get bill</button>
+          </li>
+          <li><button class="dropdown-item" [routerLink]="['/editVente/',vente.id]"><i class="bi bi-pencil-square text-primary"></i> Edit</button>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-<table class="table">
+  <!-- content -->
+<div id="contentToConvert">
+  <h1 class="text-center text-secondary">Bill</h1>
+  <br>
+  <br>
+  <br>
+  <table class="table">
     <thead>
       <tr>
         <th>Sale code</th>
@@ -21,7 +38,7 @@
       <tr>
         <td>{{ vente.id }}</td>
         <td>{{ vente.client.fName }} {{ vente.client.lName }}</td>
-        <td>{{ vente.dateVente | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ vente.dateVente | date: 'MM/dd/yyyy' }}</td>
       </tr>
     </tbody>
   </table>
@@ -43,7 +60,7 @@
         <td >{{ venteLine.id }}</td>
         <td>{{ venteLine.articlelebelle }}</td>
         <td>{{ venteLine.qtySold }}</td>
-        <td>{{ venteLine.totalPrice }}</td>
+        <td>{{ (venteLine.totalPrice | number:'1.2-2')+ ' MAD' }}</td>
         <td></td>
         <td></td>
       </tr>
@@ -53,8 +70,10 @@
         <td></td>
         <td></td>
         <td>Total Quantity Sold = {{vente.qtyTotal}}</td>
-        <td> Total amount = {{ vente.totalAmount }} DH</td>
+        <td> Total amount = {{ (vente.totalAmount | number:'1.2-2')+' MAD' }} </td>
       </tr>
     </tbody>
   </table>
+</div>
+
   

@@ -1,10 +1,11 @@
-<nav class="navbar navbar-expand-lg bg-warning mb-4">
+<nav class="navbar navbar-expand-lg bg-white mb-4" style="
+box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
   <div class="container-fluid">
       <a class="navbar-brand" href="/"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" height="200" alt=""></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="offcanvas offcanvas-end bg-warning" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" height="200" alt=""></h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -12,26 +13,26 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active text-white" href="/"><i class="bi bi-house"></i> Home
+            <a class="nav-link active " href="/"><i class="bi bi-house"></i> Home
               <span class="visually-hidden">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/clients"><i class="bi bi-file-earmark-person"></i> Clients</a>
+            <a class="nav-link " routerLink="/clients"><i class="bi bi-file-earmark-person"></i> Clients</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/articles"><i class="bi bi-clipboard-check"></i> Articles</a>
+            <a class="nav-link " href="/articles"><i class="bi bi-clipboard-check"></i> Articles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/ventes"><i class="bi bi-clock-history"></i> Sales history</a>
+            <a class="nav-link " href="/ventes"><i class="bi bi-clock-history"></i> Sales history</a>
           </li>
         </ul>
       </div>
     </div>
   </div>
 </nav>
-<div class="container">
+<div class="container mb-5 mt-5">
     <router-outlet></router-outlet>
 </div>
-<div class="container-fluid bg-warning" style="height: 40px; width: 100%;">
+<div class="container-fluid bg-white mt-5" style="height: 40px; width: 100%; box-shadow: -1px -23px 31px 1px rgba(94, 80, 80, 0.45)">
 <h4 class="text-center"><small>{{year}} </small> <i class="text-primary">E</i>Products </h4></div>

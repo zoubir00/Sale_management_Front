@@ -161,7 +161,7 @@ addArticle() {
     this.confirmation.warn('Are you sure you want to delete this sale', '::Are You Sure').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.venteService.deleteByCodeVente(codeVente).subscribe(() => this.ngOnInit());
-        this.toastr.success(' :  Sale Deleted successefully.', 'Success ');
+        this.toastr.warn(' : Sale Deleted successefully.', 'Warning');
       }
       },(error) => {
         // display an error message

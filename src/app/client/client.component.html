@@ -1,10 +1,13 @@
+
 <!-- Add the "new client" button here -->
-<div class="row">
-  <div class="text-end b-3"><button class="btn btn-outline-success" (click)="createClient()">
+
+<div class="row mt-5">
+  <div class="text-end b-3"><button class="btn btn-outline-primary" (click)="createClient()">
     <i class="bi bi-person-plus"></i> <span>  {{'::NewClient' | abpLocalization}}</span>
 </button></div>
+
 <div class="row">
-  <h2 class="text-start text-warning mb-4 mt-4">Clients list</h2>
+  <h2 class="text-start text-secondary mb-4 mt-4">Clients list</h2>
 </div>
 
  <table class="table table-striped table-hover">
@@ -16,32 +19,36 @@
         <th scope="col">Email</th>
         <th scope="col">Phone number</th>
         <th scope="col text-end">Actions</th>
-        <th scope="col"></th>
         
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let client of client; let i=index">
         <td><i class="bi bi-person"></i></td>
-        <td>{{client.fName}}</td>
-        <td>{{client.lName}}</td>
-        <td>{{client.email}}</td>
-        <td>{{client.phoneNumber}}</td>
-        <td><button class="btn btn btn-outline-primary" (click)=" editClient(client.id)"><i class="bi bi-pencil-square"></i> Edit client</button></td>
-        <td><button class="btn btn-outline-danger" (click)="delete(client.id)"><i class="bi bi-person-x-fill"></i> Delete Client</button>
+        <td class="text-black">{{client.fName}}</td>
+        <td class="text-black">{{client.lName}}</td>
+        <td class="text-black">{{client.email}}</td>
+        <td class="text-black">{{client.phoneNumber}}</td>
+        <td>
+          <!-- Default dropend button -->
+          <div class="btn-group custom-dropdown dropend">
+            <button type="button" class="btn btn-secondary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+              :
+            </button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" (click)="editClient(client.id)"><i class="bi bi-pencil-square text-primary"></i> Edit</button>
+              </li>
+              <li><button class="dropdown-item" (click)="delete(client.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
+            </ul>
+          </div>
         </td>
       </tr>
-      
-     
     </tbody>
   </table> 
-  
 <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
   <ng-template #abpHeader>
     <h3>{{ (selectClient.id ? '::Edit' : '::NewClient' ) | abpLocalization }}</h3>
   </ng-template>
- 
-
   <ng-template #abpBody>
      <form [formGroup]="form" (ngSubmit)="save()">
     <div class="form-floating mb-3">
@@ -64,9 +71,9 @@
   </ng-template>
 
   <ng-template #abpFooter>
-    <button type="button" class="btn btn-secondary" abpClose>Close</button>
+    <button type="button" class="btn btn-outline-secondary" abpClose>Close</button>
      <!--added save button-->
-  <button class="btn btn-outline-success" (click)="save()" [disabled]="form.invalid">
+  <button class="btn btn-outline-primary" (click)="save()" [disabled]="form.invalid">
     <i class="fa fa-check mr-1"></i>
     Valid
 </button>

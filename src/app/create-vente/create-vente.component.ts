@@ -25,7 +25,8 @@ export class CreateVenteComponent implements OnInit {
      private service: VenteService,
     private clientService: ClientsService,
     private articleService: ArticlesService,
-    private router: Router) {
+    private router: Router,
+    private toastr:ToasterService) {
     
   }
   ngOnInit(): void {
@@ -43,7 +44,7 @@ export class CreateVenteComponent implements OnInit {
       venteCode: ['', Validators.required],
       clientId: ['', Validators.required],
       dateVente: [''],
-      venteLines: this.formBuilder.array([]) // You can initialize it as an empty array or with predefined values
+      venteLines: this.formBuilder.array([]) 
     });
   }
   onSubmit() {
@@ -62,20 +63,20 @@ export class CreateVenteComponent implements OnInit {
         formData.venteLines
       ).subscribe(
         (response) => {
-          // Handle success response here
           console.log("Vente added successfully:", response);
-          // Optionally, reset the form after successful submission
-          this.venteForm.reset();
+          const codeVente = response.id;
+          this.toastr.success(' : Operation successed', 'Success');
+          this.router.navigate(['/saledetails', codeVente]);
+          
           // navigate to ventes page
-          this.router.navigate(['/ventes']);
+          // this.router.navigate(['/ventes']);
         },
         (error) => {
-          // Handle error response here
           console.error("Error occurred while adding vente:", error);
         }
       );
     } else {
-      // Handle the case where the form is invalid
+      //  where the form is invalid
       console.log('Form Valid:', this.venteForm.valid);
       console.log('Form Errors:', this.venteForm.errors);
       console.log('Form Controls:', this.venteForm.controls);
