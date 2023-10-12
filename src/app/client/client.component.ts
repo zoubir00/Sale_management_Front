@@ -21,7 +21,8 @@ export class ClientComponent implements OnInit {
 
   form:FormGroup;
   isModalOpen=false;
- 
+  isLoading: boolean = true;
+
   constructor(
     public readonly list:ListService,
     private clientservice:ClientsService, 
@@ -31,6 +32,9 @@ export class ClientComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
     const clientStreamCreator = (query) => this.clientservice.getAllClients(query);
     this.list.hookToQuery(clientStreamCreator).subscribe((response) => {
       console.log('Raw Data from Service:', response);

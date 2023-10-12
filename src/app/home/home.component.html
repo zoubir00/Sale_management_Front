@@ -11,9 +11,17 @@
 </div>
 <!--  -->
 <br>
-
+<div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
+  <div class="fadein animation-duration-2000 animation-iteration-infinite flex align-items-center justify-content-center
+      font-bold  border-round m-2 px-5 py-3">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+  </div>
+</div>
 <!--  -->
-<div id="carouselExampleCaptions" class="carousel slide">
+<!-- <div id="carouselExampleCaptions" class="carousel slide">
   <div class="carousel-inner">
     <div class="carousel-item" *ngFor="let article of articles; let i=index; let isFirst=first" [ngClass]="{ 'active': isFirst }">
       <img [src]="article.image" class="d-block w-100" height="600px;" alt="...">
@@ -31,12 +39,12 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div>
+</div> -->
 <br>
 <hr>
 <!-- articles -->
-<div class="row mt-5 mb-5">
-  <h2 class="text-secondary">Articles >></h2>
+<div class="row mt-5 mb-5" *ngIf="!isLoading">
+  <h2 class="text-secondary">Articles</h2>
   <!-- <h2 class="text-center text-warning">Articles list</h2> -->
 <div *ngFor="let article of articles; let i=index;" class="col-md-4">
   <div class="card hover-card" [routerLink]="['/articleDetail/', article.id]" >

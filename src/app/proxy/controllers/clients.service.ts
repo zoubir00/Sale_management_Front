@@ -22,7 +22,7 @@ export class ClientsService {
   deleteClientById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'DELETE',
-      url: `/api/Clients/delete/${id}`,
+      url: `/api/Clients/deleteClient/${id}`,
     },
     { apiName: this.apiName,...config });
   

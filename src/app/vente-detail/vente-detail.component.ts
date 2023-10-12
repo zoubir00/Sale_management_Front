@@ -12,7 +12,8 @@ import html2canvas from 'html2canvas';
 export class VenteDetailComponent implements OnInit {
 
 vente:any;
-  
+isLoading: boolean = true;
+
   constructor(
     private service:VenteService,
     private route:ActivatedRoute
@@ -20,6 +21,9 @@ vente:any;
 
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
     const codeVente=this.route.snapshot.paramMap.get('codeVente');
 
     this.service.venteDetailsByCodeVente(codeVente).subscribe((vente:any)=>{

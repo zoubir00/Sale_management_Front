@@ -50,7 +50,13 @@
   --lpx-logo: url('/assets/images/logo/logo-light.png');
   --lpx-logo-icon: url('/assets/images/logo/logo-light-thumbnail.png');
 }
-
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
 .custom-dropdown .btn-secondary {
   background-color: #ffffff; /* Button background color */
   border-color: #f7fafd; /* Button border color */

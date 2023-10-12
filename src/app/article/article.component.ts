@@ -6,6 +6,7 @@ import { ArticleDto } from '@proxy/articles';
 import { PagedResultDto } from '@abp/ng.core';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { ToasterService } from '@abp/ng.theme.shared';
+import { switchMap, timer } from 'rxjs';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class ArticleComponent implements OnInit {
   // the article
   articles = { items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
   selectedImage: string;
-  
+  isLoading: boolean = true;
+
   constructor(
   private articleservice:ArticlesService,
   private fb: FormBuilder,
@@ -32,10 +34,16 @@ export class ArticleComponent implements OnInit {
  
   ngOnInit(): void {
     this.loadArticles();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   loadArticles(): void {
-    this.articleservice.getAllArticle().subscribe(
+    timer(1000).pipe(
+      switchMap(()=> this.articleservice.getAllArticle())
+    )
+   .subscribe(
       (data) => {
         this.articles = data;
       },

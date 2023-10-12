@@ -26,6 +26,7 @@ export class EditVenteComponent implements OnInit {
   venteLineForm: FormGroup;
     venteForm: FormGroup;
     venteLinesData: any[]=[];
+    isLoading: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -188,6 +189,9 @@ export class EditVenteComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
     this.loadClients();
     this.loadArticles();
     this.loadVentes();

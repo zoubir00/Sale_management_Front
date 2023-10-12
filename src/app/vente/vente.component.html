@@ -13,8 +13,14 @@
   </div>
 </div>
 
- <div *ngIf="loading" class="loading-spinner">
-  <mat-progress-spinner mode="indeterminate" color="warn"></mat-progress-spinner>
+<div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
+  <div class="fadein animation-duration-2000 animation-iteration-infinite flex align-items-center justify-content-center
+      font-bold  border-round m-2 px-5 py-3">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+  </div>
 </div> 
 <div class="row">
   

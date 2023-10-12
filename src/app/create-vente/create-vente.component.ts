@@ -20,6 +20,8 @@ export class CreateVenteComponent implements OnInit {
   venteForm: FormGroup;
   clients={} as ClientDto;
   articles={} as ArticleDto;
+  isLoading: boolean = true;
+
   constructor(
     private formBuilder: FormBuilder,
      private service: VenteService,
@@ -30,6 +32,9 @@ export class CreateVenteComponent implements OnInit {
     
   }
   ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
      // call clients
      this.clientService.getAllClients().subscribe((data)=>{
        this.clients=data;

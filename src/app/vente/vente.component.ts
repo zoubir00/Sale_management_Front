@@ -43,6 +43,8 @@ export class VenteComponent implements OnInit {
  articleForm: FormGroup;
 // selected article
  selectedArticles: { articleId: number, quantity: number }[] = [];
+ isLoading: boolean = true;
+
 constructor(
   public readonly list:ListService,
   private venteService:VenteService,
@@ -59,9 +61,12 @@ constructor(
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
     this.loading=true;
      // get vente history table
-     timer(0) 
+     timer(1000) 
      .pipe(
        switchMap(()=>this.venteService.getVentes())
      )
