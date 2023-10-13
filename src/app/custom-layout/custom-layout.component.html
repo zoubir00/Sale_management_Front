@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-white mb-4" style="
+<!-- <nav class="navbar navbar-expand-lg bg-white mb-4" style="
 box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
   <div class="container-fluid">
-      <a class="navbar-brand" href="/"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" height="200" alt=""></a>
+      <a class="navbar-brand" href="/"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" alt=""></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,9 +30,70 @@ box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
       </div>
     </div>
   </div>
-</nav>
-<div class="container mb-5 mt-5">
-    <router-outlet></router-outlet>
+</nav> -->
+<div class="container-fluid" >
+  <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
+          <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top">
+              <ul class="nav nav-pills flex-column mt-5 mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <br><br><br><br><br>
+                
+                  <li class="nav-item">
+                      <a href="/" class="nav-link align-middle px-0 text-white">
+                          <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                      </a>
+                  </li>
+                  <li>
+                    <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
+                      <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
+                        <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                          <li class="w-100">
+                            <a routerLink="/clients" class="nav-link px-0 text-white"><i class="fs-4 bi-people"></i> <span class="d-none d-sm-inline"> Clients</span></a>
+                        </li>
+                        <li>
+                            <a href="/articles" class="nav-link px-0 text-white"><i class="bi bi-clipboard-check"> </i> <span class="d-none d-sm-inline"> Articles</span></a>
+                        </li>
+                    </ul>
+                </li>
+                  <li>
+                      <a href="/ventes" class="nav-link px-0 align-middle text-white">
+                          <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Sales</span></a>
+                  </li>
+              </ul>
+              <hr>
+              
+          </div>
+      </div>
+      <!-- Body -->
+      <div class="col py-3">
+        <nav class="navbar navbar-expand-lg bg-white mb-4" style="
+box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="/"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" height="150"  width="200px" alt=""></a>
+   
+    <div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      
+      <div class="offcanvas-body ms-5">
+        <div class="text-center">
+    
+          <h1 class="text-primary"><i class="fas fa-rocket" aria-hidden="true"></i> {{ '::Welcome' | abpLocalization }}</h1>
+      
+          <h5 class="m-1 text-primary">
+            Your, <strong><i class="text-warning">E</i>Products </strong>sale management is
+            ready!
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav> 
+        <!--  -->
+        <div class="container mb-5 mt-5">
+          <router-outlet></router-outlet>
+      </div>
+      </div>
+  </div>
 </div>
-<div class="container-fluid bg-white mt-5" style="height: 40px; width: 100%; box-shadow: -1px -23px 31px 1px rgba(94, 80, 80, 0.45)">
+
+<div class="container-fluid bg-white mt-1" style="height: 40px; width: 100%; box-shadow: -1px -23px 31px 1px rgba(94, 80, 80, 0.45)">
 <h4 class="text-center"><small>{{year}} </small> <i class="text-primary">E</i>Products </h4></div>

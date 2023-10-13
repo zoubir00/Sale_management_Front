@@ -10,12 +10,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ArticleDetailsComponent implements OnInit  {
   article: ArticleDto;
+  isLoading: boolean = true;
   /**
    *
    */
   constructor(private route: ActivatedRoute,
     private articleService: ArticlesService) {}
   ngOnInit(): void {
+    
     const articleId = +this.route.snapshot.paramMap.get('id');
 
     // Call the service method to get the article details by ID

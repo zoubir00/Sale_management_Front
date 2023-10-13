@@ -157,11 +157,10 @@ export class EditVenteComponent implements OnInit {
             this.ngOnInit();
             this.toastr.info(' : Successed update', 'Info');
             console.log('Vente updated successfully!', response);
-            // Handle success, maybe redirect the user or show a success message
+            
           },
           (error) => {
-            console.error('Failed to update vente:', error);
-            // Handle errors, show error messages to the user
+            this.toastr.error(' : Quantity Expired', 'Error');  
       });
     } 
   }
@@ -177,11 +176,12 @@ export class EditVenteComponent implements OnInit {
           console.log('Vente line added successfully:', response);
           // Reset the form after successful submission
           this.venteLineForm.reset();
-          this.LoadVente();
+          this.isModalOpen=false;
           this.toastr.success(' : Added successfully', 'Success');
+          this.LoadVente();
         }, error => {
-          // Handle errors here, if needed
-          console.error('Error adding vente line:', error);
+          // Handle quatity error
+          this.toastr.error(' : Quantity Expired', 'Error'); 
         });
     } else {
       // Mark form controls as touched to show validation errors

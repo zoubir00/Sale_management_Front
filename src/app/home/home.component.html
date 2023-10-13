@@ -1,53 +1,222 @@
 <div class="container">
-  <div class="p-5 text-center">
-    
-    <h1 class="text-primary"><i class="fas fa-rocket" aria-hidden="true"></i> {{ '::Welcome' | abpLocalization }}</h1>
-
-    <h5 class="m-1 text-primary">
-      Your, <strong><i class="text-warning">E</i>Products </strong>sale management is
-      ready!
-    </h5>
+  <div class="p-3 text-center">
+    <h2 class="text-secondary" *ngIf="!isLoading">Articles</h2>
   </div>
 </div>
 <!--  -->
-<br>
-<div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
-  <div class="fadein animation-duration-2000 animation-iteration-infinite flex align-items-center justify-content-center
-      font-bold  border-round m-2 px-5 py-3">
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-  </div>
-</div>
-<!--  -->
-<!-- <div id="carouselExampleCaptions" class="carousel slide">
-  <div class="carousel-inner">
-    <div class="carousel-item" *ngFor="let article of articles; let i=index; let isFirst=first" [ngClass]="{ 'active': isFirst }">
-      <img [src]="article.image" class="d-block w-100" height="600px;" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h3>{{article.libelle}}</h3>
-        <p>{{article.price}}.00 MAD</p>
-      </div>
-    </div>
-  </div>
-  <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next bg-dark" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div> -->
-<br>
 <hr>
+<!-- load -->
+<div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
+  <div class="socket">
+    <div class="gel center-gel">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c1 r1">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c2 r1">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c3 r1">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c4 r1">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c5 r1">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c6 r1">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    
+    <div class="gel c7 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    
+    <div class="gel c8 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c9 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c10 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c11 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c12 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c13 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c14 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c15 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c16 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c17 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c18 r2">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c19 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c20 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c21 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c22 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c23 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c24 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c25 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c26 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c28 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c29 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c30 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c31 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c32 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c33 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c34 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c35 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c36 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    <div class="gel c37 r3">
+      <div class="hex-brick h1"></div>
+      <div class="hex-brick h2"></div>
+      <div class="hex-brick h3"></div>
+    </div>
+    
+  </div>
+</div>
 <!-- articles -->
-<div class="row mt-5 mb-5" *ngIf="!isLoading">
-  <h2 class="text-secondary">Articles</h2>
+<div class="row mt-3 mb-5" *ngIf="!isLoading">
   <!-- <h2 class="text-center text-warning">Articles list</h2> -->
-<div *ngFor="let article of articles; let i=index;" class="col-md-4">
-  <div class="card hover-card" [routerLink]="['/articleDetail/', article.id]" >
+<div *ngFor="let article of articles; let i=index;" class="col-md-3">
+  <!--  -->
+  <div class="card mb-5" [routerLink]="['/articleDetail/', article.id]">
+    <div class="card-img">
+      <img [src]="article.image" id="img" width="200px" height="100px" alt="">
+    </div>
+    <div class="card-title">{{article.libelle}}</div>
+    <div class="card-subtitle">{{article.description}}</div>
+    <!-- <hr class="card-divider"> -->
+    <div class="card-footer">
+        <div class="card-price">{{(article.price | number:'1.2-2')+ ' MAD'}}</div>
+    </div>
+</div>
+
+<!--  -->
+  <!-- <div class="card hover-card" [routerLink]="['/articleDetail/', article.id]" >
     <span style="width: 70px;" *ngIf="article.quantityinStock===0" class="badge rounded-pill bg-danger text-white ms-2 mt-2"><h6>EXPIRED</h6></span>
     <img [src]="article.image" id="imgeHover" alt="">
     <div class="text">
@@ -56,7 +225,7 @@
       <p class="text-center"><b>price:</b> {{article.price}}.00 DH</p>
       <p class="text-center"><b>Quantity:</b> {{article.quantityinStock}} {{article.libelle}}</p>
     </div>
-  </div>
+  </div> -->
 </div>
 </div>
 

@@ -77,7 +77,7 @@ export class CreateVenteComponent implements OnInit {
           // this.router.navigate(['/ventes']);
         },
         (error) => {
-          console.error("Error occurred while adding vente:", error);
+          this.toastr.error(' : Quantity Expired', 'Error');
         }
       );
     } else {
