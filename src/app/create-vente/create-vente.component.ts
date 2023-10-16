@@ -72,9 +72,6 @@ export class CreateVenteComponent implements OnInit {
           const codeVente = response.id;
           this.toastr.success(' : Operation successed', 'Success');
           this.router.navigate(['/saledetails', codeVente]);
-          
-          // navigate to ventes page
-          // this.router.navigate(['/ventes']);
         },
         (error) => {
           this.toastr.error(' : Quantity Expired', 'Error');

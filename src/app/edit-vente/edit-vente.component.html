@@ -24,7 +24,7 @@
       </tr>
     </tbody>
 </table>
-<div class="text-end mb-3 "><button class="btn btn-success rounded-circle" (click)="createArticle()">
+<div class="text-end mb-3 "><button type="button" class="btn btn-success rounded-circle" (click)="createArticle()">
   <i class="bi bi-plus-circle"></i>
 </button></div>
  <!-- load -->
@@ -320,40 +320,40 @@
     </tbody>
   </table>
    -->
-   <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
-    <ng-template #abpHeader>
-      <h3>New sale line</h3>
-    </ng-template>
-   
   
-    <ng-template #abpBody>
-      <form [formGroup]="venteLineForm">
-        <table class="table">
-          <thead>
-            <th>Article</th>
-            <th>Quantity</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <td>
-              <select formControlName="articleId" class="form-control">
-                <option [ngValue]="null">Select Article</option>
-                <option *ngFor="let article of articles" [ngValue]="article.id">{{ article.libelle }}</option>
-              </select>
-            </td>
-            <td><input formControlName="qtySold" class="form-control" /></td>
-            <td ><input formControlName="totalPrice" class="form-control" type="hidden" disabled/> </td>
-          </tbody>
-        </table>
-      </form>
-    </ng-template>
+<abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
+  <ng-template #abpHeader>
+    <h3>New sale line</h3>
+  </ng-template>
   
-    <ng-template #abpFooter>
-      <button type="button" class="btn btn-outline-secondary" abpClose>Close</button>
-       <!--added save button-->
+  <ng-template #abpBody>
+  <form [formGroup]="venteLineForm">
+    <table class="table">
+      <thead>
+        <th>Article</th>
+        <th>Quantity</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <td>
+          <select formControlName="articleId" class="form-control">
+            <option [ngValue]="null">Select Article</option>
+            <option *ngFor="let article of articles" [ngValue]="article.id">{{ article.libelle }}</option>
+          </select>
+        </td>
+        <td><input formControlName="qtySold" class="form-control" /></td>
+        <td ><input formControlName="totalPrice" class="form-control" type="hidden" disabled/> </td>
+      </tbody>
+    </table>
+  </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-outline-secondary" abpClose>Close</button>
+      <!--added save button-->
     <button class="btn btn-outline-primary " (click)="addVenteline()" [disabled]="this.venteLineForm.invalid" >
       <i class="fa fa-check mr-1"></i>
       Valid
-  </button>
-    </ng-template>
-  </abp-modal>
+    </button>
+  </ng-template>
+</abp-modal>

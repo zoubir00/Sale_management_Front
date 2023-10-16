@@ -24,9 +24,9 @@ export class EditVenteComponent implements OnInit {
   
   isModalOpen=false;
   venteLineForm: FormGroup;
-    venteForm: FormGroup;
-    venteLinesData: any[]=[];
-    isLoading: boolean = true;
+  venteForm: FormGroup;
+  venteLinesData: any[]=[];
+  isLoading: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -53,8 +53,8 @@ export class EditVenteComponent implements OnInit {
  
 
 
-   // get vente
-   LoadVente() {
+  // get vente
+  LoadVente() {
     const codeVente = this.route.snapshot.paramMap.get('codeVente');
     this.service.venteDetailsByCodeVente(codeVente).subscribe((vente: any) => {
       this.vente = vente;
@@ -142,25 +142,24 @@ export class EditVenteComponent implements OnInit {
   }
   //edit vente
   editevente(){
-      if (this.venteForm.valid) {
-        const formValue = this.venteForm.value;
-        const { venteCode, newDateVente, newcClientId, venteLines } = formValue;
+    if (this.venteForm.valid) {
+      const formValue = this.venteForm.value;
+      const { venteCode, newDateVente, newcClientId, venteLines } = formValue;
   
-        // Call the service method to update vente
-        this.service.updateVenteByVenteCodeAndNewDateVenteAndNewcClientIdAndVenteLines(
-          this.vente.id,
-          newDateVente,
-          newcClientId,
-          venteLines
-        ).subscribe(
-          (response) => {
-            this.ngOnInit();
-            this.toastr.info(' : Successed update', 'Info');
-            console.log('Vente updated successfully!', response);
-            
-          },
-          (error) => {
-            this.toastr.error(' : Quantity Expired', 'Error');  
+     // Call the service method to update vente
+      this.service.updateVenteByVenteCodeAndNewDateVenteAndNewcClientIdAndVenteLines(
+        this.vente.id,
+        newDateVente,
+        newcClientId,
+        venteLines
+      ).subscribe(
+      (response) => {
+        this.ngOnInit();
+        this.toastr.info(' : Successed update', 'Info');
+        console.log('Vente updated successfully!', response);   
+      },
+        (error) => {
+        this.toastr.error(' : Quantity Expired', 'Error');  
       });
     } 
   }
@@ -168,23 +167,19 @@ export class EditVenteComponent implements OnInit {
   addVenteline(){
     if (this.venteLineForm.valid) {
       const newVenteLineDto: VenteLinesDto = this.venteLineForm.value;
-      const venteCode: string = this.vente.id; // Set your vente code here or get it from your component state
+      const venteCode: string = this.vente.id; 
 
       this.service.addVenteLineByVenteCodeAndNewVenteLineDto(venteCode, newVenteLineDto)
-        .subscribe(response => {
-          // Handle the response here, if needed
-          console.log('Vente line added successfully:', response);
-          // Reset the form after successful submission
-          this.venteLineForm.reset();
-          this.isModalOpen=false;
-          this.toastr.success(' : Added successfully', 'Success');
-          this.LoadVente();
-        }, error => {
-          // Handle quatity error
-          this.toastr.error(' : Quantity Expired', 'Error'); 
-        });
+      .subscribe(response => {
+        console.log('Vente line added successfully:', response);
+        this.venteLineForm.reset();
+        this.isModalOpen=false;
+        this.toastr.success(' : Added successfully', 'Success');
+        this.LoadVente();
+      }, error => {
+        this.toastr.error(' : Quantity Expired', 'Error'); 
+      });
     } else {
-      // Mark form controls as touched to show validation errors
       this.venteLineForm.markAllAsTouched();
     }
   }

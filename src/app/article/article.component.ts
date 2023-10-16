@@ -69,8 +69,8 @@ export class ArticleComponent implements OnInit {
     this.isModalOpen=true;
   }
  
-   // Add editBook method
-   editArticle(id:number){
+  // Add editBook method
+ editArticle(id:number){
     this.articleservice.getArticleByIdById(id).subscribe((article)=>{ 
       this.selectedArticle=article;
       this.buildForm();
