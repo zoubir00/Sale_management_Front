@@ -98,15 +98,6 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-  // onFileSelected(event: Event): void {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   if (inputElement?.files && inputElement.files[0]) {
-  //     const file = inputElement.files[0];
-  //     this.form.patchValue({
-  //       image: file
-  //     });
-  //   }
-  // }
   // Add a delete method
 delete(id: number) {
   this.confirmation.warn('::ArticleDeletionConfirmationMessage', '::Are You Sure').subscribe((status) => {
