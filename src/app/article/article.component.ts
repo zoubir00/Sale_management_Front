@@ -9,6 +9,7 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { switchMap, timer } from 'rxjs';
 
 
+
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
@@ -80,7 +81,9 @@ export class ArticleComponent implements OnInit {
   }
   save(): void {
     if(this.form.invalid){return ;}
-    
+    // const articleData = this.form.value;
+    // const imgFile: IFormFile = this.form.get('image').value;
+
     const request=this.selectedArticle.id ? this.articleservice.updateArticleByIdAndArticle(this.selectedArticle.id, this.form.value)
     : this.articleservice.createArticleByArticle(this.form.value);
     request.subscribe(() => {

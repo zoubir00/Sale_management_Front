@@ -21,6 +21,8 @@ export class CreateVenteComponent implements OnInit {
   clients={} as ClientDto;
   articles={} as ArticleDto;
   isLoading: boolean = true;
+  isModalOpen=false;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +33,12 @@ export class CreateVenteComponent implements OnInit {
     private toastr:ToasterService) {
     
   }
+
+  // Add line 
+  createArticle() {
+    this.isModalOpen = true;
+  }
+
   ngOnInit(): void {
     setTimeout(() => {
       this.isLoading = false;
@@ -71,6 +79,7 @@ export class CreateVenteComponent implements OnInit {
           console.log("Vente added successfully:", response);
           const codeVente = response.id;
           this.toastr.success(' : Operation successed', 'Success');
+          this.isModalOpen=false;
           this.router.navigate(['/saledetails', codeVente]);
         },
         (error) => {
@@ -92,7 +101,8 @@ export class CreateVenteComponent implements OnInit {
     venteLines.push(
       this.formBuilder.group({
         articleId: ['', Validators.required],
-        qtySold: ['', Validators.required]
+        qtySold: ['', Validators.required],
+        
       })
     );
   }
@@ -100,5 +110,5 @@ export class CreateVenteComponent implements OnInit {
     const venteLines = this.venteForm.get('venteLines') as FormArray;
     venteLines.removeAt(index);
   }
-  
+ 
 }

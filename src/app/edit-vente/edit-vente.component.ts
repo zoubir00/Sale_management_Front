@@ -74,6 +74,7 @@ export class EditVenteComponent implements OnInit {
           id: [venteLine.id],
           articleId: [venteLine.articleId, Validators.required],
           qtySold: [venteLine.qtySold, Validators.required],
+          salePrice:[venteLine.salePrice, Validators.required],
           totalPrice: [venteLine.totalPrice]
         }));
       });

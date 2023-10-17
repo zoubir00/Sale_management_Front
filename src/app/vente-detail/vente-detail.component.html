@@ -242,6 +242,7 @@
         <th>Line nubmer</th>
         <th>Article Sold</th>
         <th>Quantity Sold</th>
+        <th>Sale price</th>
         <th>Total Price</th>
         <th></th>
         <th></th>
@@ -252,6 +253,7 @@
         <td >{{ venteLine.id }}</td>
         <td>{{ venteLine.articlelebelle }}</td>
         <td>{{ venteLine.qtySold }}</td>
+        <td>{{ (venteLine.salePrice | number:'1.2-2')+ ' MAD' }}</td>
         <td>{{ (venteLine.totalPrice | number:'1.2-2')+ ' MAD' }}</td>
         <td></td>
         <td></td>

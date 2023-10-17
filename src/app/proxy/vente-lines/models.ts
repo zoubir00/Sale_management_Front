@@ -5,5 +5,6 @@ export interface VenteLinesDto extends EntityDto<number> {
   articleId: number;
   articlelebelle?: string;
   qtySold: number;
+  salePrice: number;
   totalPrice: number;
 }

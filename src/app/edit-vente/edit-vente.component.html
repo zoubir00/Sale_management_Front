@@ -227,6 +227,7 @@
         <th>Line number</th>
         <th>Article Sold</th>
         <th>Quantity Sold</th>
+        <th>Sale price</th>
         <th>Total Price</th>
         <th></th>
         <th></th>
@@ -242,6 +243,8 @@
           </select>
         </td>
         <td><input type="text" [formControl]="venteLinesControls[i].get('qtySold')" class="form-control"></td>
+        <td><input type="text" [formControl]="venteLinesControls[i].get('salePrice')" class="form-control"></td>
+
         <td><input
           type="text"
           [value]="(venteLinesControls[i].get('totalPrice').value | number:'1.2-2')+ ' MAD'"
@@ -261,6 +264,8 @@
       </tr>
     </tbody>
 </table>
+<!--  -->
+<!--  -->
 <div class="row mb-4 mt-4">
   <div class="col-6 text-start">
     <button class="btn btn-outline-primary mb-3" type="submit">Valid</button>
