@@ -247,7 +247,7 @@
    
   
     <ng-template #abpBody>
-      <form [formGroup]="form" (ngSubmit)="save()">
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
         <div class="form-floating mb-3">
           <input type="text" class="form-control" id="floatingLibelle" formControlName="libelle" placeholder="Ex:Laptop" autofocus>
           <label for="floatingLibelle">Title</label>
@@ -276,7 +276,7 @@
     <ng-template #abpFooter>
       <button type="button" class="btn btn-outline-secondary" abpClose>Close</button>
        <!--added save button-->
-    <button class="btn btn-outline-primary" (click)="save()" [disabled]="form.invalid">
+    <button class="btn btn-outline-primary" (click)="onFormSubmit()" [disabled]="form.invalid">
       <i class="fa fa-check mr-1"></i>
       Valid
   </button>
