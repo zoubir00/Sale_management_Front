@@ -209,7 +209,7 @@
   <!--  -->
   <div class="card mb-5" [routerLink]="['/articleDetail/', article.id]">
     <div class="card-img">
-      <img [src]="article.image" id="img" width="200px" height="100px" alt="">
+      <img [src]="'assets/images/articles/'+article.image" id="img" width="200px" height="100px" alt="">
     </div>
     <div class="card-title">{{article.libelle}}</div>
     <div class="card-subtitle">{{article.description}}</div>

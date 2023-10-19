@@ -54,7 +54,7 @@ export class CreateVenteComponent implements OnInit {
       console.log('articles :',this.articles);
      });
     this.venteForm = this.formBuilder.group({
-      venteCode: ['', Validators.required],
+      // venteCode: [],
       clientId: ['', Validators.required],
       dateVente: [''],
       venteLines: this.formBuilder.array([]) 

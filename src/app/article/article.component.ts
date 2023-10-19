@@ -52,13 +52,14 @@ export class ArticleComponent implements OnInit {
         console.error('Error fetching items:', error);
       }
     );
+    this.buildForm();
   }
 
   buildForm(): void {
     this.form = this.fb.group({  
       libelle: [ this.selectedArticle.libelle ||'', Validators.required],
       description: [this.selectedArticle.description || null, Validators.required],
-      image: [this.selectedArticle.image || null, Validators.required],
+      image: [this.selectedArticle.image ||null, Validators.required],
       price: [this.selectedArticle.price || null, Validators.required],
       quantityinStock:[this.selectedArticle.quantityinStock || null,Validators.required]
     });
@@ -97,7 +98,40 @@ export class ArticleComponent implements OnInit {
       console.error('Error creating vente:', error);
     });
   }
+  onFileSelected(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const file: File = (inputElement.files as FileList)[0];
+    this.form.patchValue({ image: file });
+  }
+  onFormSubmit(): void {
+    if (this.form.valid) {
+      const article: ArticleDto = {
+        libelle: this.form.value.libelle,
+        description: this.form.value.description,
+        price: this.form.value.price,
+        quantityinStock: this.form.value.quantityinStock
+      };
 
+      const img: File = this.form.value.image;
+      const request=this.selectedArticle.id ? this.articleservice.updateArticle(this.selectedArticle.id, article,img):
+      this.articleservice.createArticle(article, img);
+      request.subscribe(
+        response => {
+          this.isModalOpen = false;
+      this.form.reset();
+      this.ngOnInit();
+      this.toastr.success(' : Operation successed.', 'Success');
+        },
+        error => {
+          // Handle error, e.g., display an error message
+      this.toastr.error(' : Create Failed.', 'Error');
+      console.error('Error creating vente:', error);
+        }
+      );
+    } else {
+      // Handle form validation errors, if any
+    }
+  }
   // Add a delete method
 delete(id: number) {
   this.confirmation.warn('::ArticleDeletionConfirmationMessage', '::Are You Sure').subscribe((status) => {

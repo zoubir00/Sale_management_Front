@@ -217,7 +217,7 @@
     <tbody>
       <tr *ngFor="let article of articles;let i=index">
         <td scope="col"><i class="fa fa-star-o" aria-hidden="true"></i></td>
-        <td><img class="rounded img-rounded" [src]="article.image" width="80" height="60"></td>
+        <td><img class="rounded img-rounded" [src]="'assets/images/articles/'+article.image" width="80" height="60"></td>
         <td class="text-black">{{article.libelle}}</td>
         <td class="text-black">{{article.description}}</td>
         <td class="text-black">{{(article.price | number :'1.2-2')+' MAD' }}</td>
@@ -253,7 +253,7 @@
           <label for="floatingLibelle">Title</label>
         </div>
          <div class="form-floating mb-3">
-          <input type="file" class="form-control" id="floatingImage"   formControlName="image" placeholder="Ex:image"   >
+          <input type="file" class="form-control" id="floatingImage" (change)="onFileSelected($event)"  formControlName="image" placeholder="Ex:image"   >
           <label for="floatingImage">Image</label>
         </div>
         <div class="form-floating mb-3">

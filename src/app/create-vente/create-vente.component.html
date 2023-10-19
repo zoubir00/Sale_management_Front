@@ -196,13 +196,13 @@
     <form [formGroup]="venteForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
       <table class="table table-striped table-hover">
         <thead>
-          <th>Sale Code</th>
+           <th><!--Sale Code--></th> 
           <th>Select Client</th>
           <th>Select Date </th>
         </thead>
         <tbody>
           <td>  
-            <input type="text" id="venteCode" formControlName="venteCode" class="form-control" required />
+            <input type="hidden" id="venteCode" formControlName="venteCode" class="form-control" required />
          </td>
           <td>
             <select id="clientId" formControlName="clientId" class="form-control" required>
