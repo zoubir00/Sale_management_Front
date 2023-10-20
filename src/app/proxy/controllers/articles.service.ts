@@ -1,9 +1,10 @@
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { ArticleDto } from '../articles/models';
+import type { IFormFile } from '../microsoft/asp-net-core/http/models';
 import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/models';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,36 +12,46 @@ import { HttpClient } from '@angular/common/http';
 export class ArticlesService {
   apiName = 'Default';
   Apiurl= 'https://localhost:44354/api/Articles';
+  createArticle(article: ArticleDto, img: File): Observable<any> {
+     
+    const formData: FormData = new FormData();
+    formData.append('img', img, img.name);
+    formData.append('Libelle', article.libelle);
+    formData.append('Description', article.description);
+    formData.append('Price', article.price.toString());
+    formData.append('QuantityinStock', article.quantityinStock.toString());
+
+    // Send POST request to the API endpoint
+    return this.http.post<any>(`${this.Apiurl}/CreateArticle`, formData);
+  }
+  updateArticle(id: number, article: ArticleDto, img: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('img', img, img.name);
+    formData.append('Libelle', article.libelle);
+    formData.append('Description', article.description);
+    formData.append('Price', article.price.toString());
+    formData.append('QuantityinStock', article.quantityinStock.toString());
+
+    // Send PUT request to the API endpoint
+    return this.http.put<any>(`${this.Apiurl}/editArticle/${id}`, formData);
+  }
 
   articlesSold = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'GET',
       url: '/api/Articles/mostSold',
     },
-    { apiName: this.apiName,...config });
+  { apiName: this.apiName,...config });
   
 
-  createArticleByArticle = (article: ArticleDto, config?: Partial<Rest.Config>) =>
+  createArticleByArticleAndImg = (article: ArticleDto, img: IFormFile, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Articles/CreateArticle',
-      body: article,
+      body: img,
     },
     { apiName: this.apiName,...config });
-    // 
-    createArticle(article: ArticleDto, img: File): Observable<any> {
-     
-      const formData: FormData = new FormData();
-      formData.append('img', img, img.name);
-      formData.append('Libelle', article.libelle);
-      formData.append('Description', article.description);
-      formData.append('Price', article.price.toString());
-      formData.append('QuantityinStock', article.quantityinStock.toString());
   
-      // Send POST request to the API endpoint
-      return this.http.post<any>(`${this.Apiurl}/CreateArticle`, formData);
-    }
-    // 
 
   deleteArticleById = (id: number, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
@@ -73,24 +84,13 @@ export class ArticlesService {
       params: { slibelle: Slibelle },
     },
     { apiName: this.apiName,...config });
-    
-    updateArticle(id: number, article: ArticleDto, img: File): Observable<any> {
-      const formData: FormData = new FormData();
-      formData.append('img', img, img.name);
-      formData.append('Libelle', article.libelle);
-      formData.append('Description', article.description);
-      formData.append('Price', article.price.toString());
-      formData.append('QuantityinStock', article.quantityinStock.toString());
   
-      // Send PUT request to the API endpoint
-      return this.http.put<any>(`${this.Apiurl}/editArticle/${id}`, formData);
-    }
 
-  updateArticleByIdAndArticle = (id: number, article: ArticleDto, config?: Partial<Rest.Config>) =>
+  updateArticleByIdAndArticleAndImg = (id: number, article: ArticleDto, img: IFormFile, config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'PUT',
       url: `/api/Articles/editArticle/${id}`,
-      body: article,
+      body: img,
     },
     { apiName: this.apiName,...config });
 

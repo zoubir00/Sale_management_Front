@@ -69,8 +69,7 @@ export class CreateVenteComponent implements OnInit {
         return;
       }
   
-      this.service.addVenteByVenteCodeAndDateVenteAndClientIdAndVenteLines(
-        formData.venteCode,
+      this.service.addVenteByDateVenteAndClientIdAndVenteLines(
         formData.dateVente,
         formData.clientId,
         formData.venteLines

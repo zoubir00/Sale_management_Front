@@ -10,11 +10,11 @@ export class VenteService {
   apiName = 'Default';
   
 
-  addVenteByVenteCodeAndDateVenteAndClientIdAndVenteLines = (venteCode: string, dateVente: string, clientId: number, venteLines: VenteLinesDto[], config?: Partial<Rest.Config>) =>
+  addVenteByDateVenteAndClientIdAndVenteLines = (dateVente: string, clientId: number, venteLines: VenteLinesDto[], config?: Partial<Rest.Config>) =>
     this.restService.request<any, IActionResult>({
       method: 'POST',
       url: '/api/Vente/vente',
-      params: { venteCode, dateVente, clientId },
+      params: { dateVente, clientId },
       body: venteLines,
     },
     { apiName: this.apiName,...config });

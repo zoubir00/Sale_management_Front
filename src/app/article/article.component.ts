@@ -80,24 +80,24 @@ export class ArticleComponent implements OnInit {
       console.log('Selected client',this.selectedArticle);
     });
   }
-  save(): void {
-    if(this.form.invalid){return ;}
-    // const articleData = this.form.value;
-    // const imgFile: IFormFile = this.form.get('image').value;
+  // save(): void {
+  //   if(this.form.invalid){return ;}
+  //   // const articleData = this.form.value;
+  //   // const imgFile: IFormFile = this.form.get('image').value;
 
-    const request=this.selectedArticle.id ? this.articleservice.updateArticleByIdAndArticle(this.selectedArticle.id, this.form.value)
-    : this.articleservice.createArticleByArticle(this.form.value);
-    request.subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.ngOnInit();
-      this.toastr.success(' : Operation successed.', 'Success');
-    },(error) => {
-      // Handle error, e.g., display an error message
-      this.toastr.error(' : Create Failed.', 'Error');
-      console.error('Error creating vente:', error);
-    });
-  }
+  //   const request=this.selectedArticle.id ? this.articleservice.updateArticleByIdAndArticle(this.selectedArticle.id, this.form.value)
+  //   : this.articleservice.createArticleByArticle(this.form.value);
+  //   request.subscribe(() => {
+  //     this.isModalOpen = false;
+  //     this.form.reset();
+  //     this.ngOnInit();
+  //     this.toastr.success(' : Operation successed.', 'Success');
+  //   },(error) => {
+  //     // Handle error, e.g., display an error message
+  //     this.toastr.error(' : Create Failed.', 'Error');
+  //     console.error('Error creating vente:', error);
+  //   });
+  // }
   onFileSelected(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const file: File = (inputElement.files as FileList)[0];
