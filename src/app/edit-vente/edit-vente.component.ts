@@ -184,6 +184,7 @@ export class EditVenteComponent implements OnInit {
       this.venteLineForm.markAllAsTouched();
     }
   }
+  
   ngOnInit(): void {
     setTimeout(() => {
       this.isLoading = false;
