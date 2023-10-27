@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
-import { VenteService } from '@proxy/controllers';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
-import { ClientsService , ArticlesService } from '@proxy/controllers'; 
 import { ClientDto } from '@proxy/clients';
 import { ArticleDto } from '@proxy/articles';
+import { GetVenteDto } from '@proxy/ventes';
+import { VenteService } from '@proxy/ventes';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { PageEvent } from '@angular/material/paginator'; 
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -19,8 +19,19 @@ import { Router } from '@angular/router';
   providers: [ListService], 
 })
 export class VenteComponent implements OnInit {
-  
-  ventes:any;
+  constructor(
+    public readonly list:ListService,
+    private venteService:VenteService,
+    private fb:FormBuilder,
+    private confirmation:ConfirmationService,
+    private toastr:ToasterService,
+    private router: Router
+    ) {
+      this.searchForm=this.fb.group({
+        lname:[null, Validators.required]
+      })
+    }
+  ventes={ items: [], totalCount: 0 } as PagedResultDto<GetVenteDto>;
    // Pagination variables
    pageSize = 10; // set your desired page size
    pageIndex = 0;
@@ -45,58 +56,44 @@ export class VenteComponent implements OnInit {
  selectedArticles: { articleId: number, quantity: number }[] = [];
  isLoading: boolean = true;
 
-constructor(
-  public readonly list:ListService,
-  private venteService:VenteService,
-  private fb:FormBuilder,
-  private confirmation:ConfirmationService,
-  private clientService:ClientsService,
-  private articleService:ArticlesService,
-  private toastr:ToasterService,
-  private router: Router
-  ) {
-    this.searchForm=this.fb.group({
-      lname:[null, Validators.required]
-    })
-  }
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
-    this.loading=true;
-     // get vente history table
-     timer(1000) 
-     .pipe(
-       switchMap(()=>this.venteService.getVentes())
-     )
-     .subscribe((response) => {
-        this.ventes = response; 
-        this.totalItems=this.ventes.length;
-        this.loading=false;
-       console.log('Ventes:', this.ventes);
-     });
-    // // call clients
-    // this.clientService.getAllClients().subscribe((data)=>{
-    //   this.clients=data;
-    //   console.log('Clients',this.clients);
-    // });
-    // // call articles
-    // this.articleService.getAllArticle().subscribe((data)=>{
-    //   this.articles=data;
-    //   console.log('articles :',this.articles);
-    // });
-    // //vente FormGroup declaration
-    // this.saleForm = this.fb.group({
-    //   clientId: [null, Validators.required],
-    // });
 
-    // // Create the articleForm with articleId and quantity fields
-    // this.articleForm = this.fb.group({
-    //   articleId: [null, Validators.required],
-    //   quantity: [null, Validators.required],
-    // });
-  }
+   ngOnInit(): void {
+     setTimeout(() => {
+       this.isLoading = false;
+     }, 1000);
+      this.getVentes();
+     // // call clients
+  //   // this.clientService.getAllClients().subscribe((data)=>{
+  //   //   this.clients=data;
+  //   //   console.log('Clients',this.clients);
+  //   // });
+  //   // // call articles
+  //   // this.articleService.getAllArticle().subscribe((data)=>{
+  //   //   this.articles=data;
+  //   //   console.log('articles :',this.articles);
+  //   // });
+  //   // //vente FormGroup declaration
+  //   // this.saleForm = this.fb.group({
+  //   //   clientId: [null, Validators.required],
+  //   // });
+
+  //   // // Create the articleForm with articleId and quantity fields
+  //   // this.articleForm = this.fb.group({
+  //   //   articleId: [null, Validators.required],
+  //   //   quantity: [null, Validators.required],
+  //   // });
+   }
+   getVentes(){
+// get vente history table
+const venteStreamCreator = (query) => this.venteService.getAllVentes(query);
+this.list.hookToQuery(venteStreamCreator).subscribe((response) => {
+  console.log('Raw Data from Service:', response);
+  this.ventes = response;
+console.log('vente Data:', this.ventes);
+
+});
+   }
   // add new method
   OpenModal() {
     this.isModalOpen = true;
@@ -163,18 +160,17 @@ addArticle() {
 
   // delete vente
   deleteVente(codeVente: string) {
-    this.confirmation.warn('Are you sure you want to delete this sale', '::Are You Sure').subscribe((status) => {
-      if (status === Confirmation.Status.confirm) {
-        this.venteService.deleteByCodeVente(codeVente).subscribe(() => this.ngOnInit());
-        this.toastr.warn(' : Sale Deleted successefully.', 'Warning');
-      }
-      },(error) => {
-        // display an error message
-        this.toastr.error(' :  we can not delete this articlee.', 'Error ');
-        console.error('Error creating vente:', error);
+  this.confirmation.warn('Are you sure you want to delete this sale', '::Are You Sure').subscribe((status) => {
+    if (status === Confirmation.Status.confirm) {
+      this.venteService.deleteVenteByVenteCode(codeVente).subscribe(() => this.ngOnInit());
+      this.toastr.warn(' : Sale Deleted successefully.', 'Warning');
+    }
+    },(error) => {
+      // display an error message
+      this.toastr.error(' :  we can not delete this sale.', 'Error ');
+      console.error('Error deleting sale:', error);
     });
   } 
-  
 }
 
 

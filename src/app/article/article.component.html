@@ -1,14 +1,18 @@
 
 <!-- Add the "new article" button here -->
-<div class="row">
-  <div class="text-end mb-3 "><button class="btn btn-outline-primary"  (click)="createarticle()">
-    <i class="bi bi-patch-plus"></i> <span> {{'::Newarticle' | abpLocalization}}</span>
-</button></div>
-</div>
-
-<div class="row">
+<div class="card">
+<div class="card-header">
+  <div class="row">
+    <div class="text-end mb-3 "><button class="btn btn-outline-primary"  (click)="createarticle()">
+      <i class="bi bi-patch-plus"></i> <span> {{'::Newarticle' | abpLocalization}}</span>
+      </button>
+    </div>
+  </div>
+  <div class="row">
   <h2 class="text-start text-secondary" *ngIf="!isLoading">Articles list</h2>
 </div>
+</div>
+
  <!-- load -->
 <div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
   <div class="socket">
@@ -202,7 +206,41 @@
     
   </div>
 </div>
-<table class="table table-striped table-hover" *ngIf="!isLoading">
+<ngx-datatable [rows]="articles.items" [count]="articles.totalCount" [list]="list" default>
+  <ngx-datatable-column
+    [name]="'::Actions' | abpLocalization"
+    [maxWidth]="180"
+    [sortable]="false"
+  >
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <div class="btn-group custom-dropdown dropend" container="body" class="d-inline-block">
+        <button type="button" class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+          :
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item" [routerLink]="['/articleDetail/', row.id]"><i class="bi bi-pencil-square text-primary"></i> Detail</button>
+          </li>
+          <li><button class="dropdown-item" (click)=" editArticle(row.id)"><i class="bi bi-pencil-square text-primary"></i> Edit</button></li>
+          <li><button class="dropdown-item" (click)="delete(row.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
+        </ul>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Image" prop="image">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <img *ngIf="row.image" [src]="'assets/images/articles/'+row.image" alt="User Image" style="width: 50px; height: 50px;">
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Title" prop="libelle"></ngx-datatable-column>
+  <ngx-datatable-column name="Description" prop="description"></ngx-datatable-column>
+  <ngx-datatable-column name="Price"  prop="price">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{(row.price | number :'1.2-2')+' MAD' }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Quantity in stock" prop="quantityinStock"></ngx-datatable-column>
+</ngx-datatable>
+<!-- <table class="table table-striped table-hover" *ngIf="!isLoading">
     <thead>
       <tr>
         <th scope="col"></th>
@@ -234,12 +272,12 @@
             </ul>
           </div>
         </td>
-        <!-- <td><button class="btn btn-primary" (click)=" editArticle(article.id)"><i class="bi bi-pencil-square"></i></button></td> -->
-        <!-- <td><button class="btn btn-danger" (click)="delete(article.id)"><i class="bi bi-trash3"></i></button></td> -->
-        <!-- <td><button class="btn btn-outline-primary" [routerLink]="['/articleDetail/', article.id]"><i class="bi bi-info-circle"></i> View Details</button></td>   -->
+         <td><button class="btn btn-primary" (click)=" editArticle(article.id)"><i class="bi bi-pencil-square"></i></button></td> 
+         <td><button class="btn btn-danger" (click)="delete(article.id)"><i class="bi bi-trash3"></i></button></td> 
+         <td><button class="btn btn-outline-primary" [routerLink]="['/articleDetail/', article.id]"><i class="bi bi-info-circle"></i> View Details</button></td>   
       </tr>
     </tbody>
-  </table>
+  </table> -->
   <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
     <ng-template #abpHeader>
       <h3>{{ (selectedArticle.id ? '::Edit' : '::Newarticle' ) | abpLocalization }}</h3>
@@ -247,14 +285,15 @@
    
   
     <ng-template #abpBody>
-      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+      <form [formGroup]="form" (ngSubmit)="save()" >
         <div class="form-floating mb-3">
           <input type="text" class="form-control" id="floatingLibelle" formControlName="libelle" placeholder="Ex:Laptop" autofocus>
           <label for="floatingLibelle">Title</label>
         </div>
          <div class="form-floating mb-3">
-          <input type="file" class="form-control" id="floatingImage" (change)="onFileSelected($event)"  formControlName="image" placeholder="Ex:image"   >
-          <label for="floatingImage">Image</label>
+          <input type="file" class="form-control" id="floatingImage" (change)="onFileSelected($event)"  formControlName="image" placeholder="Ex:image"  accept="image/*" >
+          <img *ngIf="imageUrl" [src]="imageUrl" alt="Selected Image" style="max-width: 200px;">
+          <label for="floatingImage">Image<!----></label>
         </div>
         <div class="form-floating mb-3">
           <input type="text" class="form-control" id="floatingDescription" formControlName="description" placeholder="Ex:describe the artic">
@@ -276,9 +315,10 @@
     <ng-template #abpFooter>
       <button type="button" class="btn btn-outline-secondary" abpClose>Close</button>
        <!--added save button-->
-    <button class="btn btn-outline-primary" (click)="onFormSubmit()" [disabled]="form.invalid">
+    <button class="btn btn-outline-primary" (click)="save()" [disabled]="form.invalid">
       <i class="fa fa-check mr-1"></i>
       Valid
-  </button>
+   </button>
     </ng-template>
   </abp-modal>
+</div>

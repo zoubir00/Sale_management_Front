@@ -1,7 +1,8 @@
 import { AuthService, PagedResultDto } from '@abp/ng.core';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ArticleDto } from '@proxy/articles';
-import { ArticlesService, VenteService } from '@proxy/controllers';
+import { ArticleService } from '@proxy/articles';
+import { GetVenteDto, VenteService } from '@proxy/ventes';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
@@ -16,45 +17,49 @@ export class HomeComponent implements OnInit {
   }
   isLoading: boolean = true;
   articles = { items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
-  ventes:any;
+  ventes={ items: [], totalCount: 0 } as PagedResultDto<GetVenteDto>;
   @ViewChild('salesChart') salesChart: ElementRef;
 
   constructor(
     private authService: AuthService,
-    private articleService:ArticlesService,
+    private articleService:ArticleService,
     private venteService:VenteService
   ) {}
 
 
   // load method
   ngOnInit(): void {
-    this.loadvente();
+    
     setTimeout(() => {
       this.isLoading = false;
     }, 2000);
-    this.articleService.getAllArticle().subscribe(
-      (data)=>{
-        this.articles=data;
-      },
-      (error) => {
-        console.error('Error fetching items:', error);
-      }
-    );
+   this.loadvente();
+   this.getarticles();
+  }
+  
+  // get articles
+  getarticles(){
+    this.articleService.getAll().subscribe((data)=>{
+      this.articles=data;
+    },(error) => {
+      console.error('Error fetching items:', error);
+      })
   }
  // get vente by id
-  loadvente(){
-    this.venteService.getVentes().subscribe((data)=>{
-      this.ventes=data;
-      const salesByMonth = this.groupSalesByMonth(data);
-      this.createChart(salesByMonth);
-      console.log(this.ventes);
-    })
+   loadvente(){
+     this.venteService.getAllVentes().subscribe((data)=>{
+       this.ventes=data;
+        console.log(this.ventes);
+       const salesByMonth = this.groupSalesByMonth(data);
+       this.createChart(salesByMonth);
+      
+     })
   }
   // monthly profits 
   groupSalesByMonth(ventes) {
     const salesByMonth = {};
     
-    ventes.forEach(vente => {
+    ventes.items.forEach(vente => {
       const date=new Date(vente.dateVente);
       const monthYear = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
       

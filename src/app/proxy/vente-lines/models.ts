@@ -1,8 +1,8 @@
 import type { EntityDto } from '@abp/ng.core';
 
-export interface VenteLinesDto extends EntityDto<number> {
+export interface VenteLinesDto extends EntityDto<string> {
   venteCode?: string;
-  articleId: number;
+  articleId?: string;
   articlelebelle?: string;
   qtySold: number;
   salePrice: number;

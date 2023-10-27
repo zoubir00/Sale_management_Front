@@ -207,7 +207,7 @@
           <td>
             <select id="clientId" formControlName="clientId" class="form-control" required>
               <option [ngValue]="null">Select Client</option>
-              <option *ngFor="let client of clients" [value]="client.id">{{ client.lName }}</option>
+              <option *ngFor="let client of clients.items" [value]="client.id">{{ client.lName }}</option>
             </select>
           </td>
           <td>
@@ -216,15 +216,11 @@
         </tbody>
       </table>
        <!--  -->
-      <button type="button" class="btn btn-success me-3 mb-4 rounded-circle text-end" (click)="createArticle()"><i class="bi bi-plus-circle"></i></button>
+      <!-- <button type="button" class="btn btn-success me-3 mb-4 rounded-circle text-end" (click)="createArticle()"><i class="bi bi-plus-circle"></i></button> -->
      
       <!-- Vente Lines Input Fields -->
-      <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
-        <ng-template #abpHeader>
-          <button type="button" class="btn btn-success me-3 mb-4 rounded-circle text-end" (click)="addVenteLine()"><i class="bi bi-plus-circle"></i></button>
-        </ng-template>
         
-        <ng-template #abpBody>
+          <button type="button" class="btn btn-success me-3 mb-4 rounded-circle text-end" (click)="addVenteLine()"><i class="bi bi-plus-circle"></i></button>
           <table class="table table-striped table-hover">
             <thead>
               <th>Product code</th>
@@ -237,7 +233,7 @@
                   <td>  
                 <select id="articleId"  [formControl]="venteLinesControls[i].get('articleId')" class="form-control" required>
                   <option [ngValue]="null">Select Article</option>
-                  <option *ngFor="let article of articles" [value]="article.id">{{ article.libelle }}</option>
+                  <option *ngFor="let article of articles.items" [value]="article.id">{{ article.libelle }}</option>
                 </select>         
               <td>
                 <input type="number" id="qtySold" [formControl]="venteLinesControls[i].get('qtySold')" class="form-control" required />
@@ -248,20 +244,16 @@
               </tr>
             
             </tbody>
-          </table>
-        </ng-template>
-      
-        <ng-template #abpFooter>
-          <div class="row mb-4 mt-4" >
+          </table> 
+          <div class="row">
             <div class="col-6">
-              <button type="submit" class="btn btn-outline-primary mt-3 text-start" (click)="onSubmit()">Valid</button>
-            </div>
-            <div class="col-6 text-end">
+              <button type="submit" class="btn btn-outline-primary mt-3 text-start">Valid</button>
+           </div>
+           <div class="col-6 text-end">
               <button type="button" class="btn btn-outline-secondary mt-3 " routerLink="/ventes">Cancel</button>
-            </div>
           </div>
-        </ng-template>
-      </abp-modal>
+          </div>   
+         
     </form>  
   </div>
   

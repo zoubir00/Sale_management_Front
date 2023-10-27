@@ -26,13 +26,13 @@ const routes: Routes = [
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
   { path: 'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },
-  { path: 'articles', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) },
-  { path: 'ventes', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },
-  { path: 'articleDetail/:id', loadChildren: () => import('./article-details/article-details.module').then(m => m.ArticleDetailsModule) },
-  { path: 'search/:lname', loadChildren: () => import('./search-vente/search-vente.module').then(m => m.SearchVenteModule) },
-  { path: 'createventes', loadChildren: () => import('./create-vente/create-vente.module').then(m => m.CreateVenteModule) },
-  { path: 'saledetails/:codeVente', loadChildren: () => import('./vente-detail/vente-detail.module').then(m => m.VenteDetailModule) },
-  { path: 'editVente/:codeVente', loadChildren: () => import('./edit-vente/edit-vente.module').then(m => m.EditVenteModule) },
+   { path: 'articles', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) },
+   { path: 'ventes', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },
+  //  { path: 'articleDetail/:id', loadChildren: () => import('./article-details/article-details.module').then(m => m.ArticleDetailsModule) },
+  // { path: 'search/:lname', loadChildren: () => import('./search-vente/search-vente.module').then(m => m.SearchVenteModule) },
+   { path: 'createventes', loadChildren: () => import('./create-vente/create-vente.module').then(m => m.CreateVenteModule) },
+   { path: 'saledetails/:codeVente', loadChildren: () => import('./vente-detail/vente-detail.module').then(m => m.VenteDetailModule) },
+   { path: 'editVente/:codeVente', loadChildren: () => import('./edit-vente/edit-vente.module').then(m => m.EditVenteModule) },
  
   
 ];

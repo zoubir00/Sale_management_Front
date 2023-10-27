@@ -1,14 +1,17 @@
 
 <!-- Add the "new client" button here -->
-
+<div class="card">
+  <div class="card-header">
 <div class="row mt-5">
   <div class="text-end b-3"><button class="btn btn-outline-primary" (click)="createClient()">
     <i class="bi bi-person-plus"></i> <span>  {{'::NewClient' | abpLocalization}}</span>
-</button></div>
+</button>
+</div>
 
 <div class="row">
   <h2 class="text-start text-secondary mb-4 mt-4" *ngIf="!isLoading">Clients list</h2>
 </div>
+
  <!-- load -->
  <div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
   <div class="socket">
@@ -202,6 +205,7 @@
     
   </div>
 </div>
+</div>
 <!-- <div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
   <div class="fadein animation-duration-2000 animation-iteration-infinite flex align-items-center justify-content-center
       font-bold  border-round m-2 px-5 py-3">
@@ -211,7 +215,49 @@
       <span class="dot"></span>
   </div>
 </div> -->
- <table class="table table-striped table-hover" *ngIf="!isLoading">
+<ngx-datatable [rows]="clients.items" [count]="clients.totalCount" [list]="list" default>
+  <ngx-datatable-column
+    [name]="'::Actions' | abpLocalization"
+    [maxWidth]="180"
+    [sortable]="false"
+  >
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <div class="btn-group custom-dropdown dropend" container="body" class="d-inline-block">
+        <button type="button" class="btn btn-secondary btn-sm rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+          :
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item" (click)="editClient(row.id)"><i class="bi bi-pencil-square text-primary"></i> Edit</button>
+          </li>
+          <li><button class="dropdown-item" (click)="delete(row.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
+        </ul>
+      </div>
+      <!-- <div ngbDropdown container="body" class="d-inline-block">
+        <button
+          class="btn btn-default btn-sm text-black"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          ngbDropdownToggle
+        >
+          <i class="fa fa-cog me-1"></i>
+        </button>
+        <div ngbDropdownMenu>
+          <button  ngbDropdownItem (click)="editAuthor(row.id)">
+            Edit
+          </button>
+          <button  ngbDropdownItem (click)="delete(row.id)">
+            Delete
+          </button>
+        </div>
+      </div> -->
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="First Name" prop="fName"></ngx-datatable-column>
+  <ngx-datatable-column name="Last Name" prop="lName"></ngx-datatable-column>
+  <ngx-datatable-column name="Email address" prop="lName" prop="email"></ngx-datatable-column>
+  <ngx-datatable-column name="Phone Number" prop="lName" prop="phoneNumber"></ngx-datatable-column>
+</ngx-datatable>
+<!-- <table class="table table-striped table-hover" *ngIf="!isLoading">
     <thead>
       <tr>
         <th scope="col"></th>
@@ -225,14 +271,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of client; let i=index">
+      <tr *ngFor="let client of clients; let i=index">
         <td><i class="bi bi-person"></i></td>
         <td class="text-black">{{client.fName}}</td>
         <td class="text-black">{{client.lName}}</td>
         <td class="text-black">{{client.email}}</td>
         <td class="text-black">{{client.phoneNumber}}</td>
         <td>
-          <!-- Default dropend button -->
+         
           <div class="btn-group custom-dropdown dropend">
             <button type="button" class="btn btn-secondary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
               :
@@ -246,10 +292,10 @@
         </td>
       </tr>
     </tbody>
-  </table> 
+  </table>  -->
 <abp-modal class="modal-dialog modal-dialog-centered modal-dialog-scrollable" [(visible)]="isModalOpen">
   <ng-template #abpHeader>
-    <h3>{{ (selectClient.id ? '::Edit' : '::NewClient' ) | abpLocalization }}</h3>
+    <h3>{{ (selectedClient.id ? '::Edit' : '::NewClient' ) | abpLocalization }}</h3>
   </ng-template>
   <ng-template #abpBody>
      <form [formGroup]="form" (ngSubmit)="save()">
@@ -281,5 +327,5 @@
 </button>
   </ng-template>
 </abp-modal>
-
+</div>
 <!-- script -->

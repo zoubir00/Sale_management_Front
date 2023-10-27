@@ -5,8 +5,11 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { VenteLinesDto } from '@proxy/vente-lines';
 import { ClientDto } from '@proxy/clients';
 import { ArticleDto } from '@proxy/articles';
-import { ClientsService , ArticlesService ,VenteService} from '@proxy/controllers'; 
+import { ClientService } from '@proxy/clients';
+import { ArticleService } from '@proxy/articles';
 import { Router } from '@angular/router';
+import { VenteService } from '@proxy/ventes';
+import { PagedResultDto } from '@abp/ng.core';
 
 
 @Component({
@@ -18,17 +21,17 @@ export class CreateVenteComponent implements OnInit {
   
   ventes:any;
   venteForm: FormGroup;
-  clients={} as ClientDto;
-  articles={} as ArticleDto;
+  clients={ items: [], totalCount: 0 } as PagedResultDto<ClientDto>;
+  articles={ items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
   isLoading: boolean = true;
   isModalOpen=false;
 
 
   constructor(
     private formBuilder: FormBuilder,
-     private service: VenteService,
-    private clientService: ClientsService,
-    private articleService: ArticlesService,
+    private service: VenteService,
+    private clientService:ClientService,
+    private articleService:ArticleService,
     private router: Router,
     private toastr:ToasterService) {
     
@@ -38,21 +41,28 @@ export class CreateVenteComponent implements OnInit {
   createArticle() {
     this.isModalOpen = true;
   }
-
+// get clients
+  getClients(){
+    this.clientService.getAll().subscribe((data)=>{
+      this.clients=data;
+      console.log('Clients', this.clients);
+    })
+  }
+// get articles
+getArticles(){
+  this.articleService.getAll().subscribe((data)=>{
+    this.articles=data;
+    console.log('articles', this.articles);
+  })
+}
   ngOnInit(): void {
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);
-     // call clients
-     this.clientService.getAllClients().subscribe((data)=>{
-       this.clients=data;
-       console.log('Clients',this.clients);
-     });
-     // call articles
-    this.articleService.getAllArticle().subscribe((data)=>{
-      this.articles=data;
-      console.log('articles :',this.articles);
-     });
+    // get clients
+    this.getClients();
+    // get articles
+    this.getArticles();
     this.venteForm = this.formBuilder.group({
       // venteCode: [],
       clientId: ['', Validators.required],
@@ -69,22 +79,22 @@ export class CreateVenteComponent implements OnInit {
         return;
       }
   
-      this.service.addVenteByDateVenteAndClientIdAndVenteLines(
-        formData.dateVente,
-        formData.clientId,
-        formData.venteLines
-      ).subscribe(
-        (response) => {
-          console.log("Vente added successfully:", response);
-          const codeVente = response.id;
-          this.toastr.success(' : Operation successed', 'Success');
-          this.isModalOpen=false;
-          this.router.navigate(['/saledetails', codeVente]);
-        },
-        (error) => {
-          this.toastr.error(' : Quantity Expired', 'Error');
-        }
-      );
+       this.service.createVenteByDateVenteAndClientIdAndVenteLines(
+         formData.dateVente,
+         formData.clientId,
+         formData.venteLines
+       ).subscribe(
+         (response) => {
+           console.log("Vente added successfully:", response);
+           const codeVente = response.id;
+           this.toastr.success(' : Operation successed', 'Success');
+           this.isModalOpen=false;
+           this.router.navigate(['/saledetails', codeVente]);
+         },
+         (error) => {
+           this.toastr.error(' : Quantity Expired', 'Error');
+         }
+       );
     } else {
       //  where the form is invalid
       console.log('Form Valid:', this.venteForm.valid);

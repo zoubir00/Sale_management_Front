@@ -1,5 +1,5 @@
 import { Component , OnInit } from '@angular/core';
-import { VenteService } from '@proxy/controllers';
+import { VenteDto, VenteService } from '@proxy/ventes';
 import { ActivatedRoute } from '@angular/router';
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas';
@@ -11,29 +11,44 @@ import html2canvas from 'html2canvas';
 })
 export class VenteDetailComponent implements OnInit {
 
-vente:any;
+vente:VenteDto;
 isLoading: boolean = true;
 
   constructor(
     private service:VenteService,
     private route:ActivatedRoute
   ) {}
-
-
   ngOnInit(): void {
     setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
-    const codeVente=this.route.snapshot.paramMap.get('codeVente');
-
-    this.service.venteDetailsByCodeVente(codeVente).subscribe((vente:any)=>{
-      this.vente=vente;
-      console.log('vente details',this.vente);
-    },
-    (error)=>{
-      console.error('error fetching vente details',error)
-    });
+    this.isLoading = false;
+      }, 1000);
+      this.getVente();
   }
+// get vente 
+getVente(){
+  const codeVente=this.route.snapshot.paramMap.get('codeVente');
+  this.service.getVenteDetailsByCodeVente(codeVente).subscribe((vente:VenteDto)=>{
+    this.vente=vente;
+    console.log('vente details', this.vente);
+  },(error)=>{
+    console.error('error fetching vente details',error)
+  });
+}
+
+  // ngOnInit(): void {
+  //   setTimeout(() => {
+  //     this.isLoading = false;
+  //   }, 1000);
+  //   const codeVente=this.route.snapshot.paramMap.get('codeVente');
+
+  //   this.service.venteDetailsByCodeVente(codeVente).subscribe((vente:any)=>{
+  //     this.vente=vente;
+  //     console.log('vente details',this.vente);
+  //   },
+  //   (error)=>{
+  //     console.error('error fetching vente details',error)
+  //   });
+  // }
   //
   captureScreen() {
   let data = document.getElementById('contentToConvert');

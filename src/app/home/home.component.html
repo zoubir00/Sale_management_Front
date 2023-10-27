@@ -205,7 +205,7 @@
 <!-- articles -->
 <div class="row mt-3 mb-5" *ngIf="!isLoading">
   <!-- <h2 class="text-center text-warning">Articles list</h2> -->
-<div *ngFor="let article of articles; let i=index;" class="col-md-3">
+<div *ngFor="let article of articles.items; let i=index;" class="col-md-3">
   <!--  -->
   <div class="card mb-5" [routerLink]="['/articleDetail/', article.id]">
     <div class="card-img">

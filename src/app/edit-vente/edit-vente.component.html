@@ -17,14 +17,14 @@
         <td>
           <select id="clientId" formControlName="newcClientId"  class="form-control" required>
             <option [value]="null">Select client</option>
-            <option [ngValue]="vente.client.id" >{{vente.client.fName}} {{vente.client.lName}}</option>
+            <option [ngValue]="vente.clientId">{{vente.clientName}}</option>
           </select>
         </td>
         <td><input type="datetime-local" formControlName="newDateVente" [value]="vente?.dateVente" class="form-control"></td>
       </tr>
     </tbody>
 </table>
-<div class="text-end mb-3 "><button type="button" class="btn btn-success rounded-circle" (click)="createArticle()">
+<div class="text-end mb-3 "><button type="button" class="btn btn-success rounded-circle" (click)="addVenteLine()">
   <i class="bi bi-plus-circle"></i>
 </button></div>
  <!-- load -->
@@ -224,7 +224,7 @@
 <table class="table table-hover" *ngIf="!isLoading">
     <thead>
       <tr>
-        <th>Line number</th>
+        <th></th>
         <th>Article Sold</th>
         <th>Quantity Sold</th>
         <th>Sale price</th>
@@ -235,13 +235,14 @@
     </thead>
     <tbody formArrayName="venteLines">
       <tr *ngFor="let venteLine of venteLinesControls; let i = index;"  >
-        <td><input type="number" [formControl]="venteLinesControls[i].get('id')" class="form-control" disabled></td>
+        <td><input type="hidden" [formControl]="venteLinesControls[i].get('id')" class="form-control" disabled></td>
         <td>
           <select id="articleId" [formControl]="venteLinesControls[i].get('articleId')"  class="form-control" required>
             <option [value]="null">Select article</option>
-            <option [value]="article.id" *ngFor="let article of articles">{{article.libelle}}</option>
+            <option [value]="article.id" *ngFor="let article of articles.items">{{article.libelle}}</option>
           </select>
         </td>
+        
         <td><input type="text" [formControl]="venteLinesControls[i].get('qtySold')" class="form-control"></td>
         <td><input type="text" [formControl]="venteLinesControls[i].get('salePrice')" class="form-control"></td>
 
@@ -251,7 +252,7 @@
           class="form-control"
           disabled
         ></td>
-        <td><button class="btn rounded btn-outline-danger rounded-circle" (click)="deleteVenteLine(vente?.id,venteLinesControls[i].get('id').value)"><i class="bi bi-trash3"></i></button></td>
+        <td><button type="button" class="btn rounded btn-outline-danger rounded-circle" (click)="deleteVenteLine(vente?.id,venteLinesControls[i].get('id').value)"><i class="bi bi-trash3"></i></button></td>
         <td></td>
       </tr>
       <tr>

@@ -22,7 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { VenteComponent } from './vente/vente.component';
+// import { VenteComponent } from './vente/vente.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 

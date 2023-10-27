@@ -1,4 +1,5 @@
-
+<div class="card">
+<div class="card-header">
   <div class="row">
     <div class="col-6 text-start">
       <button type="button" class="btn btn-outline-secondary" routerLink="/ventes" ><i class="bi bi-arrow-return-left"></i> sales</button>
@@ -19,11 +20,12 @@
       </div>
     </div>
   </div>
-
+</div>
   <!-- content -->
 <div id="contentToConvert">
   <h1 class="text-center text-secondary">Bill</h1>
   <br>
+  
   <br>
   <br>
   <table class="table" *ngIf="!isLoading">
@@ -37,7 +39,7 @@
     <tbody>
       <tr>
         <td>{{ vente.id }}</td>
-        <td>{{ vente.client.fName }} {{ vente.client.lName }}</td>
+        <td>{{ vente.clientName}}</td>
         <td>{{ vente.dateVente | date: 'MM/dd/yyyy' }}</td>
       </tr>
     </tbody>
@@ -239,7 +241,7 @@
   <table class="table table-hover" *ngIf="!isLoading">
     <thead>
       <tr>
-        <th>Line nubmer</th>
+        <!-- <th>Line nubmer</th> -->
         <th>Article Sold</th>
         <th>Quantity Sold</th>
         <th>Sale price</th>
@@ -250,7 +252,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let venteLine of vente.venteLines">
-        <td >{{ venteLine.id }}</td>
+        <!-- <td >{{ venteLine.id }}</td> -->
         <td>{{ venteLine.articlelebelle }}</td>
         <td>{{ venteLine.qtySold }}</td>
         <td>{{ (venteLine.salePrice | number:'1.2-2')+ ' MAD' }}</td>
@@ -269,5 +271,5 @@
     </tbody>
   </table>
 </div>
-
+</div>
   

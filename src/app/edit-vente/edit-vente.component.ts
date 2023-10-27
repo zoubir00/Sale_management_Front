@@ -5,10 +5,13 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { VenteLinesDto } from '@proxy/vente-lines';
 import { ClientDto } from '@proxy/clients';
 import { ArticleDto } from '@proxy/articles';
-import { ClientsService , ArticlesService ,VenteService} from '@proxy/controllers'; 
+import { VenteService,VenteDto } from '@proxy/ventes';
+import { ClientService } from '@proxy/clients';
+import { ArticleService } from '@proxy/articles';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { PagedResultDto } from '@abp/ng.core';
 
 
 @Component({
@@ -18,9 +21,9 @@ import { DatePipe } from '@angular/common';
 })
 export class EditVenteComponent implements OnInit {
   ventes:any;
-  vente:any;
-  clients={} as ClientDto;
-  articles={} as ArticleDto;
+  vente:VenteDto;
+  clients={ items: [], totalCount: 0 } as PagedResultDto<ClientDto>;
+  articles={ items: [], totalCount: 0 } as PagedResultDto<ArticleDto>;
   
   isModalOpen=false;
   venteLineForm: FormGroup;
@@ -31,8 +34,8 @@ export class EditVenteComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private service: VenteService,
-    private clientService: ClientsService,
-    private articleService: ArticlesService,
+    private clientService: ClientService,
+    private articleService: ArticleService,
     private router: Router,
     private route:ActivatedRoute,
     private datePipe: DatePipe,
@@ -56,12 +59,13 @@ export class EditVenteComponent implements OnInit {
   // get vente
   LoadVente() {
     const codeVente = this.route.snapshot.paramMap.get('codeVente');
-    this.service.venteDetailsByCodeVente(codeVente).subscribe((vente: any) => {
+    this.service.getVenteDetailsByCodeVente(codeVente).subscribe((vente: VenteDto) => {
       this.vente = vente;
+      console.log('vente', this.vente);
       this.venteForm.patchValue({
         venteCode: this.vente.id,
         newDateVente: this.vente.dateVente,
-        newcClientId: this.vente.client.id
+        newcClientId: this.vente.clientId
       });
   
       // Clear existing venteLines form array
@@ -73,6 +77,7 @@ export class EditVenteComponent implements OnInit {
         venteLinesArray.push(this.fb.group({
           id: [venteLine.id],
           articleId: [venteLine.articleId, Validators.required],
+
           qtySold: [venteLine.qtySold, Validators.required],
           salePrice:[venteLine.salePrice, Validators.required],
           totalPrice: [venteLine.totalPrice]
@@ -116,7 +121,7 @@ export class EditVenteComponent implements OnInit {
   }
   // load clients
   loadClients(){
-    this.clientService.getAllClients().subscribe((data)=>{
+    this.clientService.getAll().subscribe((data)=>{
       this.clients=data;
       console.log('Clients',this.clients);
     });
@@ -124,7 +129,7 @@ export class EditVenteComponent implements OnInit {
 
   //load articles
   loadArticles(){
-    this.articleService.getAllArticle().subscribe((data)=>{
+    this.articleService.getAll().subscribe((data)=>{
       this.articles=data;
       console.log('articles :',this.articles);
      });
@@ -132,7 +137,7 @@ export class EditVenteComponent implements OnInit {
 
   // load ventes
   loadVentes(){
-    this.service.getVentes().subscribe((data)=>{
+    this.service.getAllVentes().subscribe((data)=>{
       this.ventes=data;
       console.log('sales: ',this.ventes);
     })
@@ -141,6 +146,22 @@ export class EditVenteComponent implements OnInit {
   get venteLinesControls() {
     return (this.venteForm.get('venteLines') as FormArray).controls;
   }
+  addVenteLine() {
+    const venteLineFormGroup = this.fb.group({
+      id: ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], // Initialize with appropriate value if needed
+      articleId: ['', Validators.required],
+      qtySold: ['', Validators.required],
+      salePrice: [0], // You might want to validate this too
+       totalPrice: [0] // You might want to calculate this based on qtySold and salePrice
+    });
+    venteLineFormGroup.get('articleId').valueChanges.subscribe(articleId => {
+      // Fetch the selected article's price and set it as the salePrice
+      const selectedArticle = this.articles.items.find(article => article.id === articleId);
+      venteLineFormGroup.get('salePrice').setValue(selectedArticle ? selectedArticle.price : 0);
+    });
+    (this.venteForm.get('venteLines') as FormArray).push(venteLineFormGroup);
+  }
+ 
   //edit vente
   editevente(){
     if (this.venteForm.valid) {
@@ -148,7 +169,7 @@ export class EditVenteComponent implements OnInit {
       const { venteCode, newDateVente, newcClientId, venteLines } = formValue;
   
      // Call the service method to update vente
-      this.service.updateVenteByVenteCodeAndNewDateVenteAndNewcClientIdAndVenteLines(
+      this.service.updateVente(
         this.vente.id,
         newDateVente,
         newcClientId,
@@ -165,25 +186,25 @@ export class EditVenteComponent implements OnInit {
     } 
   }
   //add vente line 
-  addVenteline(){
-    if (this.venteLineForm.valid) {
-      const newVenteLineDto: VenteLinesDto = this.venteLineForm.value;
-      const venteCode: string = this.vente.id; 
+  // addVenteline(){
+  //   if (this.venteLineForm.valid) {
+  //     const newVenteLineDto: VenteLinesDto = this.venteLineForm.value;
+  //     const venteCode: string = this.vente.id; 
 
-      this.service.addVenteLineByVenteCodeAndNewVenteLineDto(venteCode, newVenteLineDto)
-      .subscribe(response => {
-        console.log('Vente line added successfully:', response);
-        this.venteLineForm.reset();
-        this.isModalOpen=false;
-        this.toastr.success(' : Added successfully', 'Success');
-        this.LoadVente();
-      }, error => {
-        this.toastr.error(' : Quantity Expired', 'Error'); 
-      });
-    } else {
-      this.venteLineForm.markAllAsTouched();
-    }
-  }
+  //     this.service.addVenteLineByVenteCodeAndNewVenteLineDto(venteCode, newVenteLineDto)
+  //     .subscribe(response => {
+  //       console.log('Vente line added successfully:', response);
+  //       this.venteLineForm.reset();
+  //       this.isModalOpen=false;
+  //       this.toastr.success(' : Added successfully', 'Success');
+  //       this.LoadVente();
+  //     }, error => {
+  //       this.toastr.error(' : Quantity Expired', 'Error'); 
+  //     });
+  //   } else {
+  //     this.venteLineForm.markAllAsTouched();
+  //   }
+  // }
   
   ngOnInit(): void {
     setTimeout(() => {
@@ -197,7 +218,7 @@ export class EditVenteComponent implements OnInit {
     this.loadForm();
   }
  // delete venteline
-  deleteVenteLine(codeVente:string,venteLineId:number){
-    this.service.deleteByCodeVenteAndVenteLineId(codeVente,venteLineId).subscribe(()=>this.LoadVente()); 
+  deleteVenteLine(codeVente:string,venteLineId:string){
+    this.service.deleteVenteLineByCodeVenteAndVenteLineId(codeVente,venteLineId).subscribe(()=>this.LoadVente()); 
   }
 }
