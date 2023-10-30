@@ -16,5 +16,6 @@ export interface VenteDto extends AuditedEntityDto<string> {
   clientPhoneNumber?: string;
   qtyTotal: number;
   totalAmount: number;
+  isValid: boolean;
   venteLines: VenteLinesDto[];
 }

@@ -6,13 +6,13 @@ import type { ActionResult, IActionResult } from '../microsoft/asp-net-core/mvc/
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesService {
   apiName = 'Default';
   Apiurl= 'https://localhost:44354/api/Articles';
+
   createArticle(article: CreateArticleDto, img: File): Observable<any> {
      
     const formData: FormData = new FormData();
@@ -50,7 +50,6 @@ export class ArticlesService {
     },
     { apiName: this.apiName,...config });
   
-
     updateArticle(id: string, article: UpdateArticleDto, img: File): Observable<any> {
       const formData: FormData = new FormData();
       formData.append('img', img, img.name);

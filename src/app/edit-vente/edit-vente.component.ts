@@ -148,11 +148,11 @@ export class EditVenteComponent implements OnInit {
   }
   addVenteLine() {
     const venteLineFormGroup = this.fb.group({
-      id: ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], // Initialize with appropriate value if needed
+      id: ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], // Initialize wid
       articleId: ['', Validators.required],
       qtySold: ['', Validators.required],
-      salePrice: [0], // You might want to validate this too
-       totalPrice: [0] // You might want to calculate this based on qtySold and salePrice
+      salePrice: [0], 
+       totalPrice: [0] 
     });
     venteLineFormGroup.get('articleId').valueChanges.subscribe(articleId => {
       // Fetch the selected article's price and set it as the salePrice

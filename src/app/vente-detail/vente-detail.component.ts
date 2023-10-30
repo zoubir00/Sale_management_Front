@@ -13,6 +13,8 @@ export class VenteDetailComponent implements OnInit {
 
 vente:VenteDto;
 isLoading: boolean = true;
+venteState:string;
+showValidButton: boolean = true;
 
   constructor(
     private service:VenteService,
@@ -29,12 +31,32 @@ getVente(){
   const codeVente=this.route.snapshot.paramMap.get('codeVente');
   this.service.getVenteDetailsByCodeVente(codeVente).subscribe((vente:VenteDto)=>{
     this.vente=vente;
+    this.showValidButton = !vente.isValid;
     console.log('vente details', this.vente);
   },(error)=>{
     console.error('error fetching vente details',error)
   });
 }
-
+// valid sale method 
+validSale(code:string){
+  this.service.validCreateByCodeVente(code).subscribe((data)=> {
+    this.venteState=data; 
+    this.ngOnInit();
+    this.showValidButton=false;
+    console.log(this.venteState,this.showValidButton);
+  });
+ 
+  
+}
+// valid sale method 
+InvalidSale(code:string){
+  this.service.invalidCreateByCodeVente(code).subscribe((data)=> {
+    this.venteState=data; 
+    this.ngOnInit();
+    this.showValidButton=true; 
+    console.log(this.venteState,this.showValidButton);
+  });
+}
   // ngOnInit(): void {
   //   setTimeout(() => {
   //     this.isLoading = false;

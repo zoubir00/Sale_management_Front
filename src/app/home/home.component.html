@@ -207,7 +207,7 @@
   <!-- <h2 class="text-center text-warning">Articles list</h2> -->
 <div *ngFor="let article of articles.items; let i=index;" class="col-md-3">
   <!--  -->
-  <div class="card mb-5" [routerLink]="['/articleDetail/', article.id]">
+  <div class="card mb-5">
     <div class="card-img">
       <img [src]="'assets/images/articles/'+article.image" id="img" width="200px" height="100px" alt="">
     </div>

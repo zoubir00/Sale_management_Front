@@ -5,12 +5,19 @@
       <button type="button" class="btn btn-outline-secondary" routerLink="/ventes" ><i class="bi bi-arrow-return-left"></i> sales</button>
 
     </div>
+   
     <div class="col-6 text-end mb-3">
       <div class="btn-group custom-dropdown dropend">
         <button type="button" class="btn btn-secondary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
           :
         </button>
         <ul class="dropdown-menu">
+           <li *ngIf="showValidButton">
+            <button type="button" class="dropdown-item"  (click)="validSale(vente.id)"><i class="bi bi-check text-success"> </i> Valid </button>
+          </li>
+          <li *ngIf="!showValidButton">
+            <button type="button" class="dropdown-item"  (click)="InvalidSale(vente.id)"><i class="bi bi-exclamation-diamond-fill text-warning"> </i> Invalid</button>
+          </li> 
           <li>
             <button type="button" class="dropdown-item"  (click)="captureScreen()"><i class="bi bi-download"></i> Get bill</button>
           </li>

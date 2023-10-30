@@ -56,12 +56,32 @@ export class VenteService {
     { apiName: this.apiName,...config });
   
 
+  invalidCreateByCodeVente = (codeVente: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, string>({
+      method: 'POST',
+      responseType: 'text',
+      url: '/api/app/vente/invalid-create',
+      params: { codeVente },
+    },
+    { apiName: this.apiName,...config });
+  
+
   updateVente = (venteCode: string, newDateVente: string, newClientId: string, updatedVenteLines: VenteLinesDto[], config?: Partial<Rest.Config>) =>
     this.restService.request<any, VenteDto>({
       method: 'PUT',
       url: `/api/app/vente/vente/${newClientId}`,
       params: { venteCode, newDateVente },
       body: updatedVenteLines,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  validCreateByCodeVente = (codeVente: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, string>({
+      method: 'POST',
+      responseType: 'text',
+      url: '/api/app/vente/valid-create',
+      params: { codeVente },
     },
     { apiName: this.apiName,...config });
 
