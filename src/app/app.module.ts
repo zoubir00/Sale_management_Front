@@ -30,7 +30,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   imports: [ 
     BrowserModule,
     BrowserAnimationsModule,
-    
+  
     AppRoutingModule,
     CoreModule.forRoot({
       environment,

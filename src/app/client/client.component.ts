@@ -71,18 +71,18 @@ export class ClientComponent implements OnInit {
 
   // Add Client
    save(){
-     if(this.form.invalid){
-       return ;
-     }
-     if(this.selectedClient.id){
-       this.clientservice.update(this.selectedClient.id,this.form.value).subscribe(()=>{
+    if(this.form.invalid){
+      return ;
+    }
+    if(this.selectedClient.id){
+      this.clientservice.update(this.selectedClient.id,this.form.value).subscribe(()=>{
         this.isModalOpen = false;
         this.form.reset();
         this.list.get();
         this.toastr.success(' : Edit client operation successed', 'Success');
       });
     }
-     else{
+    else{
       this.clientservice.create(this.form.value).subscribe(()=>{
         this.isModalOpen = false;
         this.form.reset();
@@ -94,16 +94,16 @@ export class ClientComponent implements OnInit {
 
   // Add a delete method
  delete(id: string) {
-   this.confirmation.warn('::ClientDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
-     if (status === Confirmation.Status.confirm) {
-       this.clientservice.delete(id).subscribe(() => this.list.get());
-       this.toastr.warn(' : Client Deleted successefully.', 'Warning');
-     }
-   },(error) => {
-     // display an error message
-     this.toastr.error(' : we can not delete this Client.', 'Error');
-    console.error('Error creating vente:', error);
-   });
+  this.confirmation.warn('::ClientDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+    if (status === Confirmation.Status.confirm) {
+      this.clientservice.delete(id).subscribe(() => this.list.get());
+      this.toastr.warn(' : Client Deleted successefully.', 'Warning');
+    }
+  },(error) => {
+    // display an error message
+    this.toastr.error(' : we can not delete this Client.', 'Error');
+  console.error('Error creating vente:', error);
+  });
  }
 }
 

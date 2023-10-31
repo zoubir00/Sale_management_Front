@@ -1,3 +1,4 @@
+import { UserProfileComponent } from '@abp/ng.theme.lepton-x/layouts';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -25,6 +26,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
+  { path: 'userProfile', component: UserProfileComponent },
   { path: 'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },
    { path: 'articles', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) },
    { path: 'ventes', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },

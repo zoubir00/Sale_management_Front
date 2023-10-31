@@ -113,9 +113,7 @@ export class ArticleComponent implements OnInit {
       reader.readAsDataURL(file);
     }else{
       this.imageUrl='';
-    }
-   
-    
+    } 
   }
   save(){
     if(this.form.invalid){return ;}
