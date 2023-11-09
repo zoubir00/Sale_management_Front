@@ -5,6 +5,7 @@ import { ClientService } from '@proxy/clients';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { ToasterService } from '@abp/ng.theme.shared';
+import { AbpUserProfileService } from '@abp/ng.theme.lepton-x';
 
 @Component({
   selector: 'app-client',
@@ -18,17 +19,21 @@ export class ClientComponent implements OnInit {
   clients ={ items: [], totalCount: 0 } as PagedResultDto<ClientDto>;
 
   selectedClient={} as ClientDto;
-
+ clientName:string;
   form:FormGroup;
   isModalOpen=false;
   isLoading: boolean = true;
+  isAdmin: boolean;
+  isSaleAdmin: boolean;
 
   constructor(
     public readonly list:ListService,
     private clientservice:ClientService,
     private fb:FormBuilder,
     private confirmation:ConfirmationService,
-    private toastr:ToasterService
+    private toastr:ToasterService,
+    private user:AbpUserProfileService,
+
   ){}
 
   ngOnInit(): void {
@@ -40,8 +45,12 @@ export class ClientComponent implements OnInit {
       console.log('Raw Data from Service:', response);
       this.clients = response;
     console.log('Client Data:', this.clients);
-   
     });
+    // verify the user role
+    this.user.currentUser$.subscribe(user=>{
+      this.isAdmin=user.roles.includes('admin');
+      this.isSaleAdmin=user.roles.includes('SaleAdmin');
+  });
   }
   // add new method
   createClient() {
@@ -94,7 +103,10 @@ export class ClientComponent implements OnInit {
 
   // Add a delete method
  delete(id: string) {
-  this.confirmation.warn('::ClientDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  this.clientservice.getById(id).subscribe((client)=>{
+   this.clientName=`<strong>${client.fName} ${client.lName}</strong>`;
+   console.log(this.clientName);
+  this.confirmation.warn('Are you sure you want to delete ' + this.clientName + '?', '::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.clientservice.delete(id).subscribe(() => this.list.get());
       this.toastr.warn(' : Client Deleted successefully.', 'Warning');
@@ -104,6 +116,7 @@ export class ClientComponent implements OnInit {
     this.toastr.error(' : we can not delete this Client.', 'Error');
   console.error('Error creating vente:', error);
   });
+});
  }
 }
 

@@ -229,7 +229,7 @@
         <ul class="dropdown-menu">
           <li><button class="dropdown-item" (click)="editClient(row.id)"><i class="bi bi-pencil-square text-primary"></i> Edit</button>
           </li>
-          <li><button class="dropdown-item" (click)="delete(row.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
+          <li *ngIf="isAdmin || isSaleAdmin"><button class="dropdown-item" (click)="delete(row.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
         </ul>
       </div>
     </ng-template>

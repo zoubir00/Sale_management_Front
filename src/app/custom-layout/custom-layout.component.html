@@ -1,39 +1,7 @@
-<!-- <nav class="navbar navbar-expand-lg bg-white mb-4" style="
-box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
-  <div class="container-fluid">
-      <a class="navbar-brand" href="/"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" alt=""></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><img src="../../assets/images/logo/Light_Gray_and_Blue_Modern_Grocery_Store_Logo-removebg-preview.png" height="200" alt=""></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active " href="/"><i class="bi bi-house"></i> Home
-              <span class="visually-hidden">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " routerLink="/clients"><i class="bi bi-file-earmark-person"></i> Clients</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="/articles"><i class="bi bi-clipboard-check"></i> Articles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="/ventes"><i class="bi bi-clock-history"></i> Sales history</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav> -->
+
 <div class="container-fluid" >
   <div class="row flex-nowrap">
-      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
+      <div class="col-auto sideNav col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top">
           <ul class="nav nav-pills flex-column mt-5 mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <br>
@@ -62,12 +30,22 @@ box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
               </li>
               <li *ngIf="hasLogedIn" style="margin-top: 150px;">
                 <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white" >
-                  <i class="bi bi-person"></i><span class="ms-1 d-none d-sm-inline">Profile</span>
+                  <i class="bi bi-person-circle "></i><span class="ms-1 d-none d-sm-inline"> {{userName}}</span>
                 </a>
-                <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
+                <ul class="collapse nav flex-column ms-3" id="submenu4" data-bs-parent="#menu">
                   <li class="w-100">
                     <a routerLink="/account/manage" class="nav-link px-0 text-white">
-                      <i class="bi bi-gear"></i> <span class="d-none d-sm-inline"> My account</span>
+                      <i class="bi bi-gear"></i><span class="d-none d-sm-inline"> My account</span>
+                    </a>
+                  </li>
+                  <li class="w-100" *ngIf="isAdmin || isSaleAdmin">
+                    <a routerLink="/identity/users" class="nav-link px-0 text-white">
+                      <i class="bi bi-people"></i><span class="d-none d-sm-inline"> Users</span>
+                    </a>
+                  </li>
+                  <li class="w-100" *ngIf="isAdmin || isSaleAdmin">
+                    <a routerLink="/identity/roles" class="nav-link px-0 text-white">
+                      <i class="bi bi-person-rolodex"></i><span class="d-none d-sm-inline"> Roles</span>
                     </a>
                   </li>
                   <li>
@@ -95,7 +73,7 @@ box-shadow: 1px 27px 31px 1px rgba(94, 80, 80, 0.45)">
       <div class="offcanvas-body ms-5">
         <div class="text-center">
     
-          <h1 class="text-primary"><i class="fas fa-rocket" aria-hidden="true"></i> {{ '::Welcome' | abpLocalization }}</h1>
+          <h1 class="text-primary"><i class="fas fa-rocket" aria-hidden="true"></i>Welcome <span style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">{{userName}}</span></h1>
       
           <h5 class="m-1 text-primary">
             Your, <strong><i class="text-warning">E</i>Products </strong>sale management is

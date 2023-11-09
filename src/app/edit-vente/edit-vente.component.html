@@ -3,32 +3,34 @@
 <!-- Vente Details Form -->
 <!-- Vente Details Table -->
 <form [formGroup]="venteForm" (ngSubmit)="editevente()">
-<table class="table" *ngIf="!isLoading">
-    <thead>
-      <tr>
-        <th>Sale code</th>
-        <th>Client Name</th>
-        <th>Date Vente</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="text" formControlName="venteCode" [value]="vente?.id" class="form-control" disabled></td>
-        <td>
-          <select id="clientId" formControlName="newcClientId"  class="form-control" required>
-            <option [value]="null">Select client</option>
-            <option [ngValue]="vente.clientId">{{vente.clientName}}</option>
-          </select>
-        </td>
-        <td><input type="datetime-local" formControlName="newDateVente" [value]="vente?.dateVente" class="form-control"></td>
-      </tr>
-    </tbody>
-</table>
-<div class="text-end mb-3 "><button type="button" class="btn btn-success rounded-circle" (click)="addVenteLine()">
-  <i class="bi bi-plus-circle"></i>
-</button></div>
- <!-- load -->
- <div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
+  <table class="table" *ngIf="!isLoading">
+      <thead>
+        <tr>
+          <th>Sale code</th>
+          <th>Client Name</th>
+          <th>Date Vente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" formControlName="venteCode" [value]="vente?.id" class="form-control" disabled></td>
+          <td>
+            <select id="clientId" formControlName="newcClientId"  class="form-control" required>
+              <option [value]="null">Select client</option>
+              <option [ngValue]="vente.clientId">{{vente.clientName}}</option>
+            </select>
+          </td>
+          <td><input type="datetime-local" formControlName="newDateVente" [value]="vente?.dateVente" class="form-control"></td>
+        </tr>
+      </tbody>
+  </table>
+  <div class="text-end mb-3 ">
+    <button type="button" class="btn btn-success rounded-circle" (click)="addVenteLine()">
+    <i class="bi bi-plus-circle"></i>
+    </button>
+  </div>
+  <!-- load -->
+  <div *ngIf="isLoading" class="flex flex-wrap align-items-center justify-content-center">
     <div class="socket">
       <div class="gel center-gel">
         <div class="hex-brick h1"></div>
@@ -221,60 +223,60 @@
     </div>
   </div> 
 <!-- Vente Lines Table -->
-<table class="table table-hover" *ngIf="!isLoading">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Article Sold</th>
-        <th>Quantity Sold</th>
-        <th>Sale price</th>
-        <th>Total Price</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody formArrayName="venteLines">
-      <tr *ngFor="let venteLine of venteLinesControls; let i = index;"  >
-        <td><input type="hidden" [formControl]="venteLinesControls[i].get('id')" class="form-control" disabled></td>
-        <td>
-          <select id="articleId" [formControl]="venteLinesControls[i].get('articleId')"  class="form-control" required>
-            <option [value]="null">Select article</option>
-            <option [value]="article.id" *ngFor="let article of articles.items">{{article.libelle}}</option>
-          </select>
-        </td>
-        
-        <td><input type="text" [formControl]="venteLinesControls[i].get('qtySold')" class="form-control"></td>
-        <td><input type="text" [formControl]="venteLinesControls[i].get('salePrice')" class="form-control"></td>
+  <table class="table table-hover" *ngIf="!isLoading">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Article Sold</th>
+          <th>Quantity Sold</th>
+          <th>Sale price</th>
+          <th>Total Price</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody formArrayName="venteLines">
+        <tr *ngFor="let venteLine of venteLinesControls; let i = index;"  >
+          <td><input type="hidden" [formControl]="venteLinesControls[i].get('id')" class="form-control" disabled></td>
+          <td>
+            <select id="articleId" [formControl]="venteLinesControls[i].get('articleId')"  class="form-control" required>
+              <option [value]="null">Select article</option>
+              <option [value]="article.id" *ngFor="let article of articles.items">{{article.libelle}}</option>
+            </select>
+          </td>
+          
+          <td><input type="text" [formControl]="venteLinesControls[i].get('qtySold')" class="form-control"></td>
+          <td><input type="text" [formControl]="venteLinesControls[i].get('salePrice')" class="form-control"></td>
 
-        <td><input
-          type="text"
-          [value]="(venteLinesControls[i].get('totalPrice').value | number:'1.2-2')+ ' MAD'"
-          class="form-control"
-          disabled
-        ></td>
-        <td><button type="button" class="btn rounded btn-outline-danger rounded-circle" (click)="deleteVenteLine(vente?.id,venteLinesControls[i].get('id').value)"><i class="bi bi-trash3"></i></button></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Total Quantity Sold  <input type="text" [value]="vente?.qtyTotal" class="form-control" disabled></td>
-        <td>Total amount  <input type="text" [value]=" (vente?.totalAmount | number:'1.2-2')+' MAD'" class="form-control" disabled></td>
-      </tr>
-    </tbody>
-</table>
-<!--  -->
-<!--  -->
-<div class="row mb-4 mt-4">
-  <div class="col-6 text-start">
-    <button class="btn btn-outline-primary mb-3" type="submit">Valid</button>
+          <td><input
+            type="text"
+            [value]="(venteLinesControls[i].get('totalPrice').value | number:'1.2-2')+ ' MAD'"
+            class="form-control"
+            disabled
+          ></td>
+          <td><button type="button" class="btn rounded btn-outline-danger rounded-circle" (click)="deleteVenteLine(vente?.id,venteLinesControls[i].get('id').value)"><i class="bi bi-trash3"></i></button></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Total Quantity Sold  <input type="text" [value]="vente?.qtyTotal" class="form-control" disabled></td>
+          <td>Total amount  <input type="text" [value]=" (vente?.totalAmount | number:'1.2-2')+' MAD'" class="form-control" disabled></td>
+        </tr>
+      </tbody>
+  </table>
+  <!--  -->
+  <!--  -->
+  <div class="row mb-4 mt-4">
+    <div class="col-6 text-start">
+      <button class="btn btn-outline-primary mb-3" type="submit">Register</button>
+    </div>
+     <div class="col-6 text-end">
+      <button type="button" class="btn btn-outline-secondary mt-3 " [routerLink]="['/saledetails/',vente.id]">Details</button>
+    </div> 
   </div>
-  <div class="col-6 text-end">
-    <button type="button" class="btn btn-outline-secondary mt-3 " [routerLink]="['/saledetails/',vente.id]">Cancel</button>
-  </div>
-</div>
 </form>
 <!-- Vente Details Table -->
 <!-- <table class="table">

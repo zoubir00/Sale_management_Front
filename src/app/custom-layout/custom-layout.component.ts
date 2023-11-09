@@ -10,6 +10,10 @@ import { AbpUserProfileService } from '@abp/ng.theme.lepton-x';
 export class CustomLayoutComponent implements OnInit {
 year:number=new Date().getFullYear();
 userName:string;
+isAdmin:boolean;
+isSaleAdmin:boolean;
+
+
 get hasLogedIn():boolean{
 return this.auth.isAuthenticated;
 };
@@ -18,12 +22,11 @@ logOut(){
   this.auth.logout();
 }
 ngOnInit() {
-  const username=this.user.subscribeUser();
-  console.log(username);  
+  this.user.currentUser$.subscribe(user=>{
+     this.userName=user.userName;
+      this.isAdmin=user.roles.includes('admin');
+      this.isSaleAdmin=user.roles.includes('SaleAdmin');
+  });
+  console.log(this.userName);  
 }
-getUser(){
-  
-  const username=this.user.subscribeUser();
-  console.log(username);
- }
 }

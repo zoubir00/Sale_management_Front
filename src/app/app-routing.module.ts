@@ -1,41 +1,48 @@
-import { UserProfileComponent } from '@abp/ng.theme.lepton-x/layouts';
+ import { UserProfileComponent } from '@abp/ng.theme.lepton-x/layouts';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
+import { CustomLoginComponent } from './account/custom-login/custom-login.component';
+import { AuthGuardService } from './AuthGuard.service';
 
 const routes: Routes = [
+   {
+      path:'account', 
+      component:CustomLoginComponent,
+   },
   {
     path: '',
-    pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
   },
-  {
-    path: 'account',
-    loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
-  },
-  {
-    path: 'identity',
-    loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
-  },
-  {
+  // {
+  //   path: 'account',
+  //   loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
+  // },
+
+   {
+     path: 'identity',
+     loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
+   },
+   {
     path: 'tenant-management',
     loadChildren: () =>
-      import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
-  },
-  {
+    import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
+   },
+   {
     path: 'setting-management',
     loadChildren: () =>
-      import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
-  },
-  { path: 'userProfile', component: UserProfileComponent },
+    import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
+   },
+   { path: 'userProfile', component: UserProfileComponent },
   { path: 'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule) },
    { path: 'articles', loadChildren: () => import('./article/article.module').then(m => m.ArticleModule) },
    { path: 'ventes', loadChildren: () => import('./vente/vente.module').then(m => m.VenteModule) },
   //  { path: 'articleDetail/:id', loadChildren: () => import('./article-details/article-details.module').then(m => m.ArticleDetailsModule) },
-  // { path: 'search/:lname', loadChildren: () => import('./search-vente/search-vente.module').then(m => m.SearchVenteModule) },
-   { path: 'createventes', loadChildren: () => import('./create-vente/create-vente.module').then(m => m.CreateVenteModule) },
+   // { path: 'search/:lname', loadChildren: () => import('./search-vente/search-vente.module').then(m => m.SearchVenteModule) },
+    { path: 'createventes', loadChildren: () => import('./create-vente/create-vente.module').then(m => m.CreateVenteModule) },
    { path: 'saledetails/:codeVente', loadChildren: () => import('./vente-detail/vente-detail.module').then(m => m.VenteDetailModule) },
-   { path: 'editVente/:codeVente', loadChildren: () => import('./edit-vente/edit-vente.module').then(m => m.EditVenteModule) },
- 
+    { path: 'editVente/:codeVente', loadChildren: () => import('./edit-vente/edit-vente.module').then(m => m.EditVenteModule) },
+   
   
 ];
 

@@ -11,7 +11,6 @@
       <i class="bi bi-plus-square-dotted"> </i> New sale
     </button>
   </div>
-  
   <!--  -->
   <div class="col text-center">
     <h1 class="text-start text-secondary" *ngIf="!isLoading">Sales list</h1>
@@ -233,10 +232,10 @@
           :
         </button>
         <ul class="dropdown-menu">
-          <li><button class="dropdown-item" [routerLink]="['/saledetails/',row.id]"><i class="bi bi-info-circle text-info"></i> Details</button>
+          <li ><button class="dropdown-item" [routerLink]="['/saledetails/',row.id]"><i class="bi bi-info-circle text-info"></i> Details</button>
           </li>
-          <li><button class="dropdown-item" [routerLink]="['/editVente/',row.id]"><i class="bi bi-pencil-square text-primary"></i> Edit</button></li>
-          <li><button class="dropdown-item" (click)="deleteVente(row.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
+          <li *ngIf="!row.isValid" ><button class="dropdown-item" [routerLink]="['/editVente/',row.id]"><i class="bi bi-pencil-square text-primary"></i> Edit</button></li>
+          <li *ngIf="isAdmin || isSaleAdmin && !row.isValid"><button class="dropdown-item" (click)="deleteVente(row.id)"><i class="bi bi-x-lg text-danger"></i> Delete</button></li>
         </ul>
       </div>
     </ng-template>
@@ -251,6 +250,11 @@
   <ngx-datatable-column name="Total Amount" prop="totalAmount" >
     <ng-template let-row="row" ngx-datatable-cell-template>
       {{(row.totalAmount | number:'1.2-2') +' MAD'}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="State ( V/Inv )">
+    <ng-template let-row="row" ngx-datatable-cell-template><img *ngIf="row.isValid" src="../../assets/images/Icons/vector-valid-icon-removebg-preview.png" width="40px;" height="40px;" alt="">
+      <img *ngIf="!row.isValid" src="../../assets/images/Icons/important-clipart-warning-7-removebg-preview.png" width="30px;" height="30px;" alt="">
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>

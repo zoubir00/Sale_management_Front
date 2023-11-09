@@ -177,12 +177,15 @@ export class EditVenteComponent implements OnInit {
       ).subscribe(
       (response) => {
         this.ngOnInit();
+        const codeVente = response.id;
         this.toastr.info(' : Successed update', 'Info');
-        console.log('Vente updated successfully!', response);   
+        console.log('Vente updated successfully!', response); 
+        // this.router.navigate(['/saledetails', codeVente]);
       },
         (error) => {
         this.toastr.error(' : Quantity Expired', 'Error');  
       });
+      
     } 
   }
   //add vente line 

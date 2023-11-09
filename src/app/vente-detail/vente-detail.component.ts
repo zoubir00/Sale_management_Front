@@ -45,8 +45,6 @@ validSale(code:string){
     this.showValidButton=false;
     console.log(this.venteState,this.showValidButton);
   });
- 
-  
 }
 // valid sale method 
 InvalidSale(code:string){
@@ -56,21 +54,7 @@ InvalidSale(code:string){
     this.showValidButton=true; 
     console.log(this.venteState,this.showValidButton);
   });
-}
-  // ngOnInit(): void {
-  //   setTimeout(() => {
-  //     this.isLoading = false;
-  //   }, 1000);
-  //   const codeVente=this.route.snapshot.paramMap.get('codeVente');
-
-  //   this.service.venteDetailsByCodeVente(codeVente).subscribe((vente:any)=>{
-  //     this.vente=vente;
-  //     console.log('vente details',this.vente);
-  //   },
-  //   (error)=>{
-  //     console.error('error fetching vente details',error)
-  //   });
-  // }
+} 
   //
   captureScreen() {
   let data = document.getElementById('contentToConvert');

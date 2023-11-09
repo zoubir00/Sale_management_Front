@@ -1,12 +1,12 @@
 <div class="card">
 <div class="card-header">
+ 
   <div class="row">
     <div class="col-6 text-start">
       <button type="button" class="btn btn-outline-secondary" routerLink="/ventes" ><i class="bi bi-arrow-return-left"></i> sales</button>
-
     </div>
-   
-    <div class="col-6 text-end mb-3">
+    
+    <div class="col-4 text-end mb-3">
       <div class="btn-group custom-dropdown dropend">
         <button type="button" class="btn btn-secondary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
           :
@@ -21,7 +21,7 @@
           <li>
             <button type="button" class="dropdown-item"  (click)="captureScreen()"><i class="bi bi-download"></i> Get bill</button>
           </li>
-          <li><button class="dropdown-item" [routerLink]="['/editVente/',vente.id]"><i class="bi bi-pencil-square text-primary"></i> Edit</button>
+          <li *ngIf="!vente.isValid"><button class="dropdown-item" [routerLink]="['/editVente/',vente.id]"><i class="bi bi-pencil-square text-primary"></i> Edit</button>
           </li>
         </ul>
       </div>
@@ -30,6 +30,12 @@
 </div>
   <!-- content -->
 <div id="contentToConvert">
+  <div class="row">
+    <div class="col-12 text-center text-danger">
+      <img *ngIf="!vente.isValid" src="../../assets/images/Icons/important-clipart-warning-7-removebg-preview.png" width="30px;" height="30px;" alt="">
+      <img *ngIf="vente.isValid" src="../../assets/images/Icons/vector-valid-icon-removebg-preview.png" width="40px;" height="40px;" alt="" srcset="">
+    </div>
+  </div>
   <h1 class="text-center text-secondary">Bill</h1>
   <br>
   

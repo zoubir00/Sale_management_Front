@@ -11,6 +11,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { switchMap, timer } from 'rxjs';
 import { Router } from '@angular/router';
+import { AbpUserProfileService } from '@abp/ng.theme.lepton-x';
+
 
 @Component({
   selector: 'app-vente',
@@ -19,21 +21,27 @@ import { Router } from '@angular/router';
   providers: [ListService], 
 })
 export class VenteComponent implements OnInit {
+  isAdmin: boolean;
+  isSaleAdmin: boolean;
+  isValid:boolean;
   constructor(
     public readonly list:ListService,
     private venteService:VenteService,
     private fb:FormBuilder,
     private confirmation:ConfirmationService,
     private toastr:ToasterService,
-    private router: Router
+    private router: Router,
+    private user:AbpUserProfileService
+
     ) {
+      this.list.maxResultCount=50;
       this.searchForm=this.fb.group({
         lname:[null, Validators.required]
       })
     }
   ventes={ items: [], totalCount: 0 } as PagedResultDto<GetVenteDto>;
    // Pagination variables
-   pageSize = 10; // set your desired page size
+   pageSize = 20; // set your desired page size
    pageIndex = 0;
    totalItems = 0;
    // search
@@ -64,25 +72,11 @@ export class VenteComponent implements OnInit {
      }, 1000);
       this.getVentes();
      // // call clients
-  //   // this.clientService.getAllClients().subscribe((data)=>{
-  //   //   this.clients=data;
-  //   //   console.log('Clients',this.clients);
-  //   // });
-  //   // // call articles
-  //   // this.articleService.getAllArticle().subscribe((data)=>{
-  //   //   this.articles=data;
-  //   //   console.log('articles :',this.articles);
-  //   // });
-  //   // //vente FormGroup declaration
-  //   // this.saleForm = this.fb.group({
-  //   //   clientId: [null, Validators.required],
-  //   // });
-
-  //   // // Create the articleForm with articleId and quantity fields
-  //   // this.articleForm = this.fb.group({
-  //   //   articleId: [null, Validators.required],
-  //   //   quantity: [null, Validators.required],
-  //   // });
+     this.user.currentUser$.subscribe(user=>{
+      this.isAdmin=user.roles.includes('admin');
+      this.isSaleAdmin=user.roles.includes('SaleAdmin');
+     
+  });
    }
    getVentes(){
 // get vente history table

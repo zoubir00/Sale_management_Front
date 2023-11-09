@@ -12,6 +12,7 @@ import { VenteService } from '@proxy/ventes';
 import { PagedResultDto } from '@abp/ng.core';
 
 
+
 @Component({
   selector: 'app-create-vente',
   templateUrl: './create-vente.component.html',
@@ -89,7 +90,7 @@ getArticles(){
            const codeVente = response.id;
            this.toastr.success(' : Operation successed', 'Success');
            this.isModalOpen=false;
-           this.router.navigate(['/saledetails', codeVente]);
+           this.router.navigate(['/editVente', codeVente]);
          },
          (error) => {
            this.toastr.error(' : Quantity Expired', 'Error');

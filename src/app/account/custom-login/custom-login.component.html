@@ -1,0 +1,18 @@
+<div class="custom-login-container">
+  <h2>Welcome to My Custom App</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">Username or Email</label>
+      <input id="username" name="username" [(ngModel)]="loginParams.username" class="form-control" required />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" name="password" [(ngModel)]="loginParams.password" type="password" class="form-control" required />
+    </div>
+    <div class="form-check">
+      <input id="rememberMe" name="rememberMe" [(ngModel)]="loginParams.rememberMe" class="form-check-input" type="checkbox" />
+      <label class="form-check-label" for="rememberMe">Remember me</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Custom Login</button>
+  </form>
+</div>
