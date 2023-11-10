@@ -30,7 +30,7 @@ export class ArticleComponent implements OnInit {
   form: FormGroup;
  
   selectedFile:File;
-
+  public myAngularxQrCode: string = null;
 
 constructor(
   public readonly list:ListService,
@@ -39,6 +39,7 @@ constructor(
   private fb: FormBuilder,
   private confirmation: ConfirmationService,
   private toastr:ToasterService) {
+   
     this.buildForm();
   }
   
@@ -51,6 +52,12 @@ constructor(
     this.user.currentUser$.subscribe(user=>{
       this.isAdmin=user.roles.includes('admin');
       this.isSaleAdmin=user.roles.includes('SaleAdmin');
+    });
+  }
+  GetQrCode(code: string): any{
+    this.articleservice.getArticleByIdById(code).subscribe((article)=>{
+      this.selectedArticle=article;
+      this.myAngularxQrCode=this.selectedArticle.libelle+' '+this.selectedArticle.description+' '+this.selectedArticle.price+' '+this.selectedArticle.quantityinStock;
     });
   }
 

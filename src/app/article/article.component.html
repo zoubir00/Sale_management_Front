@@ -228,7 +228,7 @@
   </ngx-datatable-column>
   <ngx-datatable-column name="Image" prop="image">
     <ng-template let-row="row" ngx-datatable-cell-template>
-      <img *ngIf="row.image" [src]="'assets/images/articles/'+row.image" alt="User Image" style="width: 50px; height: 50px;">
+      <img *ngIf="row.image" [src]="'assets/images/articles/'+row.image" alt="User Image" style="width: 100px; height: 100px;">
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Title" prop="libelle"></ngx-datatable-column>
@@ -239,6 +239,11 @@
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="Quantity in stock" prop="quantityinStock"></ngx-datatable-column>
+ <ngx-datatable-column name="QRcode">
+  <ng-template  let-row="row" ngx-datatable-cell-template>
+     <qrcode [qrdata]="' Title: '+row.libelle+',    Price: '+row.price+' MAD,    Quantity : '+row.quantityinStock" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+  </ng-template>
+ </ngx-datatable-column>
 </ngx-datatable>
 <!-- <table class="table table-striped table-hover" *ngIf="!isLoading">
     <thead>

@@ -4,14 +4,17 @@ import { CommonModule } from '@angular/common';
 
 import { ArticleRoutingModule } from './article-routing.module';
 import { ArticleComponent } from './article.component';
-
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
     ArticleComponent
   ],
   imports: [
-    ArticleRoutingModule,SharedModule,CommonModule
+    QRCodeModule,
+    ArticleRoutingModule,
+    SharedModule,
+    CommonModule
   ]
 })
 export class ArticleModule { }
